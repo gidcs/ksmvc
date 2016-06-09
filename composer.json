@@ -1,0 +1,16 @@
+{
+    "require": {
+        "symfony/console": "^3.0",
+        "robmorgan/phinx": "^0.5.3",
+        "illuminate/database": "^5.2"
+    },
+	"autoload": {
+		"psr-4": {
+			"App\\": "app/",
+			"Phinx\\": "vendor/robmorgan/phinx/src/Phinx/"
+		},
+		"classmap": [
+			"app/models"
+		]
+	}
+}

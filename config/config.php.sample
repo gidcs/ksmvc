@@ -1,0 +1,39 @@
+<?php
+
+$db = [
+	'default_database' => 'development',	
+	'production' => [
+		'adapter' => 'mysql',
+		'host' => 'localhost',
+		'port' => '3306',
+		'name' => 'production_db',
+		'user' => 'root',
+		'pass' => '',
+		'charset' => 'utf8',
+		'collation' => 'utf8_unicode_ci',
+		'table_prefix' => ''
+	],
+	'development' => [
+		'adapter' => 'mysql',
+		'host' => 'localhost',
+		'port' => '3306',
+		'name' => 'testing_db',
+		'user' => 'root',
+		'pass' => '',
+		'charset' => 'utf8',
+		'collation' => 'utf8_unicode_ci',
+		'table_prefix' => ''
+	],
+	'testing' => [
+		'adapter' => 'mysql',
+		'host' => 'localhost',
+		'port' => '3306',
+		'name' => 'testing_db',
+		'user' => 'root',
+		'pass' => '',
+		'charset' => 'utf8',
+		'collation' => 'utf8_unicode_ci',
+		'table_prefix' => ''
+	],
+];
+

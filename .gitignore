@@ -1,0 +1,9 @@
+#Apple
+**/.DS_Store
+
+#vendor directory 
+/vendor
+composer.lock
+
+# configuration file
+/config/config.php

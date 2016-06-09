@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+require_once('vendor/autoload.php');
+
+use Symfony\Component\Console\Application;
+
+#Phinx commands
+use Phinx\Console\Command as Migration;
+//use App\Commands as KSMVC;
+
+$application = new Application("KSMVC", '0.1.0');
+
+//Import Phinx's commands into our own Application
+$phinx_commands = [
+    new Migration\Init(),
+	new Migration\Create(),
+	new Migration\Migrate(),
+	new Migration\Rollback(),
+	new Migration\Status(),
+	new Migration\Test(),
+	new Migration\SeedCreate(),
+	new Migration\SeedRun(),
+];
+
+$custom_commands = [
+	new Migration\Migrate(),
+];
+
+foreach ($phinx_commands as $command) {
+    $command->setName('migration:' . $command->getName());
+}
+$application->addCommands($phinx_commands);
+
+$application->addCommands($custom_commands);
+//Run it
+$application->run();

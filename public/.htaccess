@@ -1,0 +1,21 @@
+Options -Indexes
+Options -MultiViews
+
+RewriteEngine On
+RewriteBase /
+
+# Uncomment to remove www from domain name
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Uncomment to activate force https
+#RewriteCond %{HTTPS} !on
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# QSA: query string append with the original URL
+# example: abc?p=1 -> url=abc&p=1 
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
