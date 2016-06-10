@@ -9,7 +9,7 @@ function file_checks($file, $error=true){
 
 function method_checks($controller, $method, $error=true){
 	if(!method_exists($controller,$method)){
-		if($error) die("Error: Method ($controller:$method) does not exists.");
+		if($error) die("Error: Method ($method) does not exists.");
 	}
 	return 1;
 }
