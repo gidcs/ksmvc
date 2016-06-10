@@ -21,7 +21,7 @@ class Router{
 			{
 				//controller setup
 				//check if controller exists
-				$controller_file = '../app/Controllers/'.$this->_controller.'.php';
+				$controller_file = '../app/controllers/'.$this->_controller.'.php';
 				file_checks($controller_file);
 				//include controller and create a controller object
 				require_once($controller_file);	

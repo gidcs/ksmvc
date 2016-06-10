@@ -5,7 +5,7 @@ class Controller{
 	
 	/*
 	protected function model($model){
-		$model_file='../app/Models/'.$model.'.php';
+		$model_file='../app/models/'.$model.'.php';
 		file_checks($model_file);
 		require_once($model_file);
 		return new $model;
@@ -13,7 +13,7 @@ class Controller{
 	*/
 
 	protected function view($view, $data=[]){	
-		$view_file='../app/Views/'.$view.'.php';
+		$view_file='../app/views/'.$view.'.php';
 		file_checks($view_file);
 		require_once($view_file);
 	}

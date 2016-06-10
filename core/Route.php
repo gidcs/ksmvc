@@ -36,7 +36,7 @@ class Route{
 			];
 		}
 		else{
-			$controller = explode('#',$controller);
+			$controller = explode('#',ucfirst($controller));
 			if(count($controller)!=2){
 				$controller = implode('#', $controller);
 				die("Error: Controller ($controller) is invalid!");
