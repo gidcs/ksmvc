@@ -6,7 +6,7 @@
     },
 	"autoload": {
 		"psr-4": {
-			"App\\": "app/",
+			"Core\\": "core/",
 			"Phinx\\": "vendor/robmorgan/phinx/src/Phinx/"
 		},
 		"classmap": [

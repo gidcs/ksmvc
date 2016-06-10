@@ -6,9 +6,19 @@ use Symfony\Component\Console\Application;
 
 #Phinx commands
 use Phinx\Console\Command as Migration;
-//use App\Commands as KSMVC;
+use Core\Commands as KSMVC;
 
 $application = new Application("KSMVC", '0.1.0');
+
+$main_commands = [
+	new Migration\Migrate(),
+	new Migration\Rollback(),
+];
+
+$make_commands = [
+	(new Migration\Create())->setName('make:migration'),
+	new KSMVC\ControllerMakeCommand(),
+];
 
 //Import Phinx's commands into our own Application
 $phinx_commands = [
@@ -22,15 +32,12 @@ $phinx_commands = [
 	new Migration\SeedRun(),
 ];
 
-$custom_commands = [
-	new Migration\Migrate(),
-];
-
 foreach ($phinx_commands as $command) {
     $command->setName('migration:' . $command->getName());
 }
-$application->addCommands($phinx_commands);
 
-$application->addCommands($custom_commands);
+$application->addCommands($make_commands);
+$application->addCommands($phinx_commands);
+$application->addCommands($main_commands);
 //Run it
 $application->run();

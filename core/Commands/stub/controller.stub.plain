@@ -1,0 +1,13 @@
+<?php
+
+/**
+ *
+ * you can use view method to display view when needed.
+ * you can also pass variable to view via $data array. (optional)
+ * 
+ */
+
+class DummyClass extends Controller
+{
+	//
+}

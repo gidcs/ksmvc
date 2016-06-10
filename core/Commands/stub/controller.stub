@@ -1,0 +1,87 @@
+<?php
+
+/**
+ *
+ * you can use view method to display view when needed.
+ * you can also pass variable to view via $data array. (optional)
+ * 
+ */
+
+class DummyClass extends Controller
+{
+	/**
+	 *
+	 * Display a listing of the resource.
+	 *
+	 */
+	public function index()
+	{
+		//
+	}
+	
+	/** 
+	 *
+     * Show the form for creating a new resource.
+	 *
+     */  
+    public function create()
+	{   
+        //  
+    }
+	
+	/**
+     * Store a newly created resource in storage.
+     *
+     * @param  array  $post_param = $_POST
+     *
+     */
+    public function store($post_param)
+    {
+        //
+    }
+	
+	/**
+     * Display the specified resource.
+     *
+     * @param  int  $id ( modify it to variable name match in router.php )
+	 *
+     */
+    public function show($id)
+    {
+        //
+    }
+	
+	/**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     *
+     */
+    public function edit($id)
+    {
+        //
+    }
+	
+	/**
+     * Update the specified resource in storage.
+     *
+	 * @param  array  $post_param = $_POST
+     * @param  int  $id
+     *
+     */
+    public function update($post_param, $id)
+    {
+        //
+    }
+	
+	/**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
