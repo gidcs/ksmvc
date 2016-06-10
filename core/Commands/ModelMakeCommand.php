@@ -14,23 +14,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ControllerMakeCommand extends Command
+class ModelMakeCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('make:controller')
-            ->setDescription('Create a new controller class.')
+            ->setName('make:model')
+            ->setDescription('Create a new model class.')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
-                'What is your controller name?'
+                'What is your model name?'
             )
             ->addOption(
                 'blank',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the new controller class will be blank.'
+                'If set, the new model class will be blank.'
             );
     }
 
@@ -57,29 +57,29 @@ class ControllerMakeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = ucfirst($input->getArgument('name'));
-		$source = './core/Commands/stub/controller.stub';
+		$source = './core/Commands/stub/model.stub';
 		if ($input->getOption('blank')) {
             $source .= '.plain';
         }
-		$dest = './app/controllers/'.$name.'.php';
+		$dest = './app/models/'.$name.'.php';
 		if(file_exists($dest)){
 			$header = '[InvalidArgumentException]';
-			$msg[] = 'The controller class "'.$name.'" already exists';
+			$msg[] = 'The model class "'.$name.'" already exists';
 			$text=$this->getErrorString($header,$msg);
 		}
 		else{
 			if(!file_exists($source)){
 				$header = '[MissingFileException]';
-				$msg[] = 'Failed to write file to app/controllers/'.$name.'.php';
+				$msg[] = 'Failed to write file to app/models/'.$name.'.php';
 				$text=$this->getErrorString($header,$msg);
 			}
 			else if (!$this->copy_file($source,$dest,$name)){
 				$header = '[CopyFailedException]';
-				$msg[] = 'Failed to write file to app/controllers/'.$name.'.php  ';
+				$msg[] = 'Failed to write file to app/models/'.$name.'.php  ';
 				$text=$this->getErrorString($header,$msg);
 			}
 			else{
-				$text = '<info>created</info> app/controllers/'.$name.'.php';
+				$text = '<info>created</info> app/models/'.$name.'.php';
 			}
 		}
         $output->writeln($text);

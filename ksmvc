@@ -18,6 +18,7 @@ $main_commands = [
 $make_commands = [
 	(new Migration\Create())->setName('make:migration'),
 	new KSMVC\ControllerMakeCommand(),
+	new KSMVC\ModelMakeCommand(),
 ];
 
 //Import Phinx's commands into our own Application
