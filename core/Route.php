@@ -100,7 +100,7 @@ class Route{
 			//get parameter
 			{
 				if(preg_match('/\b(GET)\b/', $req_method)==0){
-					$param = $_POST;
+					$param['post_params'] = $_POST;
 				}
 				else if(count($v['uri'])>1) {
 					$rest = substr($uri,1); //remove '/' character
