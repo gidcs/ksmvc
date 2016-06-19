@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set('Etc/UTC');
-
 class Mail{
 	static private $_smtp;
 	
