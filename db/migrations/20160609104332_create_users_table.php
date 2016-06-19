@@ -29,12 +29,14 @@ class CreateUsersTable extends AbstractMigration
     public function change()
     {
 		$table = $this->table('users');
-        $table->addColumn('username', 'string')
-              ->addColumn('email', 'string')
-			  ->addColumn('password', 'string')
-			  ->addColumn('remember_token', 'string')
+        $table->addColumn('username', 'string', array('limit' => 20))
+			  ->addColumn('password', 'string', array('limit' => 32))
+			  ->addColumn('password_salt', 'string', array('limit' => 32))
+			  ->addColumn('email', 'string', array('limit' => 100))
+			  ->addColumn('is_verify', 'boolean')
+			  ->addColumn('is_admin', 'boolean')
 			  ->addColumn('created_at', 'timestamp')
-			  ->addColumn('updated_at', 'timestamp')
+			  ->addColumn('updated_at', 'timestamp', array('null' => true))
 			  ->addIndex(array('username', 'email'), array('unique' => true))
               ->create();
     }
