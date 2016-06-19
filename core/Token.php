@@ -12,8 +12,16 @@ class Token{
 		self::$jwt_key = $key;
 	}
 	
-	static public function set($token, $remember=0){
-		$jwt = JWT::encode($token, self::$jwt_key);
+	static public function encode($token=[]){
+		return JWT::encode($token, self::$jwt_key);
+	}
+	
+	static public function decode($token_string){
+		return JWT::decode($token_string, self::$jwt_key, array('HS256'));
+	}
+	
+	static public function set($token=[], $remember=0){
+		$jwt = self::encode($token);
 		if($remember==1){
 			setcookie("jwt", $jwt, time()+86400*30); //remember for 30 days
 		}
@@ -24,7 +32,7 @@ class Token{
 	
 	static public function get(){
 		if (isset($_COOKIE['jwt'])){
-			return JWT::decode($_COOKIE['jwt'], self::$jwt_key, array('HS256'));
+			return self::decode($_COOKIE['jwt']);
 		}
 	}
 	
