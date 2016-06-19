@@ -30,11 +30,10 @@ class CreateUsersTable extends AbstractMigration
     {
 		$table = $this->table('users');
         $table->addColumn('username', 'string', array('limit' => 20))
-			  ->addColumn('password', 'string', array('limit' => 32))
-			  ->addColumn('password_salt', 'string', array('limit' => 32))
+			  ->addColumn('password', 'string', array('limit' => 255))
 			  ->addColumn('email', 'string', array('limit' => 100))
-			  ->addColumn('is_verify', 'boolean')
-			  ->addColumn('is_admin', 'boolean')
+			  ->addColumn('is_verify', 'boolean', array('default' => false))
+			  ->addColumn('is_admin', 'boolean', array('default' => false))
 			  ->addColumn('created_at', 'timestamp')
 			  ->addColumn('updated_at', 'timestamp', array('null' => true))
 			  ->addIndex(array('username', 'email'), array('unique' => true))
