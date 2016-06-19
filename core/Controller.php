@@ -2,7 +2,6 @@
 
 class Controller{
 	//The child class inherits all of the public and protected member of the parent class by using the extends keyword in the declaration.
-	
 	/*
 	protected function model($model){
 		$model_file='../app/models/'.$model.'.php';
@@ -14,12 +13,14 @@ class Controller{
 
 	protected function redirect($url){
 		header('Location: '.$url);
+		exit();
 	}
 	
 	protected function view($view, $data=[]){
 		$view_file='../app/views/'.$view.'.php';
 		file_checks($view_file);
 		require_once($view_file);
+		exit();
 	}
 	
 	protected function includes($view, $data=[]){
