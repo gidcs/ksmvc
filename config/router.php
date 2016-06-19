@@ -1,11 +1,15 @@
 <?php
 
-Route::get('/', 'home#index');
-Route::get('/login', 'auth#getLogin');
-Route::post('/login', 'auth#postLogin');
-Route::get('/logout', 'auth#getLogout');
-Route::get('/register', 'auth#getRegister');
-Route::post('/register', 'auth#postRegister');
+Route::get('/', 'HomeController#index');
+Route::get('/login', 'AuthController#getLogin');
+Route::post('/login', 'AuthController#postLogin');
+Route::get('/logout', 'AuthController#getLogout');
+Route::get('/register', 'AuthController#getRegister');
+Route::post('/register', 'AuthController#postRegister');
+Route::get('/password_reset', 'PasswordResetController#getPasswordReset');
+Route::post('/password_reset', 'PasswordResetController#postPasswordReset');
+Route::get('/password_reset/:uid/:token', 'PasswordResetController#getPasswordReset');
+Route::get('/password_reset/:uid/:token', 'PasswordResetController#getPasswordReset');
 
 Route::get('/welcome/:name', 
 	function($name){
