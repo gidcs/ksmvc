@@ -8,8 +8,8 @@ Route::get('/register', 'AuthController#getRegister');
 Route::post('/register', 'AuthController#postRegister');
 Route::get('/password_reset', 'PasswordResetController#getPasswordReset');
 Route::post('/password_reset', 'PasswordResetController#postPasswordReset');
-Route::get('/password_reset/:uid/:token', 'PasswordResetController#getPasswordReset');
-Route::get('/password_reset/:uid/:token', 'PasswordResetController#getPasswordReset');
+Route::get('/password_reset/:token', 'PasswordResetController#getPasswordResetActual');
+Route::post('/password_reset/:token', 'PasswordResetController#postPasswordResetActual');
 
 Route::get('/welcome/:name', 
 	function($name){
