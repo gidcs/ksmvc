@@ -56,7 +56,7 @@
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button>
 
-                                <a class="btn btn-link" href="http://lks.host/quickstart/public/password/reset">Forgot Your Password?</a>
+                                <a class="btn btn-link" href="password_reset">Forgot Your Password?</a>
                             </div>
                         </div>
                     </form>
