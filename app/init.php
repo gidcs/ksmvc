@@ -9,6 +9,7 @@ require_once('../core/Route.php');
 require_once('../core/Router.php');
 require_once('../core/Helper.php');
 require_once('../core/Token.php');
+require_once('../core/Mail.php');
 require_once('../core/App.php');
 
 //bootup databse
@@ -17,3 +18,5 @@ require_once('database.php');
 require_once('router.php');
 //set jwt_key for Token
 require_once('token.php');
+//set smtp information for Mail
+require_once('mail.php');
