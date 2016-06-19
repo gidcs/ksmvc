@@ -1,5 +1,9 @@
 <?php
 
+//timezone settings
+$timezone = 'Asia/Taipei';
+date_default_timezone_set($timezone);
+
 //json web token key
 $jwt_key = 'enter_your_encrypt_key';
 
