@@ -15,7 +15,7 @@
 </head>
 <body>
 <!-- Static navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">KSMVC</a>
@@ -25,6 +25,8 @@
 				<li><a href="/">Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Register</a></li>
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div><!--/.container-fluid -->
