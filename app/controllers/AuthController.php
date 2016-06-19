@@ -2,7 +2,7 @@
 
 use \Firebase\JWT\JWT;
 
-class Auth extends Controller{
+class AuthController extends Controller{
 	
 	public function getLogin(){
 		$this->view('auth/getLogin');
