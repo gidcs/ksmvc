@@ -88,7 +88,7 @@ class Route{
 				while(--$cnt){
 					if($flag==0) $flag=1;
 					else $pattern.='/';
-					$pattern.='[0-9a-zA-Z]+';
+					$pattern.='[0-9a-zA-Z.\-]+';
 				}
 				$pattern.='$#'; //$ = null character
 			}
