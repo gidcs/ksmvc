@@ -2,18 +2,30 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title><?=$data['title']?></title>
-	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>KSMVC</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+	 <!-- Custom styles for this template -->
 	<link type="text/css" rel="stylesheet" href="css/main.css">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	
 </head>
 <body>
-<div class="container">
-	<div class="page-header">
-		<h1><?=$data['title']?></h1>
-	</div>
-</div>
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">KSMVC</a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div><!--/.container-fluid -->
+</nav>
