@@ -10,7 +10,7 @@ class Auth extends Controller{
 	
 	public function getLogout(){
 		Token::destroy();
-		$this->view('home/index');
+		$this->redirect('/');
 	}
 	
 	public function postLogin($post_params = []){

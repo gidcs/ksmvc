@@ -3,7 +3,7 @@
 Route::get('/', 'home#index');
 Route::get('/login', 'auth#getLogin');
 Route::post('/login', 'auth#postLogin');
-Route::get('/logout', 'auth#getLogin');
+Route::get('/logout', 'auth#getLogout');
 Route::get('/register', 'auth#getRegister');
 Route::post('/register', 'auth#postRegister');
 
