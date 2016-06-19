@@ -25,9 +25,9 @@ class Mail{
 		$mail->Body = $body;
 		
 		if (!$mail->send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
+			return new ErrorMessage(1, "Mailer Error: " . $mail->ErrorInfo);
 		} else {
-			echo "Message sent!";
+			return new ErrorMessage();
 		}
 		
 	}
