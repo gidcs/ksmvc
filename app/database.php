@@ -2,11 +2,6 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-//The running php file is in public directory.
-$config_file = '../config/config.php';
-file_checks($config_file);
-include_once($config_file);
-
 $env_mode = $db['default_database'];
 $capsule = new Capsule();
 $capsule->addConnection([
