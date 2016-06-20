@@ -1,5 +1,11 @@
 {
+	"name": "gidcs/ksmvc",
+	"description": "The KSMVC Framework.",
+	"keywords": ["framework", "ksmvc"],
+	"license": "Apache 2.0",
+	"type": "project",
     "require": {
+		"php": ">=5.5.0",
         "symfony/console": "^3.0",
         "robmorgan/phinx": "^0.5.3",
         "illuminate/database": "^5.2",
