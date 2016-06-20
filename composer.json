@@ -10,7 +10,8 @@
         "robmorgan/phinx": "^0.5.3",
         "illuminate/database": "^5.2",
         "firebase/php-jwt": "^3.0",
-        "PHPMailer/PHPMailer": "^5.2"
+        "PHPMailer/PHPMailer": "^5.2",
+		"erusev/parsedown": "^1.6"
     },
 	"autoload": {
 		"psr-4": {

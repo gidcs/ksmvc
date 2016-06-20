@@ -36,6 +36,9 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
+			<?php if(isset($data['login_user'])){ ?>
+				<li><a href="/posts/new"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New</a></li>
+			<?php } ?>
 			</ul>
 			
 			<!-- Right Side Of Navbar -->

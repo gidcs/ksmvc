@@ -103,7 +103,7 @@ class Route{
 			}
 			//get parameter
 			{
-				if(preg_match('/\b(GET)\b/', $req_method)==0){
+				if(preg_match('/\b(GET|DELETE)\b/', $req_method)==0){
 					$param['post_params'] = $_POST;
 				}
 				if(count($matches)>1){

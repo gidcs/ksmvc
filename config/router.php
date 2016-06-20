@@ -1,7 +1,11 @@
 <?php
 
-Route::get('/', 'HomeController#index');
+Route::get('/', 'PostsController#index');
+Route::get('/page/:id', 'PostsController#index');
+
 Route::Auth();
+
+Route::all('/posts');
 
 Route::get('/welcome/:name', 
 	function($name){
