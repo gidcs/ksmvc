@@ -20,7 +20,9 @@ class AuthController extends Controller{
 	public function get_username(){
 		if(!empty($token = Token::get())){
 			if($token->username){
-				return $token->username;
+				if(User::where('username', $token->username)->first()){
+					return $token->username;
+				}
 			}
 			return null;
 		}
@@ -40,21 +42,22 @@ class AuthController extends Controller{
 	
 	public function getSettings(){
 		$this->_redirect_if_not_login();
-		$data['username'] = $this->get_username();
+		$data['login_user'] = $this->get_username();
 		$data['email'] = User::where('username',$this->get_username())->first()->email;
 		$this->view('auth/getSettings', $data);
 	}
 	
 	public function postSettings($post_params){
 		$this->_redirect_if_not_login();
-		$username = $this->get_username();
 		$rules = [
+			'login_user' => $this->get_username(),
 			'email' => 'required|email|max:100',
 			'password' => 'required|min:6|max:255|confirm'
 		];
 		$status = $this->validate($rules, $post_params);
 		if($status->_status!=0){
 			$data = [
+				'username' => $this->get_username(),
 				'email' => $post_params['email'],
 				'error' => $status->_message
 			];
@@ -76,7 +79,7 @@ class AuthController extends Controller{
 		$user->save();
 		
 		$data = [
-			'username' => $user->username,
+			'login_user' => $this->get_username(),
 			'email' => $post_params['email'],
 			'success' => 'Your information is updated now.'
 		];

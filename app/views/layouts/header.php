@@ -10,7 +10,7 @@
 	<!-- Bootstrap core CSS -->
 	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 	 <!-- Custom styles for this template -->
-	<link type="text/css" rel="stylesheet" href="css/main.css">
+	<link type="text/css" rel="stylesheet" href="/css/main.css">
 	
 </head>
 <body id="app-layout">
@@ -36,18 +36,19 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
+				<li><a href="/posts/new"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New</a></li>
 			</ul>
 			
 			<!-- Right Side Of Navbar -->
 			<ul class="nav navbar-nav navbar-right">
-			<?php if(!isset($data['username'])){ ?>
+			<?php if(!isset($data['login_user'])){ ?>
 				<li><a href="/login">Login</a></li>
 				<li><a href="/register">Register</a></li>
 			<?php } else { ?>
 				<!-- Authentication Links -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<?=$data['username']?> <span class="caret"></span>
+						<?=$data['login_user']?> <span class="caret"></span>
 					</a>
 
 					<ul class="dropdown-menu" role="menu">
