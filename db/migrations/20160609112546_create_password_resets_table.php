@@ -30,7 +30,7 @@ class CreatePasswordResetsTable extends AbstractMigration
 		$table = $this->table('password_resets');
 		$table->addColumn('email', 'string')
 			  ->addColumn('token', 'string')
-			  ->addColumn('created_at', 'timestamp')
+			  ->addColumn('created_at', 'timestamp', array('null' => true))
 			  ->addIndex(array('email', 'token'))
               ->create();
     }
