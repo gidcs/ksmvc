@@ -23,10 +23,10 @@ class Token{
 	static public function set($token=[], $remember=0){
 		$jwt = self::encode($token);
 		if($remember==1){
-			setcookie("jwt", $jwt, time()+86400*30); //remember for 30 days
+			setcookie("jwt", $jwt, time()+86400*30, '/'); //remember for 30 days
 		}
 		else{
-			setcookie("jwt", $jwt);
+			setcookie("jwt", $jwt, 0, '/');
 		}
 	}
 	
@@ -37,7 +37,7 @@ class Token{
 	}
 	
 	static public function destroy(){
-		setcookie("jwt", "", time() - 3600);
+		setcookie("jwt", "", time() - 3600, '/');
 	}
 }
 
