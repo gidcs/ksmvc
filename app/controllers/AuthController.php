@@ -1,10 +1,32 @@
 <?php
 
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
+use Illuminate\Database\QueryException;
 
 class AuthController extends Controller{
 	
+	public function _redirect_if_login(){
+		if(!empty($token = Token::get())){
+			if($token->uid){
+				$this->redirect('/');
+			}
+		}
+	}
+	
+	public function login(User $user, $remember=0){
+		$token = [
+			'uid' => $user->id
+		];
+		if($remember){
+			Token::set($token, 1);
+		}
+		else{ 
+			Token::set($token);
+		}
+	}
+	
 	public function getLogin(){
+		$this->_redirect_if_login();
 		$this->view('auth/getLogin');
 	}
 	
@@ -14,6 +36,7 @@ class AuthController extends Controller{
 	}
 	
 	public function postLogin($post_params = []){
+		$this->_redirect_if_login();
 		$rules = [
 			'username' => 'required|max:20|min:3',
 			'password' => 'required|min:6|max:255'
@@ -44,25 +67,23 @@ class AuthController extends Controller{
 			$this->view('auth/getLogin', $data);
 		}
 		
-		$token = [
-			'uid' => $user->id
-		];
-		
 		if(isset($post_params['remember'])){
-			Token::set($token, 1);
+			$this->login($user, 1);
 		}
 		else{
-			Token::set($token);
+			$this->login($user);
 		}
 		
 		$this->redirect('/');
 	}
 	
 	public function getRegister(){
+		$this->_redirect_if_login();
 		$this->view('auth/getRegister');
 	}
 	
 	public function postRegister($post_params = []){
+		$this->_redirect_if_login();
 		$rules = [
 			'username' => 'required|max:20|min:3',
 			'email' => 'required|email|max:100',
@@ -78,11 +99,38 @@ class AuthController extends Controller{
 			$this->view('auth/getRegister', $data);
 		}
 		
-		User::create([
-			'username' => $post_params['username'],
-			'password' => password_hash($post_params['password'], PASSWORD_DEFAULT),
-			'email' => $post_params['email']
-		]);
+		$user = User::where('username',$post_params['username'])
+					->orWhere('email',$post_params['email'])
+					->first();
+		if(!empty($user)){
+			$data = [
+				'username' => $post_params['username'],
+				'email' => $post_params['email'],
+				'error' => 'Hey, you had registered.'
+			];
+			$this->view('auth/getRegister', $data);
+		}
+		
+		try {
+			$user = User::create([
+				'username' => $post_params['username'],
+				'password' => password_hash($post_params['password'], PASSWORD_DEFAULT),
+				'email' => $post_params['email']
+			]);
+		}
+		catch (QueryException $e){
+			$errorCode = $e->errorInfo[1];
+			if($errorCode == 1062){
+				$data = [
+					'username' => $post_params['username'],
+					'email' => $post_params['email'],
+					'error' => 'We encounter some problem when processing your request.'
+				];
+				$this->view('auth/getRegister', $data);
+			}
+		}
+		
+		$this->login($user);
 		
 		$this->redirect('/');
 	}
