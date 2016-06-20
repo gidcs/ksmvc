@@ -33,6 +33,7 @@ class Route{
 				'request_method' => $request_method,
 				'controller' => $controller,
 				'method' => '',
+				'is_middleware' => ''
 			];
 		}
 		else{
@@ -73,13 +74,13 @@ class Route{
 	}
 	
 	static public function print_route(){
-		print 'request_method : uri'.'  ->  '.'controller#method or function'.'</br>'."\n";
+		print 'request_method : uri'.'  ->  '.'controller#method'.'</br>'."\n";
 		foreach(self::$_route as $v){
-			if(empty($v['function'])){
+			if(!is_callable($v['controller'])){
 				print $v['request_method'].' : '.$v['uri'].'  ->  '.$v['controller'].'#'.$v['method'].'</br>'."\n";
 			}
 			else{
-				print $v['request_method'].' : '.$v['uri'].'  ->  '.self::closure_dump($v['function']).'</br>'."\n";
+				print $v['request_method'].' : '.$v['uri'].'  ->  '.self::closure_dump($v['controller']).'</br>'."\n";
 			}
 		}
 	}
@@ -90,20 +91,14 @@ class Route{
 		foreach(self::$_route as $v){
 			//check if parameter in v['uri']
 			{
-				$v['uri'] = explode(':',$v['uri']);
-				$pattern = '#^'.$v['uri'][0];
-				$cnt = count($v['uri']);
-				$flag = 0; //user for add '/' when parameter more than 1
-				while(--$cnt){
-					if($flag==0) $flag=1;
-					else $pattern.='/';
-					$pattern.='[0-9a-zA-Z.\-]+';
-				}
-				$pattern.='$#'; //$ = null character
+				$from = '#:\w+#';
+				$to = '([0-9a-zA-Z.\-]+)';
+				preg_match_all($from, $v['uri'], $params_name);
+				$pattern = '#^'.preg_replace($from,$to,$v['uri']).'$#';
 			}
 			//matching
 			{
-				if(preg_match($pattern, $uri)!=1) continue; //if no match on url
+				if(preg_match($pattern, $uri, $matches)!=1) continue; //if no match on url
 				if($req_method!=$v['request_method']) continue; //if no match on req_method
 			}
 			//get parameter
@@ -111,15 +106,11 @@ class Route{
 				if(preg_match('/\b(GET)\b/', $req_method)==0){
 					$param['post_params'] = $_POST;
 				}
-				if(count($v['uri'])>1) {
-					$rest = substr($uri,1); //remove '/' character
-					$tmp_param = explode('/',$rest);
-					//var_dump($tmp_param);
-					foreach($v['uri'] as $i => $value){
-						if($i!=0){
-							$name=explode('/',$value)[0];
-							$param[$name] = $tmp_param[$i];
-						}
+				if(count($matches)>1){
+					$i=1;
+					foreach($params_name[0] as $name){
+						$param[$name] = $matches[$i];
+						$i++;
 					}
 				}
 			}
