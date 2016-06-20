@@ -1,5 +1,12 @@
 <?php
 
+//application information
+$application = [
+	'name' => 'KSMVC',
+	'protocol' => 'http://',
+	'domain_name' => 'localhost',
+];
+
 //timezone settings
 $timezone = 'Asia/Taipei';
 date_default_timezone_set($timezone);
@@ -35,7 +42,7 @@ $db = [
 		'adapter' => 'mysql',
 		'host' => 'localhost',
 		'port' => '3306',
-		'name' => 'testing_db',
+		'name' => 'development_db',
 		'user' => 'root',
 		'pass' => '',
 		'charset' => 'utf8',
