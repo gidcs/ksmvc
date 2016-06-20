@@ -131,6 +131,12 @@ class AuthController extends Controller{
 			}
 		}
 		
+		//first user will be admin
+		if($user->id==1){
+			$user->is_admin = true;
+			$user->save();
+		}
+		
 		$this->login($user);
 		
 		$this->redirect('/');
