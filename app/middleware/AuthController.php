@@ -8,6 +8,7 @@ class AuthController extends Controller{
 	public function _redirect_if_login(){
 		if(!empty($token = Token::get())){
 			if($token->uid){
+				echo $token->uid;
 				$this->redirect('/');
 			}
 		}

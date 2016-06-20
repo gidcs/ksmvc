@@ -2,6 +2,11 @@
 
 class PasswordResetController extends Controller{
 	
+	function __construct(){
+		$auth = new AuthController();
+		$auth->_redirect_if_login();
+	}
+	
 	public function getPasswordReset(){
 		$this->view('password_reset/getPasswordReset');
 	}
@@ -125,11 +130,15 @@ class PasswordResetController extends Controller{
 			$this->view('password_reset/getPasswordReset', $data);
 		}
 		
-		//change password
+		//change password and delete token
 		$user = User::where('email',$entry->email)->first();
 		$user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
 		$user->save();
 		$entry->delete();
-		$this->redirect('/login');
+		
+		//login
+		$auth = new AuthController();
+		$auth->login($user);
+		$this->redirect('/');
 	}
 }

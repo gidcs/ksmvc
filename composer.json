@@ -12,7 +12,8 @@
 			"Phinx\\": "vendor/robmorgan/phinx/src/Phinx/"
 		},
 		"classmap": [
-			"app/models"
+			"app/models",
+			"app/middleware"
 		]
 	}
 }
