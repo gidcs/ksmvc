@@ -1,0 +1,9 @@
+<?php
+	$this->includes("layouts/header",$data)
+?>
+
+<!-- put your content here -->
+
+<?php
+	$this->includes("layouts/footer")
+?>
