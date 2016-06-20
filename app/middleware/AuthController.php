@@ -50,14 +50,13 @@ class AuthController extends Controller{
 	public function postSettings($post_params){
 		$this->_redirect_if_not_login();
 		$rules = [
-			'login_user' => $this->get_username(),
 			'email' => 'required|email|max:100',
 			'password' => 'required|min:6|max:255|confirm'
 		];
 		$status = $this->validate($rules, $post_params);
 		if($status->_status!=0){
 			$data = [
-				'username' => $this->get_username(),
+				'login_user' => $this->get_username(),
 				'email' => $post_params['email'],
 				'error' => $status->_message
 			];
