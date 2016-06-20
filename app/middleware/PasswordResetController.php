@@ -36,6 +36,25 @@ class PasswordResetController extends Controller{
 			$this->view('password_reset/getPasswordReset', $data);
 		}
 		
+		//check if entry exists
+		if($user->password_reset){
+			//check if time vaild
+			$now = new DateTime();
+			$timeout_interval = new DateInterval('PT1H');
+			$valid_datetime = new DateTime($user->password_reset->created_at);
+			$valid_datetime->add($timeout_interval);
+			if($valid_datetime > $now){
+				$data = [
+				'email' => $post_params['email'],
+				'error' => "Sorry, you can only request once within 1 hour."
+				];
+				$this->view('password_reset/getPasswordReset', $data);
+			}
+			else{
+				$user->password_reset->delete();
+			}
+		}
+		
 		$token = sha1(uniqid($post_params['email'], true));
 		
 		try{
