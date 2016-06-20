@@ -8,7 +8,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Dashboard</div>
 				<div class="panel-body">
-					<?php if(!isset($data['login_username'])){ ?>
+					<?php if(!isset($data['username'])){ ?>
 					Your Application's Landing Page.
 					<?php } else { ?>
 					You are logged in!

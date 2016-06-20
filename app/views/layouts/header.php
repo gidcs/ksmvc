@@ -13,14 +13,25 @@
 	<link type="text/css" rel="stylesheet" href="css/main.css">
 	
 </head>
-<body>
+<body id="app-layout">
 <!-- Static navbar -->
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
 		<div class="navbar-header">
+		
+			<!-- Collapsed Hamburger -->
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+				<span class="sr-only">Toggle Navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		
+			<!-- Branding Image -->
 			<a class="navbar-brand" href="#"><?=App::info('name')?></a>
 		</div>
-		<div id="navbar" class="navbar-collapse collapse">
+		
+		<div class="collapse navbar-collapse" id="app-navbar-collapse">
 		
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
@@ -29,17 +40,18 @@
 			
 			<!-- Right Side Of Navbar -->
 			<ul class="nav navbar-nav navbar-right">
-			<?php if(!isset($data['login_username'])){ ?>
+			<?php if(!isset($data['username'])){ ?>
 				<li><a href="/login">Login</a></li>
 				<li><a href="/register">Register</a></li>
 			<?php } else { ?>
 				<!-- Authentication Links -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<?=$data['login_username']?> <span class="caret"></span>
+						<?=$data['username']?> <span class="caret"></span>
 					</a>
 
 					<ul class="dropdown-menu" role="menu">
+						<li><a href="/settings"><i class="fa fa-btn"></i>Settings</a></li>
 						<li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
 					</ul>
 				</li>
