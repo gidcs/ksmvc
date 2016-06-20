@@ -6,17 +6,29 @@ use Illuminate\Database\QueryException;
 class AuthController extends Controller{
 	
 	public function _redirect_if_login(){
+		if($this->get_username()){
+			$this->redirect('/');
+		}
+	}
+	
+	public function _redirect_if_not_login(){
+		if(!$this->get_username()){
+			$this->redirect('/');
+		}
+	}
+	
+	public function get_username(){
 		if(!empty($token = Token::get())){
-			if($token->uid){
-				echo $token->uid;
-				$this->redirect('/');
+			if($token->username){
+				return $token->username;
 			}
+			return null;
 		}
 	}
 	
 	public function login(User $user, $remember=0){
 		$token = [
-			'uid' => $user->id
+			'username' => $user->username
 		];
 		if($remember){
 			Token::set($token, 1);
@@ -24,6 +36,12 @@ class AuthController extends Controller{
 		else{ 
 			Token::set($token);
 		}
+	}
+	
+	public function getSettings(){
+		$this->_redirect_if_not_login();
+		$data['login_username'] = $this->get_username();
+		$this->view('auth/getSettings', $data);
 	}
 	
 	public function getLogin(){

@@ -5,7 +5,7 @@ use Illuminate\Database\QueryException;
 class PasswordResetController extends Controller{
 	
 	function __construct(){
-		$auth = new AuthController();
+		$auth = new AuthController;
 		$auth->_redirect_if_login();
 	}
 	
@@ -169,7 +169,7 @@ class PasswordResetController extends Controller{
 		$entry->delete();
 		
 		//login
-		$auth = new AuthController();
+		$auth = new AuthController;
 		$auth->login($entry->user);
 		$this->redirect('/');
 	}
