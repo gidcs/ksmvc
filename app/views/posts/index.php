@@ -10,7 +10,7 @@
 			<p>By <?=$post['owner']?><span class="pull-right">on <?=$post['date']?></span></p>
 			<hr class="divider">
 			<?php } ?>
-			<?php if($data['max_id']!=1){ ?>
+			<?php if($data['max_id']>1){ ?>
 			<div class="row text-center">
 				<div class="btn-group">
 					<a href="/" class="btn btn-default <?php if($data['page_id']==1) echo "disabled";?>">

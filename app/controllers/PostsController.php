@@ -31,7 +31,7 @@ class PostsController extends Controller
 		if($id<1){
 			$this->redirect('/');
 		}
-		else if($id>$max_page_size){
+		else if($id>$max_page_size && $id!=1){
 			$this->redirect('/page/'.$max_page_size);
 		}
 		$page = min($max_page_size,$page);
