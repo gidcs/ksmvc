@@ -137,10 +137,10 @@ class Route{
 		$name = ucfirst(substr($uri,1)).'Controller';
 		self::get($uri,$name.'#index');
 		self::get($uri.'/new',$name.'#create');
-		self::post($uri,$name.'#store');
+		self::post($uri.'/new',$name.'#store');
 		self::get($uri.'/:id',$name.'#show');
 		self::get($uri.'/:id/edit',$name.'#edit');
-		self::put($uri.'/:id',$name.'#update');
+		self::put($uri.'/:id/edit',$name.'#update');
 		self::delete($uri.'/:id',$name.'#destroy');
 	}
 }
