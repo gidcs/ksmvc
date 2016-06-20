@@ -63,15 +63,12 @@ class PasswordResetController extends Controller{
 				'token' => $token
 			]);
 		}
-		catch (QueryException $e){
-			$errorCode = $e->errorInfo[1];
-			if($errorCode == 1062){
-				$data = [
-					'email' => $post_params['email'],
-					'error' => 'We encounter some problem when processing your request.'
-				];
-				$this->view('password_reset/getPasswordReset', $data);
-			}
+		catch (QueryException $e){			
+			$data = [
+				'email' => $post_params['email'],
+				'error' => 'We encounter some problem when processing your request.'
+			];
+			$this->view('password_reset/getPasswordReset', $data);
 		}
 		
 		$receiver = $post_params['email'];

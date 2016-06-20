@@ -179,15 +179,12 @@ class AuthController extends Controller{
 			]);
 		}
 		catch (QueryException $e){
-			$errorCode = $e->errorInfo[1];
-			if($errorCode == 1062){
-				$data = [
-					'username' => $post_params['username'],
-					'email' => $post_params['email'],
-					'error' => 'We encounter some problem when processing your request.'
-				];
-				$this->view('auth/getRegister', $data);
-			}
+			$data = [
+				'username' => $post_params['username'],
+				'email' => $post_params['email'],
+				'error' => 'We encounter some problem when processing your request.'
+			];
+			$this->view('auth/getRegister', $data);
 		}
 		
 		//first user will be admin
