@@ -2,5 +2,6 @@
 
 require_once('../app/init.php');
 
-$app = new App;
-
+$app = App::instance();
+$app->setup($application);
+$app->run();

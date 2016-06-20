@@ -1,11 +1,30 @@
 <?php
 
 class App{
-	private $router;
+	static private $instance;
+	static private $router;
+	static private $information;
 	
-	public function __construct(){
-		$this->match_uri();
-		$this->router->run();
+	private function __construct(){}
+	
+	static public function instance() {
+		if(!self::$instance) { 
+			self::$instance = new App();
+		}
+		return self::$instance; 
+	}
+	
+	public function setup($information=[]){
+		self::$information = $information;
+	}
+
+	public function run(){
+		self::match_uri();
+		self::$router->run();
+	}
+	
+	static public function info($name){
+		return self::$information[$name];
 	}
 	
 	private function get_req_method(){
@@ -35,8 +54,8 @@ class App{
 	}
 	
 	private function match_uri(){
-		$this->router = Route::match($this->get_req_method(),$this->get_uri());
-		if(!$this->router){
+		self::$router = Route::match(self::get_req_method(),self::get_uri());
+		if(!self::$router){
 			header('HTTP/1.1 404 Not Found');
 			die("Error: Route Does not exist!");
 		}

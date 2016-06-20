@@ -36,16 +36,25 @@ class Route{
 			];
 		}
 		else{
-			$controller = explode('#',ucfirst($controller));
+			$controller_bak = $controller;
+			$is_middleware = 0;
+			$controller = ucfirst($controller);
+			if(strpos($controller,'#')){
+				$controller = explode('#',$controller);
+			}
+			else{
+				$controller = explode('@',$controller);
+				$is_middleware = 1;
+			}
 			if(count($controller)!=2){
-				$controller = implode('#', $controller);
-				die("Error: Controller ($controller) is invalid!");
+				die("Error: Controller ($controller_bak) is invalid!");
 			}
 			self::$_route[] = [
 				'uri' => $uri,
 				'request_method' => $request_method,
 				'controller' => $controller[0],
 				'method' => $controller[1],
+				'is_middleware' => $is_middleware
 			];
 		}
 	}
@@ -88,7 +97,7 @@ class Route{
 				while(--$cnt){
 					if($flag==0) $flag=1;
 					else $pattern.='/';
-					$pattern.='[0-9a-zA-Z]+';
+					$pattern.='[0-9a-zA-Z.\-]+';
 				}
 				$pattern.='$#'; //$ = null character
 			}
@@ -115,7 +124,19 @@ class Route{
 				}
 			}
 			//preparing return object
-			return new Router($v['controller'],$v['method'],$param);
+			return new Router($v['controller'],$v['method'],$v['is_middleware'],$param);
 		}
+	}
+	
+	static public function Auth(){
+		self::get('/login', 'AuthController@getLogin');
+		self::post('/login', 'AuthController@postLogin');
+		self::get('/logout', 'AuthController@getLogout');
+		self::get('/register', 'AuthController@getRegister');
+		self::post('/register', 'AuthController@postRegister');
+		self::get('/password_reset', 'PasswordResetController@getPasswordReset');
+		self::post('/password_reset', 'PasswordResetController@postPasswordReset');
+		self::get('/password_reset/:token', 'PasswordResetController@getPasswordResetActual');
+		self::post('/password_reset/:token', 'PasswordResetController@postPasswordResetActual');
 	}
 }

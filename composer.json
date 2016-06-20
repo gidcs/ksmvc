@@ -2,7 +2,9 @@
     "require": {
         "symfony/console": "^3.0",
         "robmorgan/phinx": "^0.5.3",
-        "illuminate/database": "^5.2"
+        "illuminate/database": "^5.2",
+        "firebase/php-jwt": "^3.0",
+        "PHPMailer/PHPMailer": "^5.2"
     },
 	"autoload": {
 		"psr-4": {
@@ -10,7 +12,8 @@
 			"Phinx\\": "vendor/robmorgan/phinx/src/Phinx/"
 		},
 		"classmap": [
-			"app/models"
+			"app/models",
+			"app/middleware"
 		]
 	}
 }

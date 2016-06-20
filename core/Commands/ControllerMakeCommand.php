@@ -56,7 +56,7 @@ class ControllerMakeCommand extends Command
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = ucfirst($input->getArgument('name'));
+        $name = ucfirst($input->getArgument('name')).'Controller';
 		$source = './core/Commands/stub/controller.stub';
 		if ($input->getOption('blank')) {
             $source .= '.plain';

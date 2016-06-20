@@ -1,6 +1,8 @@
 <?php
 
-Route::get('/', 'welcome#index');
+Route::get('/', 'HomeController#index');
+Route::Auth();
+
 Route::get('/welcome/:name', 
 	function($name){
 		print "Welcome to KSMVC, $name";
