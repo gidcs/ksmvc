@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>KSMVC</title>
+	<title><?=App::info('name')?></title>
 	
 	<!-- Bootstrap core CSS -->
 	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
@@ -18,7 +18,7 @@
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">KSMVC</a>
+			<a class="navbar-brand" href="#"><?=App::info('name')?></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 		

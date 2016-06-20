@@ -118,4 +118,16 @@ class Route{
 			return new Router($v['controller'],$v['method'],$param);
 		}
 	}
+	
+	static public function Auth(){
+		self::get('/login', 'AuthController#getLogin');
+		self::post('/login', 'AuthController#postLogin');
+		self::get('/logout', 'AuthController#getLogout');
+		self::get('/register', 'AuthController#getRegister');
+		self::post('/register', 'AuthController#postRegister');
+		self::get('/password_reset', 'PasswordResetController#getPasswordReset');
+		self::post('/password_reset', 'PasswordResetController#postPasswordReset');
+		self::get('/password_reset/:token', 'PasswordResetController#getPasswordResetActual');
+		self::post('/password_reset/:token', 'PasswordResetController#postPasswordResetActual');
+	}
 }

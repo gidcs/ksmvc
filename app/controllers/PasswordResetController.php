@@ -42,11 +42,15 @@ class PasswordResetController extends Controller{
 		file_checks($mail_file);
 		$from = [ 
 			'HTTP_HOST', 
-			'RESET_PASSWORD_LINK'
+			'RESET_PASSWORD_LINK',
+			'WEBSITE_NAME_FOR_PASSWORD_RESET',
+			'VALID_TIME_FOR_PASSWORD_RESET'
 		];
 		$to = [
-			'http://'.$_SERVER['HTTP_HOST'],
-			'http://'.$_SERVER['HTTP_HOST'].'/password_reset/'.$token,
+			App::info('protocol').App::info('domain_name'),
+			App::info('protocol').App::info('domain_name').'/password_reset/'.$token,
+			App::info('name'),
+			'1 hour',
 		];
 		$body = str_replace($from, $to, file_get_contents($mail_file));
 		
@@ -66,9 +70,23 @@ class PasswordResetController extends Controller{
 	
 	public function getPasswordResetActual($token){
 		$entry = PasswordReset::where('token',$token)->first();
+		//check if valid
 		if(empty($entry)){
 			$this->redirect('/');
 		}
+		
+		//check if time vaild
+		$now = new DateTime();
+		$timeout_interval = new DateInterval('PT1H');
+		$valid_datetime = new DateTime($entry->created_at);
+		$valid_datetime->add($timeout_interval);
+		if($valid_datetime < $now){
+			$data = [
+				'error' => "Your token is invalid now. Please retrieve the token again."
+			];
+			$this->view('password_reset/getPasswordReset', $data);
+		}
+		
 		$data = [
 			'token' => $token
 		];
