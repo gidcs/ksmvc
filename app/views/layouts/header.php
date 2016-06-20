@@ -40,14 +40,14 @@
 			
 			<!-- Right Side Of Navbar -->
 			<ul class="nav navbar-nav navbar-right">
-			<?php if(!isset($data['login_username'])){ ?>
+			<?php if(!isset($data['username'])){ ?>
 				<li><a href="/login">Login</a></li>
 				<li><a href="/register">Register</a></li>
 			<?php } else { ?>
 				<!-- Authentication Links -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<?=$data['login_username']?> <span class="caret"></span>
+						<?=$data['username']?> <span class="caret"></span>
 					</a>
 
 					<ul class="dropdown-menu" role="menu">

@@ -40,7 +40,46 @@ class AuthController extends Controller{
 	
 	public function getSettings(){
 		$this->_redirect_if_not_login();
-		$data['login_username'] = $this->get_username();
+		$data['username'] = $this->get_username();
+		$data['email'] = User::where('username',$this->get_username())->first()->email;
+		$this->view('auth/getSettings', $data);
+	}
+	
+	public function postSettings($post_params){
+		$this->_redirect_if_not_login();
+		$username = $this->get_username();
+		$rules = [
+			'email' => 'required|email|max:100',
+			'password' => 'required|min:6|max:255|confirm'
+		];
+		$status = $this->validate($rules, $post_params);
+		if($status->_status!=0){
+			$data = [
+				'email' => $post_params['email'],
+				'error' => $status->_message
+			];
+			$this->view('auth/getSettings', $data);
+		}
+		
+		$user = User::where('email',$post_params['email'])->first();
+		if((!empty($user)&&($user->username!=$this->get_username()))){
+			$data = [
+				'email' => $post_params['email'],
+				'error' => 'Hey, the email address is registered.'
+			];
+			$this->view('auth/getSettings', $data);
+		}
+		
+		$user = User::where('username',$this->get_username())->first();
+		$user->email = $post_params['email'];
+		$user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
+		$user->save();
+		
+		$data = [
+			'username' => $user->username,
+			'email' => $post_params['email'],
+			'success' => 'Your information is updated now.'
+		];
 		$this->view('auth/getSettings', $data);
 	}
 	
