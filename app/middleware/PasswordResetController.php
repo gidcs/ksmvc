@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\QueryException;
+
 class PasswordResetController extends Controller{
 	
 	function __construct(){
@@ -36,10 +38,22 @@ class PasswordResetController extends Controller{
 		
 		$token = sha1(uniqid($post_params['email'], true));
 		
-		PasswordReset::create([
-			'email' => $post_params['email'],
-			'token' => $token
-		]);
+		try{
+			PasswordReset::create([
+				'email' => $post_params['email'],
+				'token' => $token
+			]);
+		}
+		catch (QueryException $e){
+			$errorCode = $e->errorInfo[1];
+			if($errorCode == 1062){
+				$data = [
+					'email' => $post_params['email'],
+					'error' => 'We encounter some problem when processing your request.'
+				];
+				$this->view('password_reset/getPasswordReset', $data);
+			}
+		}
 		
 		$receiver = $post_params['email'];
 		$subject = "Password Reset Request";
@@ -131,14 +145,13 @@ class PasswordResetController extends Controller{
 		}
 		
 		//change password and delete token
-		$user = User::where('email',$entry->email)->first();
-		$user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
-		$user->save();
+		$entry->user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
+		$entry->user->save();
 		$entry->delete();
 		
 		//login
 		$auth = new AuthController();
-		$auth->login($user);
+		$auth->login($entry->user);
 		$this->redirect('/');
 	}
 }
