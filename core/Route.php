@@ -92,7 +92,7 @@ class Route{
 			//check if parameter in v['uri']
 			{
 				$from = '#:\w+#';
-				$to = '([0-9a-zA-Z.\-]+)';
+				$to = '([0-9a-zA-Z.\-@]+)';
 				preg_match_all($from, $v['uri'], $params_name);
 				$pattern = '#^'.preg_replace($from,$to,$v['uri']).'$#';
 			}
@@ -129,8 +129,8 @@ class Route{
 		self::post('/settings', 'AuthController@postSettings');
 		self::get('/password_reset', 'PasswordResetController@getPasswordReset');
 		self::post('/password_reset', 'PasswordResetController@postPasswordReset');
-		self::get('/password_reset/:token', 'PasswordResetController@getPasswordResetActual');
-		self::post('/password_reset/:token', 'PasswordResetController@postPasswordResetActual');
+		self::get('/password_reset/:email/:token', 'PasswordResetController@getPasswordResetActual');
+		self::post('/password_reset/:email/:token', 'PasswordResetController@postPasswordResetActual');
 	}
 	
 	static public function all($uri){

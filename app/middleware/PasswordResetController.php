@@ -83,7 +83,7 @@ class PasswordResetController extends Controller{
 		];
 		$to = [
 			App::info('protocol').App::info('domain_name'),
-			App::info('protocol').App::info('domain_name').'/password_reset/'.$token,
+			App::info('protocol').App::info('domain_name').'/password_reset/'.$post_params['email'].'/'.$token,
 			App::info('name'),
 			'1 hour',
 		];
@@ -103,8 +103,8 @@ class PasswordResetController extends Controller{
 		$this->view('password_reset/getPasswordReset', $data);
 	}
 	
-	public function getPasswordResetActual($token){
-		$entry = PasswordReset::where('token',$token)->first();
+	public function getPasswordResetActual($email, $token){
+		$entry = PasswordReset::where('email',$email)->where('token',$token)->first();
 		//check if valid
 		if(empty($entry)){
 			$this->redirect('/');
@@ -124,12 +124,13 @@ class PasswordResetController extends Controller{
 		}
 		
 		$data = [
+			'email' => $email,
 			'token' => $token
 		];
 		$this->view('password_reset/getPasswordResetActual', $data);
 	}
 	
-	public function postPasswordResetActual($post_params = [], $token){
+	public function postPasswordResetActual($post_params = [], $email, $token){
 		//check if password ok
 		$rules = [
 			'password' => 'required|min:6|max:255|confirm'
@@ -144,7 +145,7 @@ class PasswordResetController extends Controller{
 		}
 		
 		//check if token valid
-		$entry = PasswordReset::where('token',$token)->first();
+		$entry = PasswordReset::where('email',$email)->where('token',$token)->first();
 		if(empty($entry)){
 			$this->redirect('/');
 		}
