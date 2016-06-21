@@ -83,8 +83,8 @@ class PostsController extends Controller
 		$rules = [
 			'title' => 'required'
 		];
-		$status = $this->validate($rules, $post_params);
-        if($status->_status!=0){
+		$status = $this->validate($rules, $post_params); 
+		if($status->_status!=0){
 			$data = [
 				'login_user' => $this->get_username(),
 				'title' => $post_params['title'],
@@ -216,7 +216,7 @@ class PostsController extends Controller
 				$this->view('posts/edit', $data);
 			}
 		}
-		
+	
 		$post->title = $post_params['title'];
 		$post->content = $post_params['content'];
 		$post->save();
