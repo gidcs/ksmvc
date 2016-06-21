@@ -16,10 +16,10 @@
 					<a href="/" class="btn btn-default <?php if($data['page_id']==1) echo "disabled";?>">
 						<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 					</a>
-					<a href="/page/<?=$data['page_id']-1?>" class="btn btn-default">
+					<a href="/page/<?=$data['page_id']-1?>" class="btn btn-default <?php if($data['page_id']==1) echo "disabled";?>">
 						<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
 					</a>
-					<a href="/page/<?=$data['page_id']+1?>" class="btn btn-default">
+					<a href="/page/<?=$data['page_id']+1?>" class="btn btn-default <?php if($data['page_id']==$data['max_id']) echo "disabled";?>">
 						<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
 					</a>
 					<a href="/page/<?=$data['max_id']?> " class="btn btn-default <?php if($data['page_id']==$data['max_id']) echo "disabled";?>">
