@@ -10,10 +10,25 @@
 class PostsController extends Controller
 {
 	protected $_auth;
+	protected $_parsedown;
 	
 	public function __construct(){
 		$this->_auth = new AuthController;
+		$this->_parsedown = new Parsedown();
 	}
+
+	protected function _post_title($post_title){
+		return $this->replace_script($this->replace_special_char($post_title));
+	}
+	
+	protected function _parsedown($post_content){
+		return $this->_parsedown->text($post_content);
+	}
+	
+	protected function _post_content($post_content){
+		return $this->replace_script($post_content);
+	}
+
 	/**
 	 *
 	 * Display a listing of the resource.
@@ -83,11 +98,13 @@ class PostsController extends Controller
 		$rules = [
 			'title' => 'required'
 		];
+		$post_title = $this->_post_title($post_params['title']);
+		$post_content = $this->_post_content($post_params['content']);
 		$status = $this->validate($rules, $post_params); 
 		if($status->_status!=0){
 			$data = [
 				'login_user' => $this->get_username(),
-				'title' => $post_params['title'],
+				'title' => $post_title,
 				'error' => $status->_message
 			];
 			$this->view('posts/create', $data);
@@ -98,8 +115,8 @@ class PostsController extends Controller
 		//insert post
 		try {
 			$post = $user->post()->create([
-				'title' => $post_params['title'],
-				'content' => $post_params['content']
+				'title' => $post_title,
+				'content' => $post_content
 			]);
 		}
 		catch (QueryException $e){
@@ -137,14 +154,24 @@ class PostsController extends Controller
 		else{
 			$has_permission=0;
 		}
-		$Parsedown = new Parsedown();
+
+		$post_content = $this->_parsedown($post->content);
+		$from = [
+			'#&amp;lt;#',
+			'#&amp;gt;#'
+		];
+		$to = [
+			'&lt;',
+			'&gt;'
+		];
+		$post_content = preg_replace($from,$to,$post_content);
 		$data = [
 			'login_user' => $this->_auth->get_username(),
 			'id' => $post->id,
 			'title' => $post->title,
 			'owner' => $post->user->username,
 			'date' => date('M d, Y', strtotime($post->updated_at)),
-			'content' => $Parsedown->text($post->content),
+			'content' => $post_content,
 			'has_permission' =>$has_permission
 		];
 		$this->view('posts/show', $data);
@@ -177,7 +204,7 @@ class PostsController extends Controller
 				];
 				$this->view('posts/edit', $data);
 			}
-		}		
+		}
 		$data = [
 			'login_user' => $this->_auth->get_username(),
 			'id' => $post->id,
@@ -216,9 +243,9 @@ class PostsController extends Controller
 				$this->view('posts/edit', $data);
 			}
 		}
-	
-		$post->title = $post_params['title'];
-		$post->content = $post_params['content'];
+
+		$post->title = $this->_post_title($post_params['title']);
+		$post->content = $this->_post_content($post_params['content']);
 		$post->save();
 		
 		$this->redirect('/posts/'.$id);
