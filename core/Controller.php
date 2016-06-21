@@ -132,5 +132,15 @@ class Controller{
 		}
 		return new ErrorMessage();
 	}
+	
+	protected function replace_special_char($string){
+		return htmlentities($string, ENT_QUOTES | ENT_IGNORE, "UTF-8");
+	}
+	
+	protected function replace_script($string){
+		$from[] = '#<([^>]*script)>#i';
+		$to[] = '&lt;$1&gt;';
+		return preg_replace($from,$to,$string);
+	}
 }
 

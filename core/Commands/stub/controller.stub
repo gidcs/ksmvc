@@ -32,10 +32,10 @@ class DummyClass extends Controller
 	/**
      * Store a newly created resource in storage.
      *
-     * @param  array  $post_param = $_POST
+     * @param  array  $post_params = $_POST
      *
      */
-    public function store($post_param)
+    public function store($post_params)
     {
         //
     }
@@ -65,11 +65,11 @@ class DummyClass extends Controller
 	/**
      * Update the specified resource in storage.
      *
-	 * @param  array  $post_param = $_POST
+	 * @param  array  $post_params = $_POST
      * @param  int  $id
      *
      */
-    public function update($post_param, $id)
+    public function update($post_params, $id)
     {
         //
     }

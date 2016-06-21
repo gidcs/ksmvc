@@ -144,3 +144,4 @@ class Route{
 		self::delete($uri.'/:id',$name.'#destroy');
 	}
 }
+
