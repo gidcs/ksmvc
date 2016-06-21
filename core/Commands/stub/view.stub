@@ -1,5 +1,6 @@
 <?php
 	$this->includes("layouts/header",$data)
+	$this->includes("layouts/alerts",$data)
 ?>
 
 <!-- put your content here -->

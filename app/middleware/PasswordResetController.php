@@ -116,6 +116,7 @@ class PasswordResetController extends Controller{
 		$valid_datetime = new DateTime($entry->created_at);
 		$valid_datetime->add($timeout_interval);
 		if($valid_datetime < $now){
+			$entry->delete();
 			$data = [
 				'error' => "Your token is invalid now. Please retrieve the token again."
 			];
