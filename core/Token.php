@@ -17,7 +17,14 @@ class Token{
 	}
 	
 	static public function decode($token_string){
-		return JWT::decode($token_string, self::$jwt_key, array('HS256'));
+		try {
+			$jwt = JWT::decode($token_string, self::$jwt_key, array('HS256'));
+		}
+		catch (Exception $e){
+			Token::destroy();
+			$jwt = null;
+		}
+		return $jwt;
 	}
 	
 	static public function set($token=[], $remember=0){
