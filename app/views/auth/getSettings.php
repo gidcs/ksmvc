@@ -9,14 +9,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Settings</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/settings">
+                    <form class="form-horizontal" role="form" method="POST" action="/profile_settings">
                         <div class="form-group">
                             <label for="email" class="col-md-4 control-label">Email</label>
                             <div class="col-md-6">
                                 <?php if(isset($data['email'])){ ?>
-                                <input id="email" type="email" class="form-control" name="email" value="<?=$data['email']?>">
+								<input id="email" type="email" class="form-control" name="email" value="<?=$data['email']?>">
 								<?php } else { ?>
-								<input id="email" type="email" class="form-control" name="email" value="">
+								<input id="email" type="email" class="form-control" name="email" value="<?=$data['login_user']->email?>">
 								<?php } ?>
 							</div>
                         </div>

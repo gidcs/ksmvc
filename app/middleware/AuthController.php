@@ -6,24 +6,26 @@ use Illuminate\Database\QueryException;
 class AuthController extends Controller{
 	
 	public function _redirect_if_login(){
-		if($this->get_username()){
+		if($this->get_user()){
 			$this->redirect('/');
 		}
 	}
 	
 	public function _redirect_if_not_login(){
-		if(!$this->get_username()){
+		if(!$this->get_user()){
 			$this->redirect('/');
 		}
 	}
 	
-	public function get_username(){
+	public function get_user(){
 		if(!empty($token = Token::get())){
 			if($token->username){
-				if(User::where('username', $token->username)->first()){
-					return $token->username;
-				}
+				$user = User::where('username', $token->username)->first();
+				return $user;
 			}
+			return null;
+		}
+		else{
 			return null;
 		}
 	}
@@ -42,13 +44,14 @@ class AuthController extends Controller{
 	
 	public function getSettings(){
 		$this->_redirect_if_not_login();
-		$data['login_user'] = $this->get_username();
-		$data['email'] = User::where('username',$this->get_username())->first()->email;
+		$login_user = $this->get_user();
+		$data['login_user'] = $login_user;
 		$this->view('auth/getSettings', $data);
 	}
 	
 	public function postSettings($post_params){
 		$this->_redirect_if_not_login();
+		$login_user = $this->get_user();
 		$rules = [
 			'email' => 'required|email|max:100',
 			'password' => 'required|min:6|max:255|confirm'
@@ -56,30 +59,29 @@ class AuthController extends Controller{
 		$status = $this->validate($rules, $post_params);
 		if($status->_status!=0){
 			$data = [
-				'login_user' => $this->get_username(),
+				'login_user' => $login_user,
 				'email' => $post_params['email'],
 				'error' => $status->_message
 			];
 			$this->view('auth/getSettings', $data);
 		}
 		
-		$user = User::where('email',$post_params['email'])->first();
-		if((!empty($user)&&($user->username!=$this->get_username()))){
+		$temp_user = User::where('email',$post_params['email'])->first();
+		if((!empty($temp_user)&&($temp_user->username!=$login_user->username))){
 			$data = [
+				'login_user' => $login_user,
 				'email' => $post_params['email'],
-				'error' => 'Hey, the email address is registered.'
+				'error' => 'Hey, the email address is used.'
 			];
 			$this->view('auth/getSettings', $data);
 		}
 		
-		$user = User::where('username',$this->get_username())->first();
-		$user->email = $post_params['email'];
-		$user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
-		$user->save();
+		$login_user->email = $post_params['email'];
+		$login_user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
+		$login_user->save();
 		
 		$data = [
-			'login_user' => $this->get_username(),
-			'email' => $post_params['email'],
+			'login_user' => $login_user,
 			'success' => 'Your information is updated now.'
 		];
 		$this->view('auth/getSettings', $data);

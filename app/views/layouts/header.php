@@ -47,11 +47,11 @@
 				<!-- Authentication Links -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<?=$data['login_user']?> <span class="caret"></span>
+						<?=$data['login_user']->username?> <span class="caret"></span>
 					</a>
 
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="/settings"><i class="fa fa-btn"></i>Settings</a></li>
+						<li><a href="/profile_settings"><i class="fa fa-btn"></i>Settings</a></li>
 						<li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
 					</ul>
 				</li>
