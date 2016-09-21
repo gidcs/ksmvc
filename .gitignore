@@ -1,9 +1,14 @@
-#Apple
+# Apple
 **/.DS_Store
 
-#vendor directory 
+# vendor directory 
 /vendor
 composer.lock
+
+# ignore vim swp files and gedit temp files
+*.swp
+*.swo
+*.*~
 
 # configuration file
 /config/config.php
