@@ -84,6 +84,22 @@ class Route{
 			}
 		}
 	}
+
+	static public function exists($controller, $method){
+		$method='';
+		if(empty($controller)){
+			die("Error: controller in exists cannot be blank!");
+		}
+		foreach(self::$_route as $v){
+			if(!is_callable($v['controller'])){
+				if(strcmp($v['controller'],$controller)==0){
+					if(empty($method)) return 1;
+					else if(strcmp($v['method'],$method)==0) return 1;
+				}
+			}
+		}
+		return 0;
+	}
 	
 	static public function match($req_method, $uri){
 		//echo $uri."</br>";
@@ -114,6 +130,8 @@ class Route{
 					}
 				}
 			}
+			//Role check 
+			Role::check($v['controller'],$v['method']);
 			//preparing return object
 			return new Router($v['controller'],$v['method'],$v['is_middleware'],$param);
 		}

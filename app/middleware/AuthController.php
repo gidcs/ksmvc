@@ -3,8 +3,8 @@
 use Firebase\JWT\JWT;
 use Illuminate\Database\QueryException;
 
-class AuthController extends Controller{
-	
+class AuthController extends Controller{	
+
 	public function _redirect_if_login(){
 		if($this->get_user()){
 			$this->redirect('/');
@@ -18,16 +18,7 @@ class AuthController extends Controller{
 	}
 	
 	public function get_user(){
-		if(!empty($token = Token::get())){
-			if($token->username){
-				$user = User::where('username', $token->username)->first();
-				return $user;
-			}
-			return null;
-		}
-		else{
-			return null;
-		}
+		return Role::User();
 	}
 	
 	public function login(User $user, $remember=0){
@@ -191,7 +182,11 @@ class AuthController extends Controller{
 		
 		//first user will be admin
 		if($user->id==1){
-			$user->is_admin = true;
+			$user->role = Role::find_index('Admin');
+			$user->save();
+		}
+		else{
+			$user->role = Role::find_index('User');
 			$user->save();
 		}
 		
