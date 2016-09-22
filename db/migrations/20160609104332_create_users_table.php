@@ -32,7 +32,7 @@ class CreateUsersTable extends AbstractMigration
         $table->addColumn('username', 'string', array('limit' => 20))
 			  ->addColumn('password', 'string', array('limit' => 255))
 			  ->addColumn('email', 'string', array('limit' => 100))
-			  ->addColumn('is_admin', 'boolean', array('default' => false))
+			  ->addColumn('role', 'integer', array('limit' => 1, 'default' => 0))
 			  ->addColumn('created_at', 'timestamp', array('null' => true))
 			  ->addColumn('updated_at', 'timestamp', array('null' => true))
 			  ->addIndex('username', array('unique' => true))
