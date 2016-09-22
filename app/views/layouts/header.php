@@ -46,7 +46,6 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="/settings"><i class="fa fa-btn"></i>Settings</a></li>
 							<li><a href="/users"><i class="fa fa-btn"></i>Users</a></li>
-							<li><a href="/posts"><i class="fa fa-btn"></i>Posts</a></li>
 						</ul>
 					</li>
 				<?php } ?>
