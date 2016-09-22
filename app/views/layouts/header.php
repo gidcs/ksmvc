@@ -36,6 +36,20 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
+				<?php if((isset($data['login_user'])) && ($data['login_user']->is_admin==1)){ ?>
+					<!-- Management Links -->
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+							Manage <span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/settings"><i class="fa fa-btn"></i>Settings</a></li>
+							<li><a href="/users"><i class="fa fa-btn"></i>Users</a></li>
+							<li><a href="/posts"><i class="fa fa-btn"></i>Posts</a></li>
+						</ul>
+					</li>
+				<?php } ?>
 			</ul>
 			
 			<!-- Right Side Of Navbar -->
@@ -51,7 +65,7 @@
 					</a>
 
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="/profile_settings"><i class="fa fa-btn"></i>Settings</a></li>
+						<li><a href="/profile"><i class="fa fa-btn"></i>Profile</a></li>
 						<li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
 					</ul>
 				</li>
