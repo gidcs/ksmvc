@@ -2,9 +2,9 @@
 
 class Router{
 	private $_controller;
-	public $_method;
-	public $_parameter;
-	public $_is_middleware;
+	private $_method;
+	private $_parameter;
+	private $_is_middleware;
 	
 	public function __construct($controller = 'home',$method = 'index', $is_middleware=0, $param=[]){
 		if(is_callable($controller)){
@@ -42,6 +42,7 @@ class Router{
 		}
 		else{
 			try {  
+				//try to get information about a function.
 				$func = new ReflectionFunction($this->_controller);  
 			} catch (ReflectionException $e) {  
 				echo $e->getMessage();  
