@@ -2,14 +2,6 @@
 
 class Controller{
 	//The child class inherits all of the public and protected member of the parent class by using the extends keyword in the declaration.
-	/*
-	protected function model($model){
-		$model_file='../app/models/'.$model.'.php';
-		file_checks($model_file);
-		require_once($model_file);
-		return new $model;
-	}
-	*/
 
 	protected function redirect($url){
 		header('Location: '.$url);
@@ -137,10 +129,19 @@ class Controller{
 		return htmlentities($string, ENT_QUOTES | ENT_IGNORE, "UTF-8");
 	}
 	
-	protected function replace_script($string){
+	protected function replace_script_tag($string){
 		$from[] = '#<([^>]*script)>#i';
 		$to[] = '&lt;$1&gt;';
 		return preg_replace($from,$to,$string);
+	}
+
+	protected function paginate($obj, $limit, $page_id){
+		$row_count = $obj->count();
+		$max_page_size = intval(ceil($row_count/($limit)));
+		if(!is_numeric($page_id) || $page_id<1 || $page_id>$max_page_size){
+			$this->redirect('/');
+		}
+		return $obj->take($limit)->offset(($page_id-1)*($limit))->get();
 	}
 }
 
