@@ -151,8 +151,8 @@ class Route{
 		self::post('/password_reset/:email/:token', 'PasswordResetController@postPasswordResetActual');
 	}
 	
-	static public function all($uri){
-		$name = ucfirst(substr($uri,1)).'Controller';
+	static public function all($uri, $name=''){
+		if(empty($name)) $name = ucfirst(substr($uri,1)).'Controller';
 		self::get($uri,$name.'#index');
 		self::get($uri.'/page/:id', $name.'#index'); //for paginate
 		self::get($uri.'/new',$name.'#create');
