@@ -6,6 +6,6 @@ Role::add([
 	'Manager',
 	'Admin',
 ]);
-Role::set('User',['Auth','HomeController']);
-Role::set('Admin',['Auth','HomeController']);
-Role::set('Visitor',['Auth','HomeController']);
+Role::find('User')->set_permissions(['Auth','HomeController']);
+Role::find('Admin')->set_permissions(['Auth','HomeController']);
+Role::find('Visitor')->set_permissions(['Auth','HomeController']);

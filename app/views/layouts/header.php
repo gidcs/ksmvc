@@ -36,7 +36,7 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
-				<?php if((isset($data['login_user'])) && ($data['login_user']->is_admin==1)){ ?>
+				<?php if((isset($data['login_user'])) && Role::is_role('Admin')){ ?>
 					<!-- Management Links -->
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

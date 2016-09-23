@@ -12,7 +12,7 @@ class RoleClass {
 		$this->_name = $name;
 	}
 	
-	public function set($method){
+	public function set_permissions($method){
 		if(!count($method)){
 			die("Error: method in RoleClass cannot be empty!");
 		}
@@ -58,7 +58,7 @@ class RoleClass {
 		}
 	}
 
-	public function match($controller, $method){
+	public function has_permission($controller, $method){
 		foreach($this->_allowed_method as $m){
 			if(strcmp($controller, $m[0])==0){
 				if(empty($m[1]) || strcmp($method, $m[1])==0){
@@ -113,14 +113,6 @@ class Role{
 		}
 	}
 	
-	static public function set($role_name,$method){
-		$r = self::find($role_name);
-		if(is_null($r)){
-			die("Role($role_name) does not exist.\n");
-		}
-		$r->set($method);
-	}
-	
 	static public function dump(){
 		echo __CLASS__.".".__FUNCTION__." start...\n";
 		foreach(self::$_role as $r){
@@ -154,8 +146,13 @@ class Role{
 		else{
 			self::$_user_role = self::$_role[$user->role];
 		}
-		if(!self::$_user_role->match($controller, $method)){
+		if(!self::$_user_role->has_permission($controller, $method)){
 			die("Error: Permission denied.\n");
 		}
+	}
+
+	static public function is_role($role_name){
+		$user = Role::User();
+		return ($user->role==Role::find_index($role_name));
 	}
 }
