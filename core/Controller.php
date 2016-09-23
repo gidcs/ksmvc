@@ -141,7 +141,7 @@ class Controller{
 		if(!is_numeric($page_id) || $page_id<1 || $page_id>$max_page_size){
 			$this->redirect('/');
 		}
-		return $obj->take($limit)->offset(($page_id-1)*($limit))->get();
+		return [ $max_page_size, $obj->take($limit)->offset(($page_id-1)*($limit))->get() ];
 	}
 }
 
