@@ -154,6 +154,7 @@ class Route{
 	static public function all($uri){
 		$name = ucfirst(substr($uri,1)).'Controller';
 		self::get($uri,$name.'#index');
+		self::get($uri.'/page/:id', $name.'#index'); //for paginate
 		self::get($uri.'/new',$name.'#create');
 		self::post($uri.'/new',$name.'#store');
 		self::get($uri.'/:id',$name.'#show');
