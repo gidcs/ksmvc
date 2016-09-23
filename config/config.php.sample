@@ -25,8 +25,14 @@ $smtp = [
 	'name' => 'your_name',
 ];
 
+$env = 'development';
+
+if(strcmp($env,'development')==0){
+	ini_set('opcache.enable', '0');
+}
+
 $db = [
-	'default_database' => 'development',	
+	'default_database' => $env,	
 	'production' => [
 		'adapter' => 'mysql',
 		'host' => 'localhost',
