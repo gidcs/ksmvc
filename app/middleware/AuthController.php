@@ -168,7 +168,8 @@ class AuthController extends Controller{
 			$user = User::create([
 				'username' => $post_params['username'],
 				'password' => password_hash($post_params['password'], PASSWORD_DEFAULT),
-				'email' => $post_params['email']
+				'email' => $post_params['email'],
+				'role' => Role::find_index('User')
 			]);
 		}
 		catch (QueryException $e){
@@ -183,10 +184,6 @@ class AuthController extends Controller{
 		//first user will be admin
 		if($user->id==1){
 			$user->role = Role::find_index('Admin');
-			$user->save();
-		}
-		else{
-			$user->role = Role::find_index('User');
 			$user->save();
 		}
 		
