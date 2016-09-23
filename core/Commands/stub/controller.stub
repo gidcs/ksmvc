@@ -17,6 +17,7 @@ class DummyClass extends Controller
 	public function index($id=1)
 	{
 		//
+		$this->view('Dummy/index', $data);
 	}
 	
 	/** 
@@ -26,7 +27,8 @@ class DummyClass extends Controller
      */  
     public function create()
 	{   
-        //  
+        //
+		$this->view('Dummy/create', $data);  
     }
 	
 	/**
@@ -49,6 +51,7 @@ class DummyClass extends Controller
     public function show($id)
     {
         //
+		$this->view('Dummy/show', $data);
     }
 	
 	/**
@@ -60,6 +63,7 @@ class DummyClass extends Controller
     public function edit($id)
     {
         //
+		$this->view('Dummy/edit', $data);
     }
 	
 	/**
