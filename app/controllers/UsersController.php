@@ -9,7 +9,7 @@
 
 class UsersController extends Controller
 {
-  private $page_limit = 10;
+  private $page_limit = 7;
 
   /**
    *
@@ -22,7 +22,7 @@ class UsersController extends Controller
     $paginate = $this->paginate($Obj, $this->page_limit, $id);
     $data = [
       'login_user' => Role::User(),  
-      'id' => $id,
+      'page_id' => $id,
       'max_id' => $paginate[0],
       'users' => $paginate[1],
     ];
@@ -95,6 +95,9 @@ class UsersController extends Controller
    */
   public function destroy($id)
   {
-    //
+    $this->numeric_check($id);
+    $user=User::where('id', $id)->first();
+    if($user) $user->delete();
+    $this->redirect($_SERVER['HTTP_REFERER']);
   }
 }
