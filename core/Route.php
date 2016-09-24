@@ -148,7 +148,7 @@ class Route{
     self::get('/register', 'AuthController@getRegister');
     self::post('/register', 'AuthController@postRegister');
     self::get('/profile', 'AuthController@getSettings');
-    self::post('/profile', 'AuthController@postSettings');
+    self::put('/profile', 'AuthController@putSettings');
     self::get('/password_reset', 'PasswordResetController@getPasswordReset');
     self::post('/password_reset', 'PasswordResetController@postPasswordReset');
     self::get('/password_reset/:email/:token', 'PasswordResetController@getPasswordResetActual');

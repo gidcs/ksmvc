@@ -40,12 +40,12 @@ class AuthController extends Controller{
     $this->view('auth/getSettings', $data);
   }
   
-  public function postSettings($post_params){
+  public function putSettings($post_params){
     $this->_redirect_if_not_login();
     $login_user = $this->get_user();
     $rules = [
       'email' => 'required|email|max:100',
-      'password' => 'required|min:6|max:255|confirm'
+      'password' => 'min:6|max:255|confirm'
     ];
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
@@ -68,7 +68,9 @@ class AuthController extends Controller{
     }
     
     $login_user->email = $post_params['email'];
-    $login_user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
+    if(!empty($post_params['password'])){
+      $login_user->password = password_hash($post_params['password'], PASSWORD_DEFAULT);
+    }
     $login_user->save();
     
     $data = [
