@@ -138,8 +138,14 @@ class Controller{
   protected function paginate($obj, $limit, $page_id){
     $row_count = $obj->count();
     $max_page_size = intval(ceil($row_count/($limit)));
-    if(!is_numeric($page_id) || $page_id<1 || $page_id>$max_page_size){
+    if(!is_numeric($page_id)){
       $this->redirect('/');
+    } 
+    else if($page_id<1){
+      $this->redirect(Route::URI('UsersController#index')."");
+    }
+    else if($page_id>$max_page_size){
+      $this->redirect(Route::URI('UsersController#index')."/page/".$max_page_size);
     }
     return [ $max_page_size, $obj->take($limit)->offset(($page_id-1)*($limit))->get() ];
   }
