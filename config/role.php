@@ -3,7 +3,7 @@
 Role::add([
   'Visitor',
   'User',
-  'Manager',
+  'Operator',
   'Admin',
 ]);
 
@@ -17,7 +17,7 @@ Role::find('User')->set_permissions([
   'HomeController'
 ]);
 
-Role::find('Manager')->set_permissions([
+Role::find('Operator')->set_permissions([
   'Auth',
   'HomeController',
 ]);
