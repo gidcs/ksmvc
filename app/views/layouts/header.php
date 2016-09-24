@@ -44,8 +44,8 @@
             </a>
 
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/manage/settings"><i class="fa fa-btn"></i>Settings</a></li>
-              <li><a href="/manage/users"><i class="fa fa-btn"></i>Users</a></li>
+              <li><a href="/manage/settings">Settings</a></li>
+              <li><a href="<?=Route::URI('UsersController#index');?>"></i>Users</a></li>
             </ul>
           </li>
         <?php } ?>
@@ -54,8 +54,8 @@
       <!-- Right Side Of Navbar -->
       <ul class="nav navbar-nav navbar-right">
       <?php if(!isset($data['login_user'])){ ?>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        <li><a href="<?=Route::URI('AuthController@getLogin');?>">Login</a></li>
+        <li><a href="<?=Route::URI('AuthController@getRegister');?>">Register</a></li>
       <?php } else { ?>
         <!-- Authentication Links -->
         <li class="dropdown">
@@ -64,8 +64,8 @@
           </a>
 
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/profile"><i class="fa fa-btn"></i>Profile</a></li>
-            <li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+            <li><a href="<?=Route::URI('AuthController@getSettings');?>">Profile</a></li>
+            <li><a href="<?=Route::URI('AuthController@getLogout');?>">Logout</a></li>
           </ul>
         </li>
       <?php } ?>

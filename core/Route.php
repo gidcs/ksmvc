@@ -4,6 +4,7 @@
 
 class Route{
   static private $_route = [];
+  static private $_uri = [];
   
   private function __construct(){}
   
@@ -40,6 +41,9 @@ class Route{
       $controller_bak = $controller;
       $is_middleware = 0;
       $controller = ucfirst($controller);
+      if(!isset(self::$_uri[$controller])){
+        self::$_uri[$controller] = $uri;
+      }
       if(strpos($controller,'#')){
         $controller = explode('#',$controller);
       }
@@ -193,6 +197,11 @@ class Route{
     foreach($func as $k=>$v){
       if($v) self::$k($uri, $name);
     }
+  }
+
+  static public function URI($controller){
+    $uri = explode(":",self::$_uri[$controller]);
+    return $uri[0];
   }
 }
 
