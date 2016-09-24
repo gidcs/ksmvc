@@ -124,9 +124,13 @@ class UsersController extends Controller
    */
   public function edit($id)
   {
+    $user = User::where('id', $id)->first();
+    if(empty($user)){
+      $this->redirect('/');
+    }
     $data = [
       'login_user' => Role::User(),
-      'user' => User::where('id', $id)->first()
+      'user' => $user
     ];
     $this->view('users/edit', $data);
   }
@@ -142,6 +146,9 @@ class UsersController extends Controller
   {
     $login_user = Role::User();
     $user = User::where('id', $id)->first();
+    if(empty($user)){
+      $this->redirect('/');
+    }
     $rules = [
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
