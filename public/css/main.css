@@ -24,7 +24,9 @@ img {
 	margin:15px 0;
 }
 
-.table tr>td.vert-align
+.table.table-center tr>th, 
+.table.table-center tr>td
 {
-	vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
