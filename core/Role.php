@@ -83,7 +83,14 @@ class Role{
   static private $_count = 0;
   static private $_user;
   private function __construct(){}  
- 
+
+  /*
+    get all role
+  */
+  static public function All(){
+    return self::$_role;
+  }
+
   /*
     find role id by role name
   */
