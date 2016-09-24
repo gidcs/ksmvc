@@ -7,7 +7,11 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-default">
-        <div class="panel-heading">Register</div>
+        <div class="panel-heading">
+          <div class="panel-title">
+            Register
+          </div>
+        </div>
         <div class="panel-body">
           <form class="form-horizontal" role="form" method="POST" 
             action="<?=Route::URI('AuthController@postRegister')?>">
