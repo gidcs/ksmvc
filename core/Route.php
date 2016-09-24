@@ -203,5 +203,11 @@ class Route{
     $uri = explode(":",self::$_uri[$controller]);
     return $uri[0];
   }
+
+  static public function Method($method){
+    return '<input id="_method" type="hidden" '
+      .'class="form-control" name="_method" value="'
+      .$method.'">'."\n";
+  }
 }
 

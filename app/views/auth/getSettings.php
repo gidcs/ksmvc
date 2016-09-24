@@ -11,7 +11,7 @@
         <div class="panel-body">
           <form class="form-horizontal" role="form" method="POST" 
             action="<?=Route::URI('AuthController@putSettings')?>">
-            <input id="_method" type="hidden" class="form-control" name="_method" value="PUT">
+            <?=Route::Method('PUT')?>
             <div class="form-group">
               <label for="email" class="col-md-4 control-label">Email</label>
               <div class="col-md-6">

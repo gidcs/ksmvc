@@ -33,7 +33,7 @@
                 <td class="col-xs-6 col-sm-3">
                   <form role="form" method="POST" 
                     action="<?=Route::URI('UsersController#destroy')?><?=$u->id?>">
-                    <input id="_method" type="hidden" class="form-control" name="_method" value="DELETE">
+                    <?=Route::Method('DELETE')?>
                     <div class="btn-group">
                       <a href="<?=Route::URI('UsersController#edit')?><?=$u->id?>/edit" class="btn btn-primary"
                         data-toggle="tooltip" title="Edit">
