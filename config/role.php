@@ -17,6 +17,11 @@ Role::find('User')->set_permissions([
   'HomeController'
 ]);
 
+Role::find('Manager')->set_permissions([
+  'Auth',
+  'HomeController',
+]);
+
 Role::find('Admin')->set_permissions([
   'Auth',
   'HomeController',
