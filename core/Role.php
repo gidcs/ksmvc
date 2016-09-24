@@ -92,6 +92,10 @@ class Role{
 		return -1;
 	}
 
+	static public function find_role_name($id){
+		return self::$_role[$id]->_name;
+	}
+
 	static public function find($role_name){
 		foreach(self::$_role as $r){
 			if(strcmp($r->_name,$role_name)==0){
