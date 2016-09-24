@@ -31,10 +31,11 @@
                   <?=Role::find_role_name($u->role)?>
                 </td>
                 <td class="col-xs-6 col-sm-3">
-                  <form role="form" method="POST" action="/manage/users/<?=$u->id?>">
+                  <form role="form" method="POST" 
+                    action="<?=Route::URI('UsersController#destroy')?><?=$u->id?>">
                     <input id="_method" type="hidden" class="form-control" name="_method" value="DELETE">
                     <div class="btn-group">
-                      <a href="/manage/users/<?=$u->id?>/edit" class="btn btn-primary"
+                      <a href="<?=Route::URI('UsersController#edit')?><?=$u->id?>/edit" class="btn btn-primary"
                         data-toggle="tooltip" title="Edit">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                       </a>
