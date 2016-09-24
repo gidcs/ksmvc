@@ -7,6 +7,8 @@ Route::get('/welcome/:name',
 );
 Route::get('/', 'HomeController#index');
 Route::Auth();
-Route::all('/manage/users', 'UsersController');
+Route::all('/manage/users', 'UsersController', [
+  'except' => ['show']
+]);
 
 //Route::print_route();

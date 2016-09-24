@@ -151,16 +151,48 @@ class Route{
     self::post('/password_reset/:email/:token', 'PasswordResetController@postPasswordResetActual');
   }
   
-  static public function all($uri, $name=''){
-    if(empty($name)) $name = ucfirst(substr($uri,1)).'Controller';
+  static private function index($uri, $name){
     self::get($uri,$name.'#index');
     self::get($uri.'/page/:id', $name.'#index'); //for paginate
+  }
+
+  static private function create($uri, $name){ 
     self::get($uri.'/new',$name.'#create');
     self::post($uri.'/new',$name.'#store');
+  }
+
+  static private function show($uri, $name){
     self::get($uri.'/:id',$name.'#show');
+  }
+
+  static private function edit($uri, $name){
     self::get($uri.'/:id/edit',$name.'#edit');
     self::put($uri.'/:id/edit',$name.'#update');
+  }
+
+  static private function destroy($uri, $name){
     self::delete($uri.'/:id',$name.'#destroy');
+  }
+
+  static public function all($uri, $name='', $except=[]){
+    if(empty($name)) $name = ucfirst(substr($uri,1)).'Controller';
+    $func = [
+      'index' => 1,
+      'create' => 1,
+      'show' => 1,
+      'edit' => 1,
+      'destroy' => 1
+    ];
+    if(isset($except['except'])){
+      foreach($except['except'] as $e){
+        if(array_key_exists($e, $func)){
+          $func[$e] = 0;
+        }
+      }
+    }
+    foreach($func as $k=>$v){
+      if($v) self::$k($uri, $name);
+    }
   }
 }
 
