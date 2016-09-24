@@ -48,10 +48,10 @@ class RoleClass {
     }
     else{
       $controller=$method[0];
-      $method="";
+      $method="any";
     }
     if(Route::exists($controller,$method)){ //check if method exists
-      $this->_allowed_method[] = [$controller,$method];
+      $this->_allowed_method[$controller.'.'.$method] = 1;
     }
     else{
       die("Error: method($controller.$method) in RoleClass does not exist!");
@@ -59,13 +59,13 @@ class RoleClass {
   }
 
   public function has_permission($controller, $method){
-    foreach($this->_allowed_method as $m){
-      if(strcmp($controller, $m[0])==0){
-        if(empty($m[1]) || strcmp($method, $m[1])==0){
-          //echo __CLASS__.".".__FUNCTION__." controller($controller) match.\n";
-          return 1;
-        }
-      }
+    if(!empty($this->_allowed_method[$controller.'.any'])){
+      //echo __CLASS__.".".__FUNCTION__." controller($controller) match.\n";
+      return 1;
+    }
+    else if(!empty($this->_allowed_method[$controller.'.'.$method])){
+      //echo __CLASS__.".".__FUNCTION__." controller($controller) match.\n";
+      return 1;
     }
     //echo __CLASS__.".".__FUNCTION__." controller($controller) mismatch.\n";
     return 0;
