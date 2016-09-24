@@ -36,18 +36,18 @@ class Controller{
   
   protected function validate($rules=[], $post_params=[]){
     foreach($rules as $k => $v){
-      //pass this
-      if($k=='password-confirm') continue;
-      
       //required
-      if(preg_match('#\brequired\b#i', $v)){
-        if(!isset($post_params[$k])){
+      if(!isset($post_params[$k]) || $post_params[$k]==""){
+        if(preg_match('#\brequired\b#i', $v)){
           return new ErrorMessage(1, "The $k field is required.");
         }
-        if($post_params[$k]==""){
-          return new ErrorMessage(1, "The $k field is required.");
+        else{
+          continue;
         }
       }
+      
+      //pass this
+      if($k=='password-confirm') continue; 
       
       //type
       if(preg_match('#\bemail\b#i', $v)){
