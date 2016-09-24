@@ -79,53 +79,81 @@ class RoleClass {
 
 class Role{
   static private $_role = [];
+  static private $_role_id = []; //use role name as index
+  static private $_count = 0;
   static private $_user;
-  static private $_user_role;
   private function __construct(){}  
-  
-  static public function find_index($role_name){
-    foreach(self::$_role as $k=>$r){
-      if(strcmp($r->_name,$role_name)==0){
-        return $k;
-      }
-    }
-    return -1;
+ 
+  /*
+    find role id by role name
+  */
+  static public function find_role_id($role_name){
+    if(isset(self::$_role_id[$role_name]))
+      return self::$_role_id[$role_name];
+    else
+      return -1;
   }
 
+  /*
+    find role name by role id
+  */
   static public function find_role_name($id){
     return self::$_role[$id]->_name;
   }
 
+  /*
+    find role obj by role name
+  */
   static public function find($role_name){
-    foreach(self::$_role as $r){
-      if(strcmp($r->_name,$role_name)==0){
-        return $r;
-      }
-    }
-    return null;
+    return self::find_role_obj($role_name);
   }
-  
+  static private function find_role_obj($role_name){
+    return self::$_role[self::find_role_id($role_name)];
+  }
+
+  /* 
+    new role by role name
+  */
+  static private function new_role($role_name){
+    self::$_role_id[$role_name] = self::$_count;
+    self::$_role[self::$_count] = new RoleClass($role_name);
+    self::$_count++;
+  }
+ 
+  /*
+    add roles
+  */
   static public function add($role = []){
-    foreach($role as $role_name){
-      $r = self::find($role_name);
-      if(is_null($r)){
-        self::$_role[] = new RoleClass($role_name);
+    foreach($role as $r){
+      if(self::find_role_id($r)==-1){
+        self::new_role($r);
       }
       else{
-        die("Role($role_name) exists.\n");
+        die("Duplicate Role($r) detected.\n");
       }
     }
   }
-  
+ 
+  /*
+    dump roles' information
+  */
   static public function dump(){
     echo __CLASS__.".".__FUNCTION__." start...\n";
-    foreach(self::$_role as $r){
+    foreach(self::$_role as $k=>$r){
+      echo $k.' ';
       $r->dump();
       echo "\n";
     }
+
+    foreach(self::$_role_id as $k=>$r){
+      echo $k.' '.$r."\n";
+    }
     echo __CLASS__.".".__FUNCTION__." end...\n";
   }
-  
+ 
+  /*
+    get User obj
+  */
   static public function User(){
     if(self::$_user){
       return self::$_user;
@@ -142,21 +170,25 @@ class Role{
     }
   }
 
+  /*
+    check permission to verify if user can access controller
+  */
   static public function check($controller, $method){
-    $user = Role::User();
-    if(!$user){
-      self::$_user_role = Role::find('Visitor');
+    $user = self::User();
+    $current_role = self::find_role_obj('Visitor');
+    if($user){
+      $current_role = self::$_role[$user->role];
     }
-    else{
-      self::$_user_role = self::$_role[$user->role];
-    }
-    if(!self::$_user_role->has_permission($controller, $method)){
+    if(!$current_role->has_permission($controller, $method)){
       die("Error: Permission denied.\n");
     }
   }
 
+  /*
+    check if user's role is $role_name
+  */
   static public function is_role($role_name){
     $user = Role::User();
-    return ($user->role==Role::find_index($role_name));
+    return ($user->role==self::find_role_id($role_name));
   }
 }

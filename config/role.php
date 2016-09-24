@@ -7,7 +7,6 @@ Role::add([
   'Admin',
 ]);
 
-
 Role::find('Visitor')->set_permissions([
   'Auth',
   'HomeController'
@@ -23,3 +22,4 @@ Role::find('Admin')->set_permissions([
   'HomeController',
   'UsersController'
 ]);
+
