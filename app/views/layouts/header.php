@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <title><?=App::info('name')?></title>
+  <meta name="description" content="<?=App::info('description')?>"> 
+  <title><?=App::info('title')?> - <?=App::info('subtitle')?></title>
   
   <!-- Bootstrap core CSS -->
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
@@ -28,7 +28,7 @@
       </button>
     
       <!-- Branding Image -->
-      <a class="navbar-brand" href="#"><?=App::info('name')?></a>
+      <a class="navbar-brand" href="#"><?=App::info('title')?></a>
     </div>
     
     <div class="collapse navbar-collapse" id="app-navbar-collapse">

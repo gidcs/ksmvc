@@ -16,10 +16,10 @@ require_once('../core/App.php');
 //bootup databse
 require_once('database.php');
 //set routing for Route
-require_once('router.php');
+Route::boot();
 //set role and allowed Method in Role
-require_once('role.php');
+Role::boot();
 //set jwt_key for Token
-require_once('token.php');
+Token::boot();
 //set smtp information for Mail
-require_once('mail.php');
+Mail::boot();

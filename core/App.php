@@ -1,30 +1,36 @@
 <?php
 
 class App{
-  static private $instance;
-  static private $router;
-  static private $information;
+  static private $_instance;
+  static private $_router;
+  static private $_information;
   
   private function __construct(){}
   
   static public function instance() {
-    if(!self::$instance) { 
-      self::$instance = new App();
+    if(!self::$_instance) { 
+      self::$_instance = new App();
     }
-    return self::$instance; 
+    return self::$_instance; 
   }
   
-  public function setup($information=[]){
-    self::$information = $information;
+  public function boot(){
+    $site = Option::where('name','LIKE','site_%')->get(); 
+    if(empty($site)){
+      die("Error: Site's settings is not completed yet.");
+    }
+    foreach($site as $s){
+      self::$_information[$s->name] = $s->value;    
+    }
   }
 
   public function run(){
     self::match_uri();
-    self::$router->run();
+    self::$_router->run();
   }
   
   static public function info($name){
-    return self::$information[$name];
+    return self::$_information['site_'.$name];
   }
   
   private function get_req_method(){
@@ -54,8 +60,8 @@ class App{
   }
   
   private function match_uri(){
-    self::$router = Route::match(self::get_req_method(),self::get_uri());
-    if(!self::$router){
+    self::$_router = Route::match(self::get_req_method(),self::get_uri());
+    if(!self::$_router){
       header('HTTP/1.1 404 Not Found');
       die("Error: Route Does not exist!");
     }

@@ -1,6 +1,7 @@
   <footer class="footer">
     <div class="container text-center">
       <p class="text-muted">
+        <?=App::info('title')?> &copy; <?=date("Y")?> -  
         Powered by <a href="https://github.com/gidcs/ksmvc" target="_blank">KSMVC</a>.
       </p>
     </div> 

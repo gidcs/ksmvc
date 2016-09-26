@@ -7,7 +7,14 @@ class Route{
   static private $_uri = [];
   
   private function __construct(){}
-  
+ 
+  static public function boot(){
+    //The running php file is in public directory.
+    $config_file = '../config/router.php';
+    file_checks($config_file);
+    require_once($config_file);
+  }
+
   static public function get($uri='',$controller=''){
     self::add('GET',$uri,$controller);
   }

@@ -5,11 +5,12 @@ use \Firebase\JWT\JWT;
 class Token{
   static private $jwt_key = 'default_key';
   
-  static public function key($key){
-    if($key==""){
-      die("Error: JWT Token cannot be empty string.");
+  static public function boot(){
+    $key = Option::where('name','jwt_key')->first();
+    if(empty($key)){
+      die("Error: JWT Token cannot be empty.");
     }
-    self::$jwt_key = $key;
+    self::$jwt_key = $key->value;
   }
   
   static public function encode($token=[]){

@@ -82,9 +82,9 @@ class PasswordResetController extends Controller{
       'VALID_TIME_FOR_PASSWORD_RESET'
     ];
     $to = [
-      App::info('protocol').App::info('domain_name'),
-      App::info('protocol').App::info('domain_name').'/password_reset/'.$post_params['email'].'/'.$token,
-      App::info('name'),
+      App::info('protocol').App::info('domain'),
+      App::info('protocol').App::info('domain').'/password_reset/'.$post_params['email'].'/'.$token,
+      App::info('title'),
       '1 hour',
     ];
     $body = str_replace($from, $to, file_get_contents($mail_file));
