@@ -32,14 +32,14 @@ body#app-layout
           span.icon-bar
         
         // Branding Image
-        a.navbar-brand(href='#') #{title}
+        a.navbar-brand(href='/') #{title}
       
       #app-navbar-collapse.collapse.navbar-collapse
         
         // Left Side Of Navbar
         ul.nav.navbar-nav 
           li
-            a(href='/') Home 
+            a(href='/') Home
 
           :php
             $login_user = Role::User();
@@ -69,22 +69,21 @@ body#app-layout
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                 :php
-                  $login_user_1 = Role::User();
-                  $user_name = $login_user_1->username;
+                  $user_name = $login_user->username;
                 span #{user_name}
                 span.caret
               
               ul.dropdown-menu(role='menu')
                 li
                   :php $route_profile = Route::URI('AuthController@getSettings')
-                  a(href="#{route_profile}") Profile
+                  a(href='#{route_profile}') Profile
                 li
                   :php $route_logout = Route::URI('AuthController@getLogout')
                   a(href='#{route_logout}') Logout 
           else
             li
               :php $route_login = Route::URI('AuthController@getLogin')
-              a(href='route_login') Login
+              a(href='#{route_login}') Login
             li
               :php $route_register = Route::URI('AuthController@getRegister')
-              a(href='route_register') Register
+              a(href='#{route_register}') Register

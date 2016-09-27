@@ -1,15 +1,13 @@
-html
-  body
-    footer.footer
-      .container.text-center
-        p.text-muted 
-          :php $title = App::info('title');
-          :php $year = date("Y");
-          | #{title} &copy; #{year}
-          | -  
-          | Powered by 
-          a(href='https://github.com/gidcs/ksmvc', target='_blank') KSMVC
-          | .
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js')
-    script(src='/js/main.js') 
+footer.footer
+  .container.text-center
+    p.text-muted 
+      :php $title = App::info('title');
+      :php $year = date("Y");
+      | #{title} &copy; #{year}
+      | -  
+      | Powered by 
+      a(href='https://github.com/gidcs/ksmvc', target='_blank') KSMVC
+      | .
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js')
+script(src='/js/main.js') 
