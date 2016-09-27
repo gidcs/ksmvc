@@ -1,25 +1,27 @@
 {
-	"name": "gidcs/ksmvc",
-	"description": "The KSMVC Framework.",
-	"keywords": ["framework", "ksmvc"],
-	"license": "Apache 2.0",
-	"type": "project",
-    "require": {
-		"php": ">=5.5.0",
-        "symfony/console": "^3.0",
-        "robmorgan/phinx": "^0.5.3",
-        "illuminate/database": "^5.2",
-        "firebase/php-jwt": "^3.0",
-        "PHPMailer/PHPMailer": "^5.2"
-    },
-	"autoload": {
-		"psr-4": {
-			"Core\\": "core/",
-			"Phinx\\": "vendor/robmorgan/phinx/src/Phinx/"
-		},
-		"classmap": [
-			"app/models",
-			"app/middleware"
-		]
-	}
+  "name": "gidcs/ksmvc",
+  "description": "The KSMVC Framework.",
+  "keywords": ["framework", "ksmvc"],
+  "license": "Apache 2.0",
+  "type": "project",
+  "require": {
+    "php": ">=5.5.0",
+    "symfony/console": "^3.0",
+    "robmorgan/phinx": "^0.5.3",
+    "illuminate/database": "^5.2",
+    "firebase/php-jwt": "^3.0",
+    "PHPMailer/PHPMailer": "^5.2",
+    "pug-php/pug": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "core/",
+      "Phinx\\": "vendor/robmorgan/phinx/src/Phinx/",
+      "Pug\\": "vendor/pug-php/pug/src/Pug/"
+  },
+    "classmap": [
+      "app/models",
+      "app/middleware"
+    ]
+  }
 }

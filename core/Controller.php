@@ -1,5 +1,7 @@
 <?php
 
+use Pug\Pug as Pug;
+
 class Controller{
   //The child class inherits all of the public and protected member of the parent class by using the extends keyword in the declaration.
 
@@ -14,24 +16,22 @@ class Controller{
     require_once($view_file);
     exit();
   }
+
+  protected function render($view, $data=[]){
+    $pug = new Pug([
+      'prettyprint' => true,
+      'extension' => '.pug'
+    ]);
+    $view_file='../app/views/'.$view.'.pug';
+    $output = $pug->render($view_file, $data);
+    echo $output;
+    exit();
+  }
   
   protected function includes($view, $data=[]){
     $view_file='../app/views/'.$view.'.php';
     file_checks($view_file);
     require_once($view_file);
-  }
-  
-  protected function new_view_engine($view, $data=[]){
-    $from[] = '#\@extend\([\'"](.+?)[\'"]\)#e';
-    $to[] = "file_get_contents_checks('../app/views/$1.php')";
-    foreach($data as $k => $v){
-      $from[] = '#\<\?\=\$data\[[\'"]'.$k.'[\'"]\]\?\>#';
-      $to[] = $v;
-    }
-    $view_file='../app/views/'.$view.'.php';
-    file_checks($view_file);
-    $view_contents = file_get_contents($view_file);
-    echo preg_replace($from,$to,$view_contents);
   }
   
   protected function validate($rules=[], $post_params=[]){
