@@ -115,7 +115,7 @@ class ControllerMakeCommand extends Command
             $views = ['index', 'create', 'show', 'edit'];
             $source = './core/Commands/stub/view.stub';
             foreach($views as $v){
-              $dest = $view_dir.'/'.$v.'.php';
+              $dest = $view_dir.'/'.$v.'.pug';
               if(!$this->copy_view_file($source,$dest)){  
                 $header = '[CopyFailedException]';
                 $msg[] = 'Failed to write file to app/views/'.$view_dir_name.'/'.$v.'.php  ';

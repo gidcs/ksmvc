@@ -1,0 +1,83 @@
+include ../layouts/header
+include ../layouts/alerts
+
+.container 
+  .row
+    .col-sm-10.col-sm-offset-1
+      .panel.panel-default 
+        .panel-heading.clearfix
+          .panel-title.pull-left Users
+          .pull-right
+            :php
+              $create_user_url = Route::URI('UsersController#create');
+            a.btn.btn-default(href='#{create_user_url}', data-toggle="tooltip", title="Add")
+              span.glyphicon.glyphicon-plus(aria-hidden='true')
+        
+        table.table.table-bordered.table-center
+          thead
+            tr
+              th.col-xs-3.col-sm-3 Username
+              th.hidden-xs.col-sm-3 Email
+              th.col-xs-3.col-sm-3 Role
+              th.col-xs-6.col-sm-3 Action
+          tbody
+            for u in users
+              tr
+                td.col-xs-3.col-sm-3= u.username
+                td.hidden-xs.col-sm-3= u.email
+                :php $role_name = Role::find_role_name($u->role);
+                td.col-xs-3.col-sm-3= role_name
+                td.col-xs-6.col-sm-3
+                  :php
+                    $destroy_url = Route::URI('UsersController#destroy');
+                    $edit_url = Route::URI('UsersController#edit');
+                  
+                  form(role='form', method='POST', action='#{destroy_url}#{u.id}')
+                    +input_method('DELETE')
+                    a.btn.btn-primary(href='#{edit_url}#{u.id}/edit', data-toggle='tooltip', title='Edit')
+                      span.glyphicon.glyphicon-edit(aria-hidden='true')
+                    button.btn.btn-danger(type='submit', data-toggle='tooltip', title='Delete')
+                      span.glyphicon.glyphicon-trash(aria-hidden='true')
+        
+        .panel-footer.text-center
+          .btn-group
+            :php
+              $index_url = Route::URI('UsersController#index');
+            if page_id == 1
+              - prev_href = ''
+              - prev_disabled = 'disabled'
+            else if page_id == 2
+              - prev_href = ''
+              - prev_disabled = ''
+            else
+              - prev_id = page_id - 1
+              - prev_href = '/page/' + prev_id
+              - prev_disabled = ''
+
+            a.btn.btn-default(href='#{index_url}', class='#{prev_disabled}')
+              span.glyphicon.glyphicon-arrow-left(aria-hidden='true')
+            a.btn.btn-default(href='#{index_url}#{prev_href}', class='#{prev_disabled}')
+              span.glyphicon.glyphicon-menu-left(aria-hidden='true')
+
+            :php
+              if($page_id==$max_id){
+                $next_href = '#';
+                $last_href = '#';
+                $next_disabled = 'disabled';
+                $last_disabled = 'disabled';
+              }
+              else{
+                $next_id = $page_id + 1;
+                $next_href = $index_url.'/page/'.$next_id;
+                $last_href = $index_url.'/page/'.$max_id;
+                $next_disabled = '';
+                $last_disabled = '';
+              }
+
+            a.btn.btn-default(href='#{next_href}', class='#{next_disabled}')
+              span.glyphicon.glyphicon-menu-right(aria-hidden='true')
+            a.btn.btn-default(href='#{last_href}', class='#{last_disabled}')
+              span.glyphicon.glyphicon-arrow-right(aria-hidden='true')  
+
+include ../layouts/footer
+

@@ -1,0 +1,5 @@
+mixin input_method(method)
+  input#_method(type='hidden', name='_method', value='#{method}')
+
+mixin input_hidden(name, value)
+  input(type='hidden', name='#{name}', id='#{name}', value='#{value}')

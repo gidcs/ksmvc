@@ -1,0 +1,83 @@
+include ../layouts/header
+include ../layouts/alerts
+
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .panel.panel-default
+        .panel-heading
+          .panel-title 
+            p #{_func} User
+        .panel-body
+          :php
+            if(strcmp($_func,'Create')==0)
+              $post_url = Route::URI('UsersController#store');
+            else
+              $post_url = Route::URI('UsersController#update').$uid.'/edit';
+          
+          form.form-horizontal(role='form', method='POST', action='#{post_url}')
+            
+            unless _func == 'Create'
+              +input_method('PUT')
+              +input_hidden('uid', uid)
+
+            .form-group
+              label.col-md-4.control-label(for='username') Username
+              .col-md-6
+                :php
+                  if(!isset($username)) $username=''
+                input.form-control#username(type='text', name='username', value='#{username}')
+            
+            .form-group
+              label.col-md-4.control-label(for='email') Email
+              .col-md-6
+                :php
+                  if(!isset($email)) $email=''
+                input.form-control#email(type='email', name='email', value='#{email}')
+
+            .form-group
+              label.col-md-4.control-label(for='role') Role
+              .col-md-6
+                select.form-control#role(name='role')
+                  :php
+                    if(!isset($role)) $role='';
+                    $role_all = Role::All();
+                  for v,k in role_all
+                    :php
+                      if(empty($role))
+                        $selected=0;
+                      else if($role==$k)
+                        $selected=1;
+                      else
+                        $selected=0;
+                      $role_name = $v->_name;
+                      
+                    if selected
+                      option(value='#{k}', selected='selected') #{role_name}
+                    else
+                      option(value='#{k}') #{role_name}
+
+            .form-group
+              label.col-md-4.control-label(for='password') Password
+              .col-md-6
+                input.form-control#password(type='password', name='password')
+            
+            .form-group
+              label.col-md-4.control-label(for='password_confirm') Confirm Password
+              .col-md-6
+                input.form-control#password_confirm(type='password', name='password_confirm')
+           
+            .form-group
+              .col-md-6.col-md-offset-4
+                button.btn.btn-primary(type='submit')
+                  if _func == 'Create'
+                    | #{_func}
+                  else
+                    | Update
+      .row.text-center
+        :php
+          $user_url = Route::URI('UsersController#index');
+        a.btn.btn-default(href='#{user_url}') &nbsp;Back&nbsp;
+
+include ../layouts/footer
+

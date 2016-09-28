@@ -1,0 +1,69 @@
+include ../layouts/header
+include ../layouts/alerts
+
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .panel.panel-default
+        .panel-heading
+          .panel-title #{_func}
+        .panel-body
+          :php
+            if(strcmp($_func,'Profile')==0)
+              $post_url = Route::URI('AuthController@putProfile');
+            else
+              $post_url = Route::URI('AuthController@post'.$_func);
+          form.form-horizontal(role='form', method='POST', action='#{post_url}')
+            if _func == 'Profile'
+              +input_method('PUT')
+
+            if _func != 'Profile'
+              .form-group
+                label.col-md-4.control-label(for='username') Username
+                .col-md-6
+                  :php
+                    if(!isset($username)) $username=''
+                  input.form-control#username(type='text', name='username', value='#{username}')
+           
+            if _func != 'Login'
+              .form-group
+                label.col-md-4.control-label(for='email') Email
+                .col-md-6
+                  :php
+                    if(!isset($email)) $email=''
+                  input.form-control#email(type='email', name='email', value='#{email}')
+            
+            .form-group
+              label.col-md-4.control-label(for='password') Password
+              .col-md-6
+                input.form-control#password(type='password', name='password')
+            
+            if _func != 'Login'
+              .form-group
+                label.col-md-4.control-label(for='password_confirm') Confirm Password
+                .col-md-6
+                  input.form-control#password_confirm(type='password', name='password_confirm')
+            
+            if _func == 'Login'
+              .form-group
+                .col-md-6.col-md-offset-4
+                  .checkbox
+                    label
+                      input(type='checkbox', name='remember') 
+                      | Remember Me
+            
+            .form-group
+              .col-md-6.col-md-offset-4
+                button.btn.btn-primary(type='submit')
+                  if _func != 'Profile'
+                    | #{_func}
+                  else
+                    | Update
+
+                if _func == 'Login'
+                  :php
+                    $password_reset_url = Route::URI('PasswordResetController@getPasswordReset');
+                  a.btn.btn-link(href='#{password_reset_url}') Forgot Your Password?
+
+include ../layouts/footer
+

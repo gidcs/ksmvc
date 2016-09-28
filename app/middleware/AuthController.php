@@ -6,19 +6,15 @@ use Illuminate\Database\QueryException;
 class AuthController extends Controller{  
 
   public function _redirect_if_login(){
-    if($this->get_user()){
+    if(Role::User()){
       $this->redirect('/');
     }
   }
   
   public function _redirect_if_not_login(){
-    if(!$this->get_user()){
+    if(!Role::User()){
       $this->redirect('/');
     }
-  }
-  
-  public function get_user(){
-    return Role::User();
   }
   
   public function login(User $user, $remember=0){
@@ -33,38 +29,49 @@ class AuthController extends Controller{
     }
   }
   
-  public function getSettings(){
+  private function page_error($_func, $error, $params){
+    $data = [
+      '_func' => $_func,
+      'alert_error' => $error
+    ];
+    $data = array_merge($data, $params);
+    $this->render('auth/common', $data);
+  }
+
+  public function getProfile(){
     $this->_redirect_if_not_login();
-    $login_user = $this->get_user();
-    $data['login_user'] = $login_user;
-    $this->view('auth/getSettings', $data);
+    $user = Role::User();
+    $data = [
+      '_func' => 'Profile',
+      'username' => $user->username,
+      'email' => $user->email
+    ];
+    $this->render('auth/common', $data);
   }
   
-  public function putSettings($post_params){
+  public function putProfile($post_params){
     $this->_redirect_if_not_login();
-    $login_user = $this->get_user();
+    $login_user = Role::User();
     $rules = [
       'email' => 'required|email|max:100',
       'password' => 'min:6|max:255|confirm'
     ];
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
-      $data = [
-        'login_user' => $login_user,
-        'email' => $post_params['email'],
-        'error' => $status->_message
-      ];
-      $this->view('auth/getSettings', $data);
+      $this->page_error(
+        'Profile',
+        $status->_message,
+        $post_params
+      );
     }
     
     $temp_user = User::where('email',$post_params['email'])->first();
     if((!empty($temp_user)&&($temp_user->username!=$login_user->username))){
-      $data = [
-        'login_user' => $login_user,
-        'email' => $post_params['email'],
-        'error' => 'Hey, the email address is used.'
-      ];
-      $this->view('auth/getSettings', $data);
+      $this->page_error(
+        'Profile',
+        'Hey, the email address is used.',
+        $post_params
+      );
     }
     
     $login_user->email = $post_params['email'];
@@ -74,22 +81,26 @@ class AuthController extends Controller{
     $login_user->save();
     
     $data = [
-      'login_user' => $login_user,
-      'success' => 'Your information is updated now.'
+      '_func' => 'Profile',
+      'alert_success' => 'Your information is updated now.',
+      'email' => $post_params['email']
     ];
-    $this->view('auth/getSettings', $data);
+    $this->render('auth/common', $data);
   }
   
   public function getLogin(){
     $this->_redirect_if_login();
-    $this->view('auth/getLogin');
+    $data = [
+      '_func' => 'Login'
+    ];
+    $this->render('auth/common', $data);
   }
   
   public function getLogout(){
     Token::destroy();
     $this->redirect('/');
-  }
-  
+  } 
+
   public function postLogin($post_params = []){
     $this->_redirect_if_login();
     $rules = [
@@ -98,30 +109,24 @@ class AuthController extends Controller{
     ];
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
-      $data = [
-        'username' => $post_params['username'],
-        'error' => $status->_message
-      ];
-      $this->view('auth/getLogin', $data);
+      $this->page_error(
+        'Login',
+        $status->_message,
+        $post_params
+      );
     }
     
     $user = User::where('username',$post_params['username'])->first();
-    if(empty($user)){
-      $data = [
-        'username' => $post_params['username'],
-        'error' => 'These credentials do not match our records.'
-      ];
-      $this->view('auth/getLogin', $data);
+    if(empty($user) || 
+        !password_verify($post_params['password'], $user->password)
+      ){
+      $this->page_error(
+        'Login',
+        'These credentials do not match our records.',
+        $post_params
+      );
     } 
-    
-    if(!password_verify($post_params['password'], $user->password)){
-      $data = [
-        'username' => $post_params['username'],
-        'error' => 'These credentials do not match our records.'
-      ];
-      $this->view('auth/getLogin', $data);
-    }
-    
+     
     if(isset($post_params['remember'])){
       $this->login($user, 1);
     }
@@ -134,7 +139,10 @@ class AuthController extends Controller{
   
   public function getRegister(){
     $this->_redirect_if_login();
-    $this->view('auth/getRegister');
+    $data = [
+      '_func' => 'Register'
+    ];
+    $this->render('auth/common', $data);
   }
   
   public function postRegister($post_params = []){
@@ -146,24 +154,22 @@ class AuthController extends Controller{
     ];
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
-      $data = [
-        'username' => $post_params['username'],
-        'email' => $post_params['email'],
-        'error' => $status->_message
-      ];
-      $this->view('auth/getRegister', $data);
+      $this->page_error(
+        'Register',
+        $status->_message,
+        $post_params
+      );
     }
     
     $user = User::where('username',$post_params['username'])
           ->orWhere('email',$post_params['email'])
           ->first();
     if(!empty($user)){
-      $data = [
-        'username' => $post_params['username'],
-        'email' => $post_params['email'],
-        'error' => 'Hey, you had registered.'
-      ];
-      $this->view('auth/getRegister', $data);
+      $this->page_error(
+        'Register',
+        'Hey, you had registered.',
+        $post_params
+      );
     }
     
     try {
@@ -174,13 +180,12 @@ class AuthController extends Controller{
         'role' => Role::find_role_id('User')
       ]);
     }
-    catch (QueryException $e){
-      $data = [
-        'username' => $post_params['username'],
-        'email' => $post_params['email'],
-        'error' => 'We encounter some problem when processing your request.'
-      ];
-      $this->view('auth/getRegister', $data);
+    catch (QueryException $e){ 
+      $this->page_error(
+        'Register',
+        'We encounter some problem when processing your request.',
+        $post_params
+      );
     }
     
     //first user will be admin

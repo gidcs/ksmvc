@@ -23,6 +23,10 @@ class Controller{
       'extension' => '.pug'
     ]);
     $view_file='../app/views/'.$view.'.pug';
+    if(!isset($data['alert_success'])) 
+      $data['alert_success']='';
+    if(!isset($data['alert_error']))
+      $data['alert_error']='';
     $output = $pug->render($view_file, $data);
     echo $output;
     exit();
@@ -112,7 +116,7 @@ class Controller{
       //confirm
       if(preg_match('#\bconfirm\b#i', $v)){
         if(isset($post_params[$k])){
-          $tmp = $k.'_confirmation';
+          $tmp = $k.'_confirm';
           if(!isset($post_params[$tmp])){
             return new ErrorMessage(1, "The $k confirmation does not match.");
           }

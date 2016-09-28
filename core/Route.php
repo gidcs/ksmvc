@@ -154,8 +154,8 @@ class Route{
     self::get('/logout', 'AuthController@getLogout');
     self::get('/register', 'AuthController@getRegister');
     self::post('/register', 'AuthController@postRegister');
-    self::get('/profile', 'AuthController@getSettings');
-    self::put('/profile', 'AuthController@putSettings');
+    self::get('/profile', 'AuthController@getProfile');
+    self::put('/profile', 'AuthController@putProfile');
     self::get('/password_reset', 'PasswordResetController@getPasswordReset');
     self::post('/password_reset', 'PasswordResetController@postPasswordReset');
     self::get('/password_reset/:email/:token', 'PasswordResetController@getPasswordResetActual');
@@ -211,10 +211,5 @@ class Route{
     return $uri[0];
   }
 
-  static public function Method($method){
-    return '<input id="_method" type="hidden" '
-      .'class="form-control" name="_method" value="'
-      .$method.'">'."\n";
-  }
 }
 

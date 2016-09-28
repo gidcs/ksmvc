@@ -7,7 +7,7 @@
  * 
  */
 
-class DummyClass extends Controller
+class OptionsController extends Controller
 {
   /**
    *
@@ -17,7 +17,7 @@ class DummyClass extends Controller
   public function index($id=1)
   {
     //
-    $this->render('Dummy/index', $data);
+    $this->render('options/index', $data);
   }
   
   /** 
@@ -28,7 +28,7 @@ class DummyClass extends Controller
   public function create()
   {   
     //
-    $this->render('Dummy/create', $data);  
+    $this->render('options/create', $data);  
   }
   
   /**
@@ -51,7 +51,7 @@ class DummyClass extends Controller
   public function show($id)
   {
     //
-    $this->render('Dummy/show', $data);
+    $this->render('options/show', $data);
   }
   
   /**
@@ -63,7 +63,7 @@ class DummyClass extends Controller
   public function edit($id)
   {
     //
-    $this->render('Dummy/edit', $data);
+    $this->render('options/edit', $data);
   }
   
   /**

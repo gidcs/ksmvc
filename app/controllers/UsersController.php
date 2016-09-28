@@ -26,7 +26,16 @@ class UsersController extends Controller
       'max_id' => $paginate[0],
       'users' => $paginate[1],
     ];
-    $this->view('users/index', $data);
+    $this->render('users/index', $data);
+  }
+
+  private function page_error($_func, $error, $params){
+    $data = [
+        '_func' => $_func,
+        'alert_error' => $error
+      ];
+    $data = array_merge($data, $params);
+    $this->render('users/common', $data);
   }
   
   /** 
@@ -38,9 +47,9 @@ class UsersController extends Controller
   {   
     //
     $data = [
-      'login_user' => Role::User()
+      '_func' => 'Create'
     ];
-    $this->view('users/create', $data);  
+    $this->render('users/common', $data);  
   }
   
   /**
@@ -57,31 +66,29 @@ class UsersController extends Controller
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
       'role' => 'required|int',
-      'password' => 'required|min:6|max:255|confirm'
+      'password' => 'min:6|max:255|confirm'
     ];
 
     //input checking
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
-      $data = [
-        'login_user' => $login_user,
-        'error' => $status->_message
-      ];
-      $data = array_merge($data, $post_params);
-      $this->view('users/create', $data);
+      $this->page_error(
+        'Create',
+        $status->_message,
+        $post_params
+      );
     }
    
     //username and email checking
     $temp_user = User::where('username',$post_params['username'])
                   ->orWhere('email',$post_params['email'])
                   ->first();
-    if(!empty($temp_user)){
-      $data = [
-        'login_user' => $login_user,
-        'error' => 'Hey, the username or email address is used.'
-      ];
-      $data = array_merge($data, $post_params);
-      $this->view('users/create', $data);
+    if(!empty($temp_user)){ 
+      $this->page_error(
+        'Create',
+        'Hey, the username or email address is used.',
+        $post_params
+      );
     }
 
     //create user 
@@ -93,13 +100,12 @@ class UsersController extends Controller
         'role' => $post_params['role']
       ]);
     }
-    catch (QueryException $e){
-      $data = [
-        'login_user' => $login_user,
-        'error' => 'We encounter some problem when processing your request.'
-      ];
-      $data = array_merge($data, $post_params);
-      $this->view('users/create', $data);
+    catch (QueryException $e){ 
+      $this->page_error(
+        'Create',
+        'We encounter some problem when processing your request.',
+        $post_params
+      );
     }
     $this->redirect(Route::URI('UsersController#index'));
   }
@@ -113,7 +119,7 @@ class UsersController extends Controller
   public function show($id)
   {
     //useless
-    $this->view('users/show', $data);
+    $this->render('users/show', $data);
   }
   
   /**
@@ -129,10 +135,13 @@ class UsersController extends Controller
       $this->redirect('/');
     }
     $data = [
-      'login_user' => Role::User(),
-      'user' => $user
+      '_func' => 'Edit',
+      'uid' => $user->id,
+      'username' => $user->username,
+      'email' => $user->email,
+      'role' => $user->role,
     ];
-    $this->view('users/edit', $data);
+    $this->render('users/common', $data);
   }
   
   /**
@@ -144,7 +153,6 @@ class UsersController extends Controller
    */
   public function update($post_params, $id)
   {
-    $login_user = Role::User();
     $user = User::where('id', $id)->first();
     if(empty($user)){
       $this->redirect('/');
@@ -159,12 +167,11 @@ class UsersController extends Controller
     //input checking
     $status = $this->validate($rules, $post_params);
     if($status->_status!=0){
-      $data = [
-        'login_user' => $login_user,
-        'user' => $user,
-        'error' => $status->_message
-      ];
-      $this->view('users/edit', $data);
+      $this->page_error(
+        'Edit',
+        $status->_message,
+        $post_params
+      );
     }
    
     //username and email checking
@@ -172,12 +179,11 @@ class UsersController extends Controller
                   ->orWhere('email',$post_params['email'])
                   ->first();
     if((!empty($temp_user)&&($temp_user->id!=$user->id))){
-      $data = [
-        'login_user' => $login_user,
-        'user' => $user,
-        'error' => 'Hey, the username or email address is used.'
-      ];
-      $this->view('users/edit', $data);
+      $this->page_error(
+        'Edit',
+        'Hey, the username or email address is used.',
+        $post_params
+      );
     }
     
     $user->username = $post_params['username'];
@@ -189,11 +195,11 @@ class UsersController extends Controller
     $user->save();
     
     $data = [
-      'login_user' => $login_user,
-      'user' => $user,
-      'success' => $user->username."'".'s information is updated now.'
+      '_func' => 'Edit',
+      'alert_success' => $user->username."'".'s information is updated now.'
     ];
-    $this->view('users/edit', $data);
+    $data = array_merge($data, $post_params);
+    $this->render('users/common', $data);
   }
   
   /**
