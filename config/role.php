@@ -7,24 +7,23 @@ Role::add([
   'Admin',
 ]);
 
-Role::find('Visitor')->set_permissions([
-  'Auth',
-  'HomeController'
-]);
-
-Role::find('User')->set_permissions([
-  'Auth',
-  'HomeController'
-]);
-
-Role::find('Operator')->set_permissions([
+$visitor_permissions = [
   'Auth',
   'HomeController',
+];
+
+$user_permissions = array_merge($visitor_permissions,[
 ]);
 
-Role::find('Admin')->set_permissions([
-  'Auth',
-  'HomeController',
-  'UsersController'
+$operator_permissions = array_merge($user_permissions, [  
 ]);
+
+$admin_permissions = array_merge($operator_permissions, [
+  'UsersController',
+]);
+
+Role::find('Visitor')->set_permissions($visitor_permissions);
+Role::find('User')->set_permissions($user_permissions);
+Role::find('Operator')->set_permissions($operator_permissions);
+Role::find('Admin')->set_permissions($admin_permissions); 
 
