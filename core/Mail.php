@@ -27,7 +27,7 @@ class Mail{
     $mail->addAddress($receiver);
     $mail->Subject = $subject;
     $mail->isHTML(true);
-    $mail->Body = str_replace('YOUR_NAME_FOR_MAIL', self::$_smtp['name'], $body);
+    $mail->Body = str_replace('YOUR_NAME_FOR_MAIL', self::$_smtp['smtp_name'], $body);
     
     if (!$mail->send()) {
       return new ErrorMessage(1, "Mailer Error: " . $mail->ErrorInfo);
