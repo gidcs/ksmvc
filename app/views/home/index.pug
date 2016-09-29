@@ -1,22 +1,13 @@
-//- index.pug
-include ../layouts/header
-include ../layouts/alerts
+extends ../layouts/base
 
-.container
-  .row
-    .col-md-10.col-md-offset-1
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            | Dashboard
+block panel-title
+  | Dashboard
 
-        .panel-body
-          :php
-            $login_user = Role::User();
-          if login_user
-            p You are logged in!
-          else
-            p Your Application's Landing Page.
-
-include ../layouts/footer
+block panel-body
+  :php
+    $login_user = Role::User();
+  if login_user
+    p You are logged in!
+  else
+    p Your Application's Landing Page.
 
