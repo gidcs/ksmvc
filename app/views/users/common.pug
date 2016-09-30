@@ -67,13 +67,10 @@ block panel-body
       .col-md-6
         input.form-control#password_confirm(type='password', name='password_confirm')
    
-    .form-group
-      .col-md-6.col-md-offset-4
-        button.btn.btn-primary(type='submit')
-          if _func == 'Create'
-            | #{_func}
-          else
-            | Update
+    if _func == 'Create'
+      +form_submit(_func)
+    else
+      +form_submit('Update')
 
 include ../layouts/footer
 
