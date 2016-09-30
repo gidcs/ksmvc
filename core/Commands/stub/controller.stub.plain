@@ -2,8 +2,8 @@
 
 /**
  *
- * you can use view method to display view when needed.
- * you can also pass variable to view via $data array. (optional)
+ * you can use render method to display view when needed.
+ * you can also pass variable to render via $data array. (optional)
  * 
  */
 

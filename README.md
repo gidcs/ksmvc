@@ -11,6 +11,7 @@ Installation
 -------
 
 	git clone https://github.com/gidcs/ksmvc
+	cd ksmvc
 	cp config/config.php.sample config/config.php
 	vi config/config.php
 	composer install

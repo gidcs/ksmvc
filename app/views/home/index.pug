@@ -1,0 +1,13 @@
+extends ../layouts/base
+
+block panel-title
+  | Dashboard
+
+block panel-body
+  :php
+    $login_user = Role::User();
+  if login_user
+    p You are logged in!
+  else
+    p Your Application's Landing Page.
+

@@ -1,64 +1,68 @@
 <?php
 
 //application information
-$application = [
-	'name' => 'KSMVC',
-	'protocol' => 'http://',
-	'domain_name' => 'localhost',
+$app_info = [
+  'site_title' => 'KSMVC',
+  'site_subtitle' => 'A pretty simple PHP MVC Framework',
+  'site_description' => 'KSMVC is a pretty simple PHP MVC Framework.',
+  'site_protocol' => 'http://',
+  'site_domain' => 'localhost',
+  'jwt_key' => 'enter_your_encrypt_key', //json web token key
+  'smtp' => [ //smtp information
+    'host' => 'smtp.gmail.com',
+    'port' => 587,
+    'auth' => true,
+    'secure' => 'tls',
+    'username' => 'your_email@gmail.com',
+    'password' => base64_encode('your_password'),
+    'name' => 'your_name',
+  ],
 ];
 
 //timezone settings
 $timezone = 'Asia/Taipei';
 date_default_timezone_set($timezone);
 
-//json web token key
-$jwt_key = 'enter_your_encrypt_key';
+$env = 'development';
 
-//smtp information
-$smtp = [
-	'host' => 'smtp.gmail.com',
-	'port' => 587,
-	'auth' => true,
-	'secure' => 'tls',
-	'username' => 'your_email@gmail.com',
-	'password' => 'your_password',
-	'name' => 'your_name',
-];
+if(strcmp($env,'development')==0){
+  ini_set('opcache.enable', '0');
+}
 
 $db = [
-	'default_database' => 'development',	
-	'production' => [
-		'adapter' => 'mysql',
-		'host' => 'localhost',
-		'port' => '3306',
-		'name' => 'production_db',
-		'user' => 'root',
-		'pass' => '',
-		'charset' => 'utf8',
-		'collation' => 'utf8_unicode_ci',
-		'table_prefix' => ''
-	],
-	'development' => [
-		'adapter' => 'mysql',
-		'host' => 'localhost',
-		'port' => '3306',
-		'name' => 'development_db',
-		'user' => 'root',
-		'pass' => '',
-		'charset' => 'utf8',
-		'collation' => 'utf8_unicode_ci',
-		'table_prefix' => ''
-	],
-	'testing' => [
-		'adapter' => 'mysql',
-		'host' => 'localhost',
-		'port' => '3306',
-		'name' => 'testing_db',
-		'user' => 'root',
-		'pass' => '',
-		'charset' => 'utf8',
-		'collation' => 'utf8_unicode_ci',
-		'table_prefix' => ''
-	],
+  'default_database' => $env,  
+  'production' => [
+    'adapter' => 'mysql',
+    'host' => 'localhost',
+    'port' => '3306',
+    'name' => 'production_db',
+    'user' => 'root',
+    'pass' => '',
+    'charset' => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'table_prefix' => ''
+  ],
+  'development' => [
+    'adapter' => 'mysql',
+    'host' => 'localhost',
+    'port' => '3306',
+    'name' => 'development_db',
+    'user' => 'root',
+    'pass' => '',
+    'charset' => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'table_prefix' => ''
+  ],
+  'testing' => [
+    'adapter' => 'mysql',
+    'host' => 'localhost',
+    'port' => '3306',
+    'name' => 'testing_db',
+    'user' => 'root',
+    'pass' => '',
+    'charset' => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'table_prefix' => ''
+  ],
 ];
 

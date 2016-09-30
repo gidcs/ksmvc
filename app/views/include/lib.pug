@@ -1,0 +1,12 @@
+mixin input_method(method)
+  input#_method(type='hidden', name='_method', value='#{method}')
+
+mixin input_hidden(name, value)
+  input(type='hidden', name='#{name}', id='#{name}', value='#{value}')
+
+mixin form_submit(name)
+  .form-group
+    .col-md-6.col-md-offset-4
+      button.btn.btn-primary(type='submit')
+        | #{name}
+

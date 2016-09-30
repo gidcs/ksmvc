@@ -1,0 +1,76 @@
+extends ../layouts/base
+
+block panel-title    
+  | #{_func} User
+
+block panel-title-right
+  :php
+    $user_url = Route::URI('UsersController#index');
+  a.btn.btn-default(href='#{user_url}') &nbsp;Back&nbsp;
+
+block panel-body
+  :php
+    if(strcmp($_func,'Create')==0)
+      $post_url = Route::URI('UsersController#store');
+    else
+      $post_url = Route::URI('UsersController#update').$uid.'/edit';
+  
+  form.form-horizontal(role='form', method='POST', action='#{post_url}')
+    
+    unless _func == 'Create'
+      +input_method('PUT')
+      +input_hidden('uid', uid)
+
+    .form-group
+      label.col-md-4.control-label(for='username') Username
+      .col-md-6
+        :php
+          if(!isset($username)) $username=''
+        input.form-control#username(type='text', name='username', value='#{username}')
+    
+    .form-group
+      label.col-md-4.control-label(for='email') Email
+      .col-md-6
+        :php
+          if(!isset($email)) $email=''
+        input.form-control#email(type='email', name='email', value='#{email}')
+
+    .form-group
+      label.col-md-4.control-label(for='role') Role
+      .col-md-6
+        select.form-control.selectpicker#role(name='role')
+          :php
+            if(!isset($role)) $role='';
+            $role_all = Role::All();
+          for v,k in role_all
+            :php
+              if(empty($role))
+                $selected=0;
+              else if($role==$k)
+                $selected=1;
+              else
+                $selected=0;
+              $role_name = $v->_name;
+              
+            if selected
+              option(value='#{k}', selected='selected') #{role_name}
+            else
+              option(value='#{k}') #{role_name}
+
+    .form-group
+      label.col-md-4.control-label(for='password') Password
+      .col-md-6
+        input.form-control#password(type='password', name='password')
+    
+    .form-group
+      label.col-md-4.control-label(for='password_confirm') Confirm Password
+      .col-md-6
+        input.form-control#password_confirm(type='password', name='password_confirm')
+   
+    if _func == 'Create'
+      +form_submit(_func)
+    else
+      +form_submit('Update')
+
+include ../layouts/footer
+

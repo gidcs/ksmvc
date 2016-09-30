@@ -1,0 +1,94 @@
+include ../include/lib
+
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1') 
+
+  :php
+    $description = App::info('description');
+    $title = App::info('title');
+    $subtitle = App::info('subtitle');
+
+  meta(name='description', content='#{description}')
+  title #{title} - #{subtitle}
+  
+  // Bootstrap core CSS
+  link(type='text/css', rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css')
+ 
+  // Bootstrap-select CSS
+  link(type='text/css', rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css')
+
+  // Custom styles for this template
+  link(type='text/css', rel='stylesheet', href='/css/main.css')
+
+body#app-layout
+  // Static navbar
+  nav.navbar.navbar-default.navbar-static-top
+    .container
+      .navbar-header
+        
+        // Collapsed Hamburger
+        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#app-navbar-collapse')
+          span.sr-only Toggle Navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        
+        // Branding Image
+        a.navbar-brand(href='/') #{title}
+      
+      #app-navbar-collapse.collapse.navbar-collapse
+        
+        // Left Side Of Navbar
+        ul.nav.navbar-nav 
+          li
+            a(href='/') Home
+
+          :php
+            $login_user = Role::User();
+            $admin = 0;
+            if($login_user)
+              $admin = Role::is_role('Admin');
+
+          if login_user 
+            if admin
+              // Management Links
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                  | Manage 
+                  span.caret
+
+                ul.dropdown-menu(role='menu')
+                  li
+                    a(href='/manage/settings') Settings
+                  li
+                    :php $route_users = Route::URI('UsersController#index');
+                    a(href='#{route_users}') Users 
+        
+        // Right Side Of Navbar
+        ul.nav.navbar-nav.navbar-right
+          if login_user
+            // Authentication Links
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                :php
+                  $user_name = $login_user->username;
+                span #{user_name}
+                span.caret
+              
+              ul.dropdown-menu(role='menu')
+                li
+                  :php $route_profile = Route::URI('AuthController@getProfile')
+                  a(href='#{route_profile}') Profile
+                li
+                  :php $route_logout = Route::URI('AuthController@getLogout')
+                  a(href='#{route_logout}') Logout 
+          else
+            li
+              :php $route_login = Route::URI('AuthController@getLogin')
+              a(href='#{route_login}') Login
+            li
+              :php $route_register = Route::URI('AuthController@getRegister')
+              a(href='#{route_register}') Register

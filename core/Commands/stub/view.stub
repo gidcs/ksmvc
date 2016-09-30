@@ -1,10 +1,3 @@
-<?php
-	$this->includes("layouts/header",$data)
-	$this->includes("layouts/alerts",$data)
-?>
+extends ../layouts/base
 
-<!-- put your content here -->
 
-<?php
-	$this->includes("layouts/footer")
-?>
