@@ -38,7 +38,7 @@ block panel-body
     .form-group
       label.col-md-4.control-label(for='role') Role
       .col-md-6
-        select.form-control#role(name='role')
+        select.form-control.selectpicker#role(name='role')
           :php
             if(!isset($role)) $role='';
             $role_all = Role::All();
