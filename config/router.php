@@ -6,5 +6,6 @@ Route::all('/manage/users', 'UsersController', [
   'except' => ['show']
 ]);
 
-Route::get('/manage/settings','OptionsController#index');
+Route::get('/manage/settings','OptionsController#edit');
+Route::put('/manage/settings/:name','OptionsController#update');
 //Route::print_route();

@@ -10,60 +10,26 @@
 class OptionsController extends Controller
 {
   /**
-   *
-   * Display a listing of the resource.
-   *
-   */
-  public function index($id=1)
-  {
-    //
-    $this->render('options/index', $data);
-  }
-  
-  /** 
-   *
-   * Show the form for creating a new resource.
-   *
-   */  
-  public function create()
-  {   
-    //
-    $this->render('options/create', $data);  
-  }
-  
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  array  $post_params = $_POST
-   *
-   */
-  public function store($post_params)
-  {
-    //
-  }
-  
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id ( modify it to variable name match in router.php )
-   *
-   */
-  public function show($id)
-  {
-    //
-    $this->render('options/show', $data);
-  }
-  
-  /**
    * Show the form for editing the specified resource.
    *
    * @param  int  $id
    *
    */
-  public function edit($id)
+  public function edit()
   {
-    //
-    $this->render('options/edit', $data);
+    $site = Option::where('name','LIKE','site_%')->get();
+    $jwt = Option::where('name','LIKE','jwt_%')->get();
+    $smtp = Option::where('name','LIKE','smtp_%')->get();
+    foreach($smtp as $o){
+      if($o->name=='smtp_password')
+        $o->value = ''; 
+    }
+    $data = [
+      'site' => $site,
+      'jwt' => $jwt,
+      'smtp' => $smtp
+    ];
+    $this->render('options/common', $data);
   }
   
   /**
@@ -73,19 +39,61 @@ class OptionsController extends Controller
    * @param  int  $id
    *
    */
-  public function update($post_params, $id)
+  public function update($post_params, $name)
   {
-    //
+    if(!is_string($name)){
+      $this->redirect('/');
+    }
+    
+    switch ($name) {
+      case "site" :
+      case "jwt" :
+      case "smtp" :
+        foreach($post_params as $k=>$v){
+          if($k=='_method') continue;
+          if(strpos($k, $name)===false) 
+            $this->redirect('/');
+          $option = Option::where('name',$k)->first();
+          if(empty($option)) $this->redirect('/');
+          
+          //value checking
+          switch ($k){
+            case "site_protocol" :
+              if($v!="http" && $v!="https")
+                $this->redirect('/');
+              break; 
+            case "smtp_auth":
+              if($v!="0" && $v!="1")
+                $this->redirect('/');
+              break;
+            case "smtp_secure":
+              if($v!="tls" && $v!="ssl") 
+                $this->redirect('/');
+              break;
+            case "smtp_password" : 
+              if(empty($v)) continue 2;
+              break;
+            default:
+
+          }
+
+          //store value
+          if($k=='smtp_password'){
+            $option->value = base64_encode($v);
+          }
+          else{
+            $option->value = $v;
+          }
+          $option->save();
+        }
+        if($name=="jwt")
+          $this->redirect('/');
+        else
+          $this->redirect($_SERVER['HTTP_REFERER']);
+        break;
+      default:
+        $this->redirect('/');
+    }
   }
   
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   *
-   */
-  public function destroy($id)
-  {
-    //
-  }
 }

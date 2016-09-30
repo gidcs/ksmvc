@@ -1,0 +1,90 @@
+extends ../layouts/base
+
+block panel-title
+  | Settings
+
+block panel-body
+  :php
+    $post_url = Route::URI('OptionsController#update'); 
+  
+  ul.nav.nav-tabs
+    li.active
+      a(data-toggle="tab", href='#site') Site
+    li
+      a(data-toggle="tab", href='#jwt') JWT
+    li
+      a(data-toggle="tab", href='#smtp') SMTP
+  
+  p
+
+  .tab-content.clearfix
+    .tab-pane.fade.in.active#site
+      form.form-horizontal(role='form', method='POST', action='#{post_url}site')
+        +input_method('PUT')
+        for v in site
+          :php
+            $name = str_replace('_', ' ', $v->name);
+          .form-group
+            label.col-md-4.control-label(for='#{v.name}') #{name}
+            .col-md-6
+              if v.name == "site_protocol"
+                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
+                  for h in ['http', 'https']
+                    :php
+                      $selected=0;
+                      if($h == $v->value) $selected=1;
+                    if selected
+                      option(value='#{h}' selected='selected') #{h}
+                    else
+                      option(value='#{h}') #{h}
+              else
+                input.form-control(type='text', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+        +form_submit('Update')
+
+    .tab-pane.fade#jwt
+      form.form-horizontal(role='form', method='POST', action='#{post_url}jwt')
+        +input_method('PUT')
+        for v in jwt
+          :php
+            $name = str_replace('_', ' ', $v->name);
+          .form-group
+            label.col-md-4.control-label(for='#{v.name}') #{name}
+            .col-md-6
+              input.form-control(type='text', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+        +form_submit('Update')
+
+    .tab-pane.fade#smtp
+      form.form-horizontal(role='form', method='POST', action='#{post_url}smtp')
+        +input_method('PUT')
+        for v in smtp
+          :php
+            $name = str_replace('_', ' ', $v->name);
+            $type = 'text';
+            if(strcmp($v->name,'smtp_password')==0) $type = 'password';
+          .form-group
+            label.col-md-4.control-label(for='#{v.name}') #{name}
+            .col-md-6
+              if v.name == "smtp_auth"
+                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
+                  for h in [0, 1]
+                    :php
+                      $selected=0;
+                      if($h == $v->value) $selected=1;
+                    if selected
+                      option(value='#{h}' selected='selected') #{h}
+                    else
+                      option(value='#{h}') #{h}
+              else if v.name == "smtp_secure"
+                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
+                  for h in ['tls', 'ssl']
+                    :php
+                      $selected=0;
+                      if($h == $v->value) $selected=1;
+                    if selected
+                      option(value='#{h}' selected='selected') #{h}
+                    else
+                      option(value='#{h}') #{h}
+              else
+                input.form-control(type='#{type}', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+        +form_submit('Update')
+

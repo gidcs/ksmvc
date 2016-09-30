@@ -93,8 +93,8 @@ class PasswordResetController extends Controller{
       'VALID_TIME_FOR_PASSWORD_RESET'
     ];
     $to = [
-      App::info('protocol').App::info('domain'),
-      App::info('protocol').App::info('domain').'/password_reset/'.$post_params['email'].'/'.$token,
+      App::info('protocol')."://".App::info('domain'),
+      App::info('protocol')."://".App::info('domain').'/password_reset/'.$post_params['email'].'/'.$token,
       App::info('title'),
       '1 hour',
     ];

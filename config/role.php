@@ -19,7 +19,7 @@ $operator_permissions = array_merge($user_permissions, [
 ]);
 
 $admin_permissions = array_merge($operator_permissions, [
-  'OptionsController#index',
+  'OptionsController',
   'UsersController',
 ]);
 
