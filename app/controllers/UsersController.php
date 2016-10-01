@@ -21,7 +21,6 @@ class UsersController extends Controller
     $Obj = User::orderBy('id', 'desc');
     $paginate = $this->paginate($Obj, $this->page_limit, $id);
     $data = [
-      'login_user' => Role::User(),  
       'page_id' => $id,
       'max_id' => $paginate[0],
       'users' => $paginate[1],
@@ -61,7 +60,6 @@ class UsersController extends Controller
   public function store($post_params)
   {
     //
-    $login_user = Role::User(); 
     $rules = [
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
