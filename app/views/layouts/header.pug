@@ -73,9 +73,7 @@ body#app-layout
             // Authentication Links
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                :php
-                  $user_name = $login_user->username;
-                span #{user_name}
+                span= login_user.username
                 span.caret
               
               ul.dropdown-menu(role='menu')
