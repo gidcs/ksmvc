@@ -30,14 +30,3 @@ function substr_exists($text, $substr){
   }
 }
 
-function escape($text){
-  return htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
-}
-
-function escape_array(&$post_params=[]){
-  foreach($post_params as $k=>$v){
-    $post_params[$k] = escape($v);
-  }
-  return $post_params;
-}
-

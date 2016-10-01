@@ -132,12 +132,12 @@ class Route{
       //get parameter
       {
         if(preg_match('/\b(GET|DELETE)\b/', $req_method)==0){
-          $param['post_params'] = escape_array($_POST);
+          $param['post_params'] = $_POST;
         }
         if(count($matches)>1){
           $i=1;
           foreach($params_name[0] as $name){
-            $param[$name] = escape($matches[$i]);
+            $param[$name] = $matches[$i];
             $i++;
           }
         }

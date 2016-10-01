@@ -12,7 +12,7 @@ head
     $subtitle = App::info('subtitle');
 
   meta(name='description', content='#{description}')
-  title #{title} - #{subtitle}
+  title= title+' - '+subtitle
   
   // Bootstrap core CSS
   link(type='text/css', rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css')
@@ -37,7 +37,7 @@ body#app-layout
           span.icon-bar
         
         // Branding Image
-        a.navbar-brand(href='/') #{title}
+        a.navbar-brand(href='/')= title
       
       #app-navbar-collapse.collapse.navbar-collapse
         

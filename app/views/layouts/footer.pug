@@ -3,7 +3,8 @@ footer.footer
     p.text-muted 
       :php $title = App::info('title');
       :php $year = date("Y");
-      | #{title} &copy; #{year}
+      span= title 
+      | &copy; #{year}
       | -  
       | Powered by 
       a(href='https://github.com/gidcs/ksmvc', target='_blank') KSMVC

@@ -7,6 +7,10 @@ Environment:
 - PHP 5.5.0 
 - Composer
 
+Convention:
+- Pug (formerly known as "Jade") can deal with XSS scripting attack.
+- Illuminate Database can deal with sql injection attack.
+
 Installation
 -------
 

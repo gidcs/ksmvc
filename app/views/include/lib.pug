@@ -11,7 +11,7 @@ mixin form_submit(name)
         | #{name}
 
 mixin input(name, value)
-  input(name='#{name}', id='#{name}', value!='#{value}')&attributes(attributes)
+  input(name='#{name}', id='#{name}', value='#{value}')&attributes(attributes)
 
 mixin select(options, name, value)
   select(name='#{name}', id='#{name}')&attributes(attributes)
@@ -27,6 +27,5 @@ mixin select(options, name, value)
         option(value='#{k}') #{v}
 
 mixin textarea(name, value)
-  textarea(name='#{name}', id='#{name}')&attributes(attributes)
-    | #{value}
+  textarea(name='#{name}', id='#{name}')&attributes(attributes)= value
 
