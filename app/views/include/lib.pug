@@ -26,3 +26,7 @@ mixin select(options, name, value)
       else
         option(value='#{k}') #{v}
 
+mixin textarea(name, value)
+  textarea(name='#{name}', id='#{name}')&attributes(attributes)
+    | #{value}
+
