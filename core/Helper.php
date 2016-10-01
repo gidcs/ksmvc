@@ -20,3 +20,24 @@ function method_checks($controller, $method, $error=true){
   }
   return 1;
 }
+
+function substr_exists($text, $substr){
+  if(strpos($text, $substr)!==false){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function escape($text){
+  return htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+}
+
+function escape_array(&$post_params=[]){
+  foreach($post_params as $k=>$v){
+    $post_params[$k] = escape($v);
+  }
+  return $post_params;
+}
+

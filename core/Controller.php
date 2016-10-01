@@ -41,7 +41,7 @@ class Controller{
   protected function validate($rules=[], $post_params=[]){
     foreach($rules as $k => $v){
       //required
-      if(!isset($post_params[$k]) || $post_params[$k]==""){
+      if(empty($post_params[$k])){
         if(preg_match('#\brequired\b#i', $v)){
           return new ErrorMessage(1, "The $k field is required.");
         }
@@ -51,7 +51,7 @@ class Controller{
       }
       
       //pass this
-      if($k=='password-confirm') continue; 
+      if(substr_exists($k, '_confirm')) continue; 
       
       //type
       if(preg_match('#\bemail\b#i', $v)){
@@ -129,16 +129,6 @@ class Controller{
     return new ErrorMessage();
   }
   
-  protected function replace_special_char($string){
-    return htmlentities($string, ENT_QUOTES | ENT_IGNORE, "UTF-8");
-  }
-  
-  protected function replace_script_tag($string){
-    $from[] = '#<([^>]*script)>#i';
-    $to[] = '&lt;$1&gt;';
-    return preg_replace($from,$to,$string);
-  }
-
   protected function paginate($obj, $limit, $page_id){
     $row_count = $obj->count();
     $max_page_size = intval(ceil($row_count/($limit)));
