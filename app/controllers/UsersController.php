@@ -63,7 +63,7 @@ class UsersController extends Controller
     $rules = [
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
-      'role' => 'required|int',
+      'role' => 'int',
       'password' => 'min:6|max:255|confirm'
     ];
 
@@ -158,7 +158,7 @@ class UsersController extends Controller
     $rules = [
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
-      'role' => 'required|int',
+      'role' => 'int',
       'password' => 'min:6|max:255|confirm'
     ];
 
