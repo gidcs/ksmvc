@@ -13,3 +13,16 @@ mixin form_submit(name)
 mixin input(name, value)
   input(name='#{name}', id='#{name}', value!='#{value}')&attributes(attributes)
 
+mixin select(options, name, value)
+  select(name='#{name}', id='#{name}')&attributes(attributes)
+    for v,k in options
+      :php
+        $selected=0;
+        if(!empty($value) && $value==$k)
+          $selected=1;
+
+      if selected
+        option(value='#{k}', selected='selected') #{v}
+      else
+        option(value='#{k}') #{v}
+

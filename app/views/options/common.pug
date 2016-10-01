@@ -28,15 +28,12 @@ block panel-body
             label.col-md-4.control-label(for='#{v.name}') #{name}
             .col-md-6
               if v.name == "site_protocol"
-                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
-                  for h in ['http', 'https']
-                    :php
-                      $selected=0;
-                      if($h == $v->value) $selected=1;
-                    if selected
-                      option(value='#{h}' selected='selected') #{h}
-                    else
-                      option(value='#{h}') #{h}
+                :php
+                  $options = [
+                    'http' => 'http', 
+                    'https' => 'https'
+                  ];
+                +select(options, v.name, v.value).form-control.selectpicker
               else
                 +input(v.name, v.value).form-control(type='text')
         +form_submit('Update')
@@ -65,25 +62,19 @@ block panel-body
             label.col-md-4.control-label(for='#{v.name}') #{name}
             .col-md-6
               if v.name == "smtp_auth"
-                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
-                  for h in [0, 1]
-                    :php
-                      $selected=0;
-                      if($h == $v->value) $selected=1;
-                    if selected
-                      option(value='#{h}' selected='selected') #{h}
-                    else
-                      option(value='#{h}') #{h}
+                :php
+                  $options = [
+                    0 => 'disable', 
+                    1 => 'enable'
+                  ];
+                +select(options, v.name, v.value).form-control.selectpicker
               else if v.name == "smtp_secure"
-                select.form-control.selectpicker(name='#{v.name}', id='#{v.name}')
-                  for h in ['tls', 'ssl']
-                    :php
-                      $selected=0;
-                      if($h == $v->value) $selected=1;
-                    if selected
-                      option(value='#{h}' selected='selected') #{h}
-                    else
-                      option(value='#{h}') #{h}
+                :php
+                  $options = [
+                    'tls' => 'tls',
+                    'ssl' => 'ssl'
+                  ];
+                +select(options, v.name, v.value).form-control.selectpicker
               else
                 +input(v.name, v.value).form-control(type='text')
         +form_submit('Update')

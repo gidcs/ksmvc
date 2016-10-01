@@ -25,37 +25,23 @@ block panel-body
       label.col-md-4.control-label(for='username') Username
       .col-md-6
         :php
-          if(!isset($username)) $username=''
+          if(!isset($username)) $username='';
         +input('username', username).form-control(type='text')
     
     .form-group
       label.col-md-4.control-label(for='email') Email
       .col-md-6
         :php
-          if(!isset($email)) $email=''
+          if(!isset($email)) $email='';
         +input('email', email).form-control(type='email')
 
     .form-group
       label.col-md-4.control-label(for='role') Role
       .col-md-6
-        select.form-control.selectpicker#role(name='role')
-          :php
-            if(!isset($role)) $role='';
-            $role_all = Role::All();
-          for v,k in role_all
-            :php
-              if(empty($role))
-                $selected=0;
-              else if($role==$k)
-                $selected=1;
-              else
-                $selected=0;
-              $role_name = $v->_name;
-              
-            if selected
-              option(value='#{k}', selected='selected') #{role_name}
-            else
-              option(value='#{k}') #{role_name}
+        :php
+          $role_all = Role::All();
+          if(!isset($role)) $role='';
+        +select(role_all, 'role', role).form-control.selectpicker
 
     .form-group
       label.col-md-4.control-label(for='password') Password
