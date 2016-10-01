@@ -98,7 +98,10 @@ class Role{
     get all role
   */
   static public function All(){
-    return self::$_role;
+    $roles = [];
+    foreach(self::$_role as $r)
+      $roles[] = $r->_name;
+    return $roles;
   }
 
   /*
