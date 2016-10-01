@@ -10,3 +10,6 @@ mixin form_submit(name)
       button.btn.btn-primary(type='submit')
         | #{name}
 
+mixin input(name, value)
+  input(name='#{name}', id='#{name}', value!='#{value}')&attributes(attributes)
+

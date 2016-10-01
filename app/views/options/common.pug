@@ -38,7 +38,7 @@ block panel-body
                     else
                       option(value='#{h}') #{h}
               else
-                input.form-control(type='text', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+                +input(v.name, v.value).form-control(type='text')
         +form_submit('Update')
 
     .tab-pane.fade#jwt
@@ -50,7 +50,7 @@ block panel-body
           .form-group
             label.col-md-4.control-label(for='#{v.name}') #{name}
             .col-md-6
-              input.form-control(type='text', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+              +input(v.name, v.value).form-control(type='text')
         +form_submit('Update')
 
     .tab-pane.fade#smtp
@@ -85,6 +85,6 @@ block panel-body
                     else
                       option(value='#{h}') #{h}
               else
-                input.form-control(type='#{type}', name='#{v.name}', id='#{v.name}', value='#{v.value}')
+                +input(v.name, v.value).form-control(type='text')
         +form_submit('Update')
 

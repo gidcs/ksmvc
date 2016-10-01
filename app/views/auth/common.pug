@@ -19,7 +19,7 @@ block panel-body
         .col-md-6
           :php
             if(!isset($username)) $username=''
-          input.form-control#username(type='text', name='username', value='#{username}')
+          +input('username', username).form-control(type='text')
    
     if _func != 'Login'
       .form-group
@@ -27,25 +27,25 @@ block panel-body
         .col-md-6
           :php
             if(!isset($email)) $email=''
-          input.form-control#email(type='email', name='email', value='#{email}')
+          +input('email', email).form-control(type='email')
     
     .form-group
       label.col-md-4.control-label(for='password') Password
       .col-md-6
-        input.form-control#password(type='password', name='password')
+        +input('password', '').form-control(type='password')
     
     if _func != 'Login'
       .form-group
         label.col-md-4.control-label(for='password_confirm') Confirm Password
         .col-md-6
-          input.form-control#password_confirm(type='password', name='password_confirm')
+          +input('password_confirm', '').form-control(type='password')
     
     if _func == 'Login'
       .form-group
         .col-md-6.col-md-offset-4
           .checkbox
             label
-              input(type='checkbox', name='remember') 
+              +input('remember', 'remember')(type='checkbox') 
               | Remember Me
     
     .form-group

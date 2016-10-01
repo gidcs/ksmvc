@@ -127,7 +127,7 @@ class AuthController extends Controller{
       );
     } 
      
-    if(isset($post_params['remember'])){
+    if(!empty($post_params['remember'])){
       $this->login($user, 1);
     }
     else{
