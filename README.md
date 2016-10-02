@@ -8,17 +8,20 @@ Environment:
 - Composer
 
 Convention:
-- Pug (formerly known as "Jade") can deal with XSS scripting attack.
-- Illuminate Database can deal with sql injection attack.
+- Pug (formerly known as "Jade") can deal with Cross-site scripting attack.
+- Illuminate Database can deal with SQL injection attack.
 
 Installation
 -------
 
-	git clone https://github.com/gidcs/ksmvc
-	cd ksmvc
-	cp config/config.php.sample config/config.php
-	vi config/config.php
-	composer install
+```
+git clone https://github.com/gidcs/ksmvc
+cd ksmvc
+cp config/config.php.sample config/config.php
+vi config/config.php
+composer install
+./ksmvc migrate
+```
 
 License
 -------
@@ -29,7 +32,9 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+```
+http://www.apache.org/licenses/LICENSE-2.0
+```
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
