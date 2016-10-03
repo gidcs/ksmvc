@@ -4,9 +4,7 @@ block panel-title
   | #{_func} User
 
 block panel-title-right
-  :php
-    $user_url = Route::URI('UsersController#index');
-  a.btn.btn-default(href='#{user_url}') &nbsp;Back&nbsp;
+  a.btn.btn-default.btn-back(href='#') &nbsp;Back&nbsp;
 
 block panel-body
   :php
