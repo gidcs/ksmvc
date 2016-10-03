@@ -11,6 +11,35 @@ class UsersController extends Controller
 {
   private $page_limit = 6;
 
+
+  /*
+   *
+   * render error page
+   *
+   */
+  private function page_error($_func, $error, $params){
+    $data = [
+        '_func' => $_func,
+        'alert_error' => $error
+      ];
+    $data = array_merge($data, $params);
+    $this->render('users/common', $data);
+  }
+
+  /*
+   *
+   * get user object if id is valid
+   *
+   */
+  private function User($id){
+    $this->numeric_check($id);
+    $user=User::where('id', $id)->first();
+    if($user) 
+      return $user;
+    else
+      $this->redirect('/');
+  }
+
   /**
    *
    * Display a listing of the resource.
@@ -26,15 +55,6 @@ class UsersController extends Controller
       'users' => $paginate[1],
     ];
     $this->render('users/index', $data);
-  }
-
-  private function page_error($_func, $error, $params){
-    $data = [
-        '_func' => $_func,
-        'alert_error' => $error
-      ];
-    $data = array_merge($data, $params);
-    $this->render('users/common', $data);
   }
   
   /** 
@@ -128,10 +148,7 @@ class UsersController extends Controller
    */
   public function edit($id)
   {
-    $user = User::where('id', $id)->first();
-    if(empty($user)){
-      $this->redirect('/');
-    }
+    $user = $this->User($id);
     $data = [
       '_func' => 'Edit',
       'uid' => $user->id,
@@ -151,10 +168,7 @@ class UsersController extends Controller
    */
   public function update($post_params, $id)
   {
-    $user = User::where('id', $id)->first();
-    if(empty($user)){
-      $this->redirect('/');
-    }
+    $user = $this->User($id);
     $rules = [
       'username' => 'required|max:20|min:3',
       'email' => 'required|email|max:100',
@@ -208,9 +222,8 @@ class UsersController extends Controller
    */
   public function destroy($id)
   {
-    $this->numeric_check($id);
-    $user=User::where('id', $id)->first();
-    if($user) $user->delete();
+    $user = $this->User($id);
+    $user->delete();
     $this->redirect($_SERVER['HTTP_REFERER']);
   }
 }
