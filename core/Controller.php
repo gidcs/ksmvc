@@ -138,7 +138,7 @@ class Controller{
     else if($page_id<1){
       $this->redirect(Route::URI(get_class($this).'#index')."");
     }
-    else if($page_id>$max_page_size){
+    else if($page_id>$max_page_size && $max_page_size!=0){
       $this->redirect(Route::URI(get_class($this).'#index')."/page/".$max_page_size);
     }
     return [ $max_page_size, $obj->take($limit)->offset(($page_id-1)*($limit))->get() ];
