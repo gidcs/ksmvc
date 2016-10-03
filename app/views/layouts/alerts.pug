@@ -4,11 +4,11 @@ if alert_error
       .col-md-10.col-md-offset-1
         .alert.alert-danger
           a(href='#' class='close' data-dismiss='alert' aria-label='close') &times;
-          strong Error: #{alert_error}
+          strong= 'Error: ' + alert_error
 if alert_success
   .container
     .row
       .col-md-10.col-md-offset-1
         .alert.alert-success
           a(href='#' class='close' data-dismiss='alert' aria-label='close') &times;
-          strong Success: #{alert_success}
+          strong= 'Success: ' + alert_success
