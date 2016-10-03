@@ -36,7 +36,9 @@ block panel-body
                 +select(options, v.name, v.value).form-control.selectpicker
               else
                 +input(v.name, v.value).form-control(type='text')
-        +form_submit('Update')
+        .form-group
+          .col-md-6.col-md-offset-4
+            +form_submit('Update')
 
     .tab-pane.fade#jwt
       form.form-horizontal(role='form', method='POST', action='#{post_url}jwt')
@@ -48,7 +50,9 @@ block panel-body
             label.col-md-4.control-label(for='#{v.name}') #{name}
             .col-md-6
               +input(v.name, v.value).form-control(type='text')
-        +form_submit('Update')
+        .form-group
+          .col-md-6.col-md-offset-4
+            +form_submit('Update')
 
     .tab-pane.fade#smtp
       form.form-horizontal(role='form', method='POST', action='#{post_url}smtp')
@@ -77,5 +81,7 @@ block panel-body
                 +select(options, v.name, v.value).form-control.selectpicker
               else
                 +input(v.name, v.value).form-control(type='text')
-        +form_submit('Update')
+        .form-group
+          .col-md-6.col-md-offset-4
+            +form_submit('Update')
 
