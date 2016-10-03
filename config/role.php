@@ -9,10 +9,12 @@ Role::add([
 
 $visitor_permissions = [
   'Auth',
-  'HomeController',
+  'PostsController#index',
+  'PostsController#show'
 ];
 
 $user_permissions = array_merge($visitor_permissions,[
+  'PostsController'
 ]);
 
 $operator_permissions = array_merge($user_permissions, [  

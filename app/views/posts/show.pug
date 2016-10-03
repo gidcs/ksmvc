@@ -1,0 +1,33 @@
+extends ../layouts/base
+
+block panel-title
+  span= post_title
+
+block panel-title-right
+  :php
+    $edit_url = Route::URI('PostsController#edit');
+    $destroy_url = Route::URI('PostsController#destroy');
+  
+  if has_permission
+    form(role='form', method='POST', action='#{destroy_url}#{post_id}')
+      +input_method('DELETE')
+      a.btn.btn-primary(href='#{edit_url}#{post_id}/edit', data-toggle='tooltip', title='Edit')
+        span.glyphicon.glyphicon-edit(aria-hidden='true')
+      button.btn.btn-danger(type='submit', data-toggle='tooltip', title='Delete')
+        span.glyphicon.glyphicon-trash(aria-hidden='true')
+
+block panel-body
+  | #{post_content}
+
+block panel-footer
+  .panel-footer
+    | By 
+    span= post_author
+    |  on 
+    span= post_date
+
+block other
+  :php
+    $back_url = Route::URI('PostsController#index');
+  .text-center
+    a.btn.btn-default(href='#{back_url}') &nbsp;Back&nbsp;

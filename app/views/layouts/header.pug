@@ -53,6 +53,12 @@ body#app-layout
               $header_admin = Role::is_role('Admin');
 
           if header_login_user 
+            li
+              :php
+                $create_post_url = Route::URI('PostsController#create');
+              a(href='#{create_post_url}')
+                span.glyphicon.glyphicon-plus(aria-hidden='true')
+                |  Post
             if header_admin
               // Management Links
               li.dropdown

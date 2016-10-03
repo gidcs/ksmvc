@@ -14,4 +14,12 @@ class User extends Eloquent{
   {
     return $this->hasOne('PasswordReset','email','email');
   }
+
+  /**
+   * Get the post record associated with the user.
+   */
+  public function posts()
+  {
+    return $this->hasMany('Post');
+  }
 }

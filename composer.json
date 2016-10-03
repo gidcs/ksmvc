@@ -11,7 +11,8 @@
     "illuminate/database": "^5.2",
     "firebase/php-jwt": "^3.0",
     "PHPMailer/PHPMailer": "^5.2",
-    "pug-php/pug": "^2.4"
+    "pug-php/pug": "^2.4",
+    "erusev/parsedown": "^1.6"
   },
   "autoload": {
     "psr-4": {

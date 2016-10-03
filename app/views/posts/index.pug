@@ -1,0 +1,60 @@
+extends ../layouts/index
+
+block body 
+  :php
+    $count = 0;
+    $post_url = Route::URI('PostsController#show');
+  for p in posts
+    - count++
+    a(href="#{post_url}#{p.id}")
+      :php
+        $p_title = (strlen($p->title)>=50)?substr($p->title,0,50).'...':$p->title;
+      h2= p_title
+    p
+      | By 
+      span= p.user.username
+      span.pull-right= p.created_at
+    hr.divider
+  unless count
+    p.text-center No post exists.
+
+  .text-center
+    .btn-group
+      :php
+        $index_url = Route::URI('PostsController#index');
+      if page_id == 1
+        - prev_href = ''
+        - prev_disabled = 'disabled'
+      else if page_id == 2
+        - prev_href = ''
+        - prev_disabled = ''
+      else
+        - prev_id = page_id - 1
+        - prev_href = 'page/' + prev_id
+        - prev_disabled = ''
+
+      a.btn.btn-default(href='#{index_url}', class='#{prev_disabled}')
+        span.glyphicon.glyphicon-arrow-left(aria-hidden='true')
+      a.btn.btn-default(href='#{index_url}#{prev_href}', class='#{prev_disabled}')
+        span.glyphicon.glyphicon-menu-left(aria-hidden='true')
+
+      :php
+        if($page_id==$max_id){
+          $next_href = '#';
+          $last_href = '#';
+          $next_disabled = 'disabled';
+          $last_disabled = 'disabled';
+        }
+        else{
+          $next_id = $page_id + 1;
+          $next_href = $index_url.'page/'.$next_id;
+          $last_href = $index_url.'page/'.$max_id;
+          $next_disabled = '';
+          $last_disabled = '';
+        }
+
+      a.btn.btn-default(href='#{next_href}', class='#{next_disabled}')
+        span.glyphicon.glyphicon-menu-right(aria-hidden='true')
+      a.btn.btn-default(href='#{last_href}', class='#{last_disabled}')
+        span.glyphicon.glyphicon-arrow-right(aria-hidden='true')  
+

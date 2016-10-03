@@ -1,0 +1,53 @@
+extends ../layouts/base
+
+block panel-title    
+  | #{_func} Post
+
+block panel-title-right
+  :php
+    $back_url = Route::URI('PostsController#index');
+  a.btn.btn-default(href='#{back_url}') &nbsp;Back&nbsp;
+
+block panel-body
+  :php
+    if(strcmp($_func,'Create')==0)
+      $post_url = Route::URI('PostsController#store');
+    else
+      $post_url = Route::URI('PostsController#update').$pid.'/edit';
+  
+  form(role='form', method='POST', action='#{post_url}')
+    
+    unless _func == 'Create'
+      +input_method('PUT')
+      +input_hidden('pid', pid)
+
+    .form-group
+      :php
+        if(!isset($title)) $title=''
+      +input('title', title).form-control(type='text', placeholder='Enter title here')
+
+
+    .form-group
+      :php
+        if(!isset($content)) $content=''
+      +textarea('content', content).form-control(rows='12', placeholder='Markdown is now supported.')
+
+    .form-group
+      .text-center
+        if _func == 'Create'
+          +form_submit(_func)
+        else
+          +form_submit('Update')
+
+block panel-footer
+  :php
+    if(!isset($date)) $date=''
+  if date
+    .panel-footer
+      | By 
+      span= author
+      .pull-right
+        | Last modified on 
+        span= date
+
+
