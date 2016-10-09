@@ -208,7 +208,11 @@ class Role{
     check if user's role is $role_name
   */
   static public function is_role($role_name){
-    $user = Role::User();
-    return ($user->role==self::find_role_id($role_name));
+    $user = self::User();
+    $current_role = self::find_role_id('Visitor');  
+    if($user){
+      $current_role = $user->role;
+    }
+    return ($current_role==self::find_role_id($role_name));
   }
 }
