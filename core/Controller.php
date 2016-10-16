@@ -27,6 +27,8 @@ class Controller{
       $data['alert_success']='';
     if(!isset($data['alert_error']))
       $data['alert_error']='';
+    if(!isset($data['referer']))
+      $data['referer']=$_SERVER['HTTP_REFERER'];
     $output = $pug->render($view_file, $data);
     echo $output;
     exit();
