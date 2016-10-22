@@ -1,45 +1,12 @@
 <?php
 
-use Pug\Pug as Pug;
+use Illuminate\Database\QueryException;
 
 class Controller{
   //The child class inherits all of the public and protected member of the parent class by using the extends keyword in the declaration.
 
-  protected function redirect($url){
-    header('Location: '.$url);
-    exit();
-  }
-  
-  protected function view($view, $data=[]){
-    $view_file='../app/views/'.$view.'.php';
-    file_checks($view_file);
-    require_once($view_file);
-    exit();
-  }
+  public $_middleware;
 
-  protected function render($view, $data=[]){
-    $pug = new Pug([
-      'prettyprint' => true,
-      'extension' => '.pug'
-    ]);
-    $view_file='../app/views/'.$view.'.pug';
-    if(!isset($data['alert_success'])) 
-      $data['alert_success']='';
-    if(!isset($data['alert_error']))
-      $data['alert_error']='';
-    if(!isset($data['referer']))
-      $data['referer']=(empty($_SERVER['HTTP_REFERER']))?'':$_SERVER['HTTP_REFERER'];
-    $output = $pug->render($view_file, $data);
-    echo $output;
-    exit();
-  }
-  
-  protected function includes($view, $data=[]){
-    $view_file='../app/views/'.$view.'.php';
-    file_checks($view_file);
-    require_once($view_file);
-  }
-  
   protected function validate($rules=[], $post_params=[]){
     foreach($rules as $k => $v){
       //required
@@ -135,20 +102,20 @@ class Controller{
     $row_count = $obj->count();
     $max_page_size = intval(ceil($row_count/($limit)));
     if(!is_numeric($page_id)){
-      $this->redirect('/');
+      redirect('/');
     } 
     else if($page_id<1){
-      $this->redirect(Route::URI(get_class($this).'#index')."");
+      redirect(Route::URI(get_class($this).'#index')."");
     }
     else if($page_id>$max_page_size && $max_page_size!=0){
-      $this->redirect(Route::URI(get_class($this).'#index')."/page/".$max_page_size);
+      redirect(Route::URI(get_class($this).'#index')."/page/".$max_page_size);
     }
     return [ $max_page_size, $obj->take($limit)->offset(($page_id-1)*($limit))->get() ];
   }
 
   protected function numeric_check($id){
     if(!is_numeric($id)){
-      $this->redirect('/');
+      redirect('/');
     }
   }
 }

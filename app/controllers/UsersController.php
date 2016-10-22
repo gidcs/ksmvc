@@ -12,6 +12,15 @@ class UsersController extends Controller
   private $page_limit = 6;
 
 
+  public $_middleware = [
+    [
+      'CheckRole', [
+        'role'=>'Admin',
+        'op' => '>='
+      ]
+    ]
+  ];
+
   /*
    *
    * render error page
@@ -23,7 +32,7 @@ class UsersController extends Controller
         'alert_error' => $error
       ];
     $data = array_merge($data, $params);
-    $this->render('users/common', $data);
+    render('users/common', $data);
   }
 
   /*
@@ -37,7 +46,7 @@ class UsersController extends Controller
     if($user) 
       return $user;
     else
-      $this->redirect('/');
+      redirect('/');
   }
 
   /**
@@ -54,7 +63,7 @@ class UsersController extends Controller
       'max_id' => $paginate[0],
       'users' => $paginate[1],
     ];
-    $this->render('users/index', $data);
+    render('users/index', $data);
   }
   
   /** 
@@ -68,7 +77,7 @@ class UsersController extends Controller
     $data = [
       '_func' => 'Create'
     ];
-    $this->render('users/common', $data);  
+    render('users/common', $data);  
   }
   
   /**
@@ -125,7 +134,7 @@ class UsersController extends Controller
         $post_params
       );
     }
-    $this->redirect(Route::URI('Users#index'));
+    redirect(Route::URI('Users#index'));
   }
   
   /**
@@ -137,7 +146,7 @@ class UsersController extends Controller
   public function show($id)
   {
     //useless
-    $this->render('users/show', $data);
+    render('users/show', $data);
   }
   
   /**
@@ -156,7 +165,7 @@ class UsersController extends Controller
       'email' => $user->email,
       'role' => $user->role,
     ];
-    $this->render('users/common', $data);
+    render('users/common', $data);
   }
   
   /**
@@ -211,7 +220,7 @@ class UsersController extends Controller
       'alert_success' => $user->username."'".'s information is updated now.'
     ];
     $data = array_merge($data, $post_params);
-    $this->render('users/common', $data);
+    render('users/common', $data);
   }
   
   /**
@@ -224,6 +233,6 @@ class UsersController extends Controller
   {
     $user = $this->User($id);
     $user->delete();
-    $this->redirect($_SERVER['HTTP_REFERER']);
+    redirect($_SERVER['HTTP_REFERER']);
   }
 }

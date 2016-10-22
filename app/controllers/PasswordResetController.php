@@ -1,27 +1,29 @@
 <?php
 
-use Illuminate\Database\QueryException;
-
 class PasswordResetController extends Controller{
   
-  function __construct(){
-    $auth = new AuthController;
-    $auth->_redirect_if_login();
-  }
-  
+  public $_middleware = [
+    [
+      'CheckRole', [
+        'role'=>'Visitor',
+        'op' => '='
+      ]
+    ]
+  ];
+
   private function page_error($type, $error, $params=[]){
     $data = [
       'alert_error' => $error
     ];
     $data = array_merge($data, $params);
     if($type==0)
-      $this->render('password_reset/getPasswordReset', $data);
+      render('password_reset/getPasswordReset', $data);
     else
-      $this->render('password_reset/getPasswordResetActual', $data);
+      render('password_reset/getPasswordResetActual', $data);
   }
 
   public function getPasswordReset(){
-    $this->render('password_reset/getPasswordReset');
+    render('password_reset/getPasswordReset');
   } 
   
   public function postPasswordReset($post_params = []){
@@ -112,14 +114,14 @@ class PasswordResetController extends Controller{
     $data = [
       'alert_success' => "We've sent an email to your email address. Click the link in the email to reset your password."
     ];
-    $this->render('password_reset/getPasswordReset', $data);
+    render('password_reset/getPasswordReset', $data);
   }
   
   public function getPasswordResetActual($email, $token){
     $entry = PasswordReset::where('email',$email)->where('token',$token)->first();
     //check if valid
     if(empty($entry)){
-      $this->redirect('/');
+      redirect('/');
     }
     
     //check if time vaild
@@ -139,7 +141,7 @@ class PasswordResetController extends Controller{
       'email' => $email,
       'token' => $token
     ];
-    $this->render('password_reset/getPasswordResetActual', $data);
+    render('password_reset/getPasswordResetActual', $data);
   }
   
   public function postPasswordResetActual($post_params = [], $email, $token){
@@ -162,7 +164,7 @@ class PasswordResetController extends Controller{
     //check if token valid
     $entry = PasswordReset::where('email',$email)->where('token',$token)->first();
     if(empty($entry)){
-      $this->redirect('/');
+      redirect('/');
     }
     
     //check if time vaild
@@ -185,6 +187,6 @@ class PasswordResetController extends Controller{
     //login
     $auth = new AuthController;
     $auth->login($entry->user);
-    $this->redirect('/');
+    redirect('/');
   }
 }

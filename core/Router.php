@@ -31,6 +31,19 @@ class Router{
         //checks if the class method exists
         method_checks($this->_controller,$this->_method);
       }
+      if(!empty($this->_controller->_middleware)){
+        foreach ($this->_controller->_middleware as $_middleware) {
+          $_middleware_params = $_middleware[1];
+          $_middleware = $_middleware[0];
+          $middleware_file = '../app/middleware/'.$_middleware.'.php';
+          file_checks($middleware_file);
+          require_once($middleware_file);
+          $_middleware = new $_middleware;
+          method_checks($_middleware, 'handle');
+          call_user_func_array(array($_middleware, 'handle'), $_middleware_params);
+        }
+      }
+
       call_user_func_array(array($this->_controller,$this->_method),$this->_parameter);
     }
     else{
