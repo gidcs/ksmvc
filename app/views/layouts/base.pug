@@ -1,19 +1,12 @@
-include ../layouts/header
-include ../layouts/alerts
-
-.container
-  .row
-    .col-md-10.col-md-offset-1
-      .panel.panel-default
-        .panel-heading.clearfix
-          .panel-title.pull-left
-            block panel-title
-          .pull-right
-            block panel-title-right
-        .panel-body
-          block panel-body
-        block panel-footer
-      block other
-
-include ../layouts/footer
+doctype html
+html
+  head
+    block header
+      include ../layouts/header
+  body
+    block nav
+      include ../layouts/nav
+    block content
+    block footer
+      include ../layouts/footer
 

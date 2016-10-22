@@ -1,92 +1,15 @@
-include ../include/lib
+meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no') 
 
-doctype html
-head
-  meta(charset='utf-8')
-  meta(http-equiv='X-UA-Compatible', content='IE=edge')
-  meta(name='viewport', content='width=device-width, initial-scale=1') 
+:php
+  $header_description = App::info('description');
+  $header_title = App::info('title');
+  $header_subtitle = App::info('subtitle');
 
-  :php
-    $header_description = App::info('description');
-    $header_title = App::info('title');
-    $header_subtitle = App::info('subtitle');
+meta(name='description', content='#{header_description}')
+title= header_title+' - '+header_subtitle
 
-  meta(name='description', content='#{header_description}')
-  title= header_title+' - '+header_subtitle
-  
-  // Bootstrap core CSS
-  link(type='text/css', rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css')
- 
-  // Bootstrap-select CSS
-  link(type='text/css', rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css')
-
-  // Custom styles for this template
-  link(type='text/css', rel='stylesheet', href='/css/main.css')
-
-body#app-layout
-  // Static navbar
-  nav.navbar.navbar-default.navbar-static-top
-    .container
-      .navbar-header
-        
-        // Collapsed Hamburger
-        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#app-navbar-collapse')
-          span.sr-only Toggle Navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        
-        // Branding Image
-        a.navbar-brand(href='/')= header_title
-      
-      #app-navbar-collapse.collapse.navbar-collapse
-        
-        // Left Side Of Navbar
-        ul.nav.navbar-nav 
-          li
-            a(href='/') Home
-
-          :php
-            $header_login_user = Role::User();
-            $header_admin = 0;
-            if($header_login_user)
-              $header_admin = Role::is_role('Admin');
-
-          if header_login_user 
-            if header_admin
-              // Management Links
-              li.dropdown
-                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                  | Manage 
-                  span.caret
-
-                ul.dropdown-menu(role='menu')
-                  li
-                    a(href='/manage/settings') Settings
-                  li
-                    :php $header_users_url = Route::URI('UsersController#index');
-                    a(href='#{header_users_url}') Users 
-        
-        // Right Side Of Navbar
-        ul.nav.navbar-nav.navbar-right
-          if header_login_user
-            // Authentication Links
-            li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                span= header_login_user.username
-                span.caret
-              
-              ul.dropdown-menu(role='menu')
-                li
-                  :php $header_profile_url = Route::URI('AuthController@getProfile')
-                  a(href='#{header_profile_url}') Profile
-                li
-                  :php $header_logout_url = Route::URI('AuthController@getLogout')
-                  a(href='#{header_logout_url}') Logout 
-          else
-            li
-              :php $header_login_url = Route::URI('AuthController@getLogin')
-              a(href='#{header_login_url}') Login
-            li
-              :php $header_register_url = Route::URI('AuthController@getRegister')
-              a(href='#{header_register_url}') Register
+// CSS
+link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+link(href='http://materializecss.com/dist/css/materialize.min.css', type='text/css', rel='stylesheet', media='screen,projection')
+link(href='/css/main.css', type='text/css', rel='stylesheet', media='screen,projection')

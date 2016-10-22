@@ -1,0 +1,52 @@
+:php
+  $header_login_user = Role::User();
+  $header_admin = 0;
+  if($header_login_user)
+    $header_admin = Role::is_role('Admin');
+
+mixin li(name, url)
+  li
+    a(href='#{url}')= name
+
+mixin manage_links()
+  if header_admin
+    +li('Dashboard', '#')
+  +li('Profile', '#')
+  +li('Logout', '#')
+
+if header_login_user 
+  // Management Links
+  ul#dropdown1.dropdown-content
+    +manage_links
+
+// navbar
+.navbar-fixed
+  nav.white(role='navigation')
+    .nav-wrapper.container
+      a.brand-logo#logo-container(href='/')= header_title
+      
+      ul.right.hide-on-med-and-down
+        if header_login_user
+          li
+            a.dropdown-button(data-beloworigin='true', data-activates='dropdown1')
+              | Manage
+              i.material-icons.right arrow_drop_down
+        else
+          +li('Login','#')
+          +li('Register', '#')
+
+      ul.side-nav#nav-mobile
+        ul.collapsible.collapsible-accordion
+          if header_login_user
+            li.bold
+              a.collapsible-header.waves-effect.waves-teal Manage
+              .collapsible-body
+                ul
+                  +manage_links
+          else
+            +li('Login','#')
+            +li('Register', '#')
+
+      a.button-collapse(data-activates='nav-mobile', href='#')
+        i.material-icons menu
+
