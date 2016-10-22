@@ -1,13 +1,13 @@
 <?php
 
 class App{
-  static private $_instance;
-  static private $_router;
-  static private $_information;
+  private static $_instance;
+  private static $_router;
+  private static $_information;
   
   private function __construct(){}
   
-  static public function instance() {
+  public static function instance() {
     if(!self::$_instance) { 
       self::$_instance = new App();
     }
@@ -29,7 +29,7 @@ class App{
     self::$_router->run();
   }
   
-  static public function info($name){
+  public static function info($name){
     return self::$_information['site_'.$name];
   }
   

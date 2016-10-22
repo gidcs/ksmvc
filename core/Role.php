@@ -78,16 +78,16 @@ class RoleClass {
 }
 
 class Role{
-  static private $_role = [];
-  static private $_role_id = []; //use role name as index
-  static private $_count = 0;
-  static private $_user;
+  private static $_role = [];
+  private static $_role_id = []; //use role name as index
+  private static $_count = 0;
+  private static $_user;
   private function __construct(){}  
 
   /*
     boot up function
   */
-  static public function boot(){
+  public static function boot(){
     //The running php file is in public directory.
     $config_file = '../config/role.php';
     file_checks($config_file);
@@ -97,7 +97,7 @@ class Role{
   /*
     get all role
   */
-  static public function All(){
+  public static function All(){
     $roles = [];
     foreach(self::$_role as $r)
       $roles[] = $r->_name;
@@ -107,7 +107,7 @@ class Role{
   /*
     find role id by role name
   */
-  static public function find_role_id($role_name){
+  public static function find_role_id($role_name){
     if(isset(self::$_role_id[$role_name]))
       return self::$_role_id[$role_name];
     else
@@ -117,24 +117,24 @@ class Role{
   /*
     find role name by role id
   */
-  static public function find_role_name($id){
+  public static function find_role_name($id){
     return self::$_role[$id]->_name;
   }
 
   /*
     find role obj by role name
   */
-  static public function find($role_name){
+  public static function find($role_name){
     return self::find_role_obj($role_name);
   }
-  static private function find_role_obj($role_name){
+  private static function find_role_obj($role_name){
     return self::$_role[self::find_role_id($role_name)];
   }
 
   /* 
     new role by role name
   */
-  static private function new_role($role_name){
+  private static function new_role($role_name){
     self::$_role_id[$role_name] = self::$_count;
     self::$_role[self::$_count] = new RoleClass($role_name);
     self::$_count++;
@@ -143,7 +143,7 @@ class Role{
   /*
     add roles
   */
-  static public function add($role = []){
+  public static function add($role = []){
     foreach($role as $r){
       if(self::find_role_id($r)==-1){
         self::new_role($r);
@@ -157,7 +157,7 @@ class Role{
   /*
     dump roles' information
   */
-  static public function dump(){
+  public static function dump(){
     echo __CLASS__.".".__FUNCTION__." start...\n";
     foreach(self::$_role as $k=>$r){
       echo $k.' ';
@@ -174,7 +174,7 @@ class Role{
   /*
     get User obj
   */
-  static public function User(){
+  public static function User(){
     if(self::$_user){
       return self::$_user;
     }
@@ -193,7 +193,7 @@ class Role{
   /*
     check permission to verify if user can access controller
   */
-  static public function check($controller, $method){
+  public static function check($controller, $method){
     $user = self::User();
     $current_role = self::find_role_obj('Visitor');
     if($user){
@@ -207,7 +207,7 @@ class Role{
   /*
     check if user's role is $role_name
   */
-  static public function is_role($role_name){
+  public static function is_role($role_name){
     $user = self::User();
     $current_role = self::find_role_id('Visitor');  
     if($user){
