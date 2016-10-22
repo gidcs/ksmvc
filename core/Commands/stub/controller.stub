@@ -9,6 +9,16 @@
 
 class DummyClass extends Controller
 {
+
+  public $_middleware = [
+    [
+      'CheckRole', [
+        'role'=>'Visitor',
+        'op' => '!='
+      ]
+    ]
+  ];
+
   /**
    *
    * Display a listing of the resource.
@@ -17,7 +27,7 @@ class DummyClass extends Controller
   public function index($id=1)
   {
     //
-    $this->render('Dummy/index', $data);
+    render('Dummy/index', $data);
   }
   
   /** 
@@ -28,7 +38,7 @@ class DummyClass extends Controller
   public function create()
   {   
     //
-    $this->render('Dummy/create', $data);  
+    render('Dummy/create', $data);  
   }
   
   /**
@@ -51,7 +61,7 @@ class DummyClass extends Controller
   public function show($id)
   {
     //
-    $this->render('Dummy/show', $data);
+    render('Dummy/show', $data);
   }
   
   /**
@@ -63,7 +73,7 @@ class DummyClass extends Controller
   public function edit($id)
   {
     //
-    $this->render('Dummy/edit', $data);
+    render('Dummy/edit', $data);
   }
   
   /**

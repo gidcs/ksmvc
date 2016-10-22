@@ -6,9 +6,9 @@ block panel-title
 block panel-body
   :php
     if(strcmp($_func,'Profile')==0)
-      $post_url = Route::URI('Auth#putProfile');
+      $post_url = Route::URI($_func.'#put');
     else
-      $post_url = Route::URI('Auth#post'.$_func);
+      $post_url = Route::URI($_func.'#post');
   form.form-horizontal(role='form', method='POST', action='#{post_url}')
     if _func == 'Profile'
       +input_method('PUT')

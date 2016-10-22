@@ -1,6 +1,6 @@
 <?php
 
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 class Token{
   private static $jwt_key = 'default_key';

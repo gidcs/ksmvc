@@ -1,76 +1,5 @@
 <?php
 
-class RoleClass {
-
-  public $_name;
-  private $_allowed_method = [];
-  
-  public function __construct($name){
-    if(empty($name)){
-      die("Error: Name in RoleClass cannot be blank!");
-    }
-    $this->_name = $name;
-  }
-  
-  public function set_permissions($method){
-    if(!count($method)){
-      die("Error: method in RoleClass cannot be empty!");
-    }
-    foreach($method as $m){
-      $this->add($m);
-    }  
-  }
-
-  public function add($method){
-    if(empty($method)){
-      die("Error: method in RoleClass cannot be blank!");
-    }
-    if(strpos(',',$method)){
-      echo $method.'\n';
-      die("Error: comma should not be used in method add of RoleClass!");
-    }
-    //parse method
-    if(strpos($method,'#')){
-      $method = explode('#',$method);
-    }
-    else if(strpos($method,'@')){
-      $method = explode('@',$method);
-    }
-    if(count($method)==2){
-      $controller=$method[0];
-      $method=$method[1];
-    }
-    else{
-      $controller=$method;
-      $method="any";
-    }
-    if(Route::exists($controller,$method)){ //check if method exists
-      $this->_allowed_method[$controller.'.'.$method] = 1;
-    }
-    else{
-      die("Error: method($controller.$method) in RoleClass does not exist!");
-    }
-  }
-
-  public function has_permission($controller, $method){
-    if(!empty($this->_allowed_method[$controller.'.any'])){
-      //echo __CLASS__.".".__FUNCTION__." controller($controller) match.\n";
-      return 1;
-    }
-    else if(!empty($this->_allowed_method[$controller.'.'.$method])){
-      //echo __CLASS__.".".__FUNCTION__." controller($controller) match.\n";
-      return 1;
-    }
-    //echo __CLASS__.".".__FUNCTION__." controller($controller) mismatch.\n";
-    return 0;
-  }
-  
-  public function dump(){
-    echo __CLASS__.".".__FUNCTION__." Role name: $this->_name.\n";
-    var_dump($this->_allowed_method);
-  }
-}
-
 class Role{
   private static $_role = [];
   private static $_role_id = []; //use role name as index
@@ -94,7 +23,7 @@ class Role{
   public static function All(){
     $roles = [];
     foreach(self::$_role as $r)
-      $roles[] = $r->_name;
+      $roles[] = $r;
     return $roles;
   }
 
@@ -112,17 +41,7 @@ class Role{
     find role name by role id
   */
   public static function find_role_name($id){
-    return self::$_role[$id]->_name;
-  }
-
-  /*
-    find role obj by role name
-  */
-  public static function find($role_name){
-    return self::find_role_obj($role_name);
-  }
-  private static function find_role_obj($role_name){
-    return self::$_role[self::find_role_id($role_name)];
+    return self::$_role[$id];
   }
 
   /* 
@@ -130,7 +49,7 @@ class Role{
   */
   private static function new_role($role_name){
     self::$_role_id[$role_name] = self::$_count;
-    self::$_role[self::$_count] = new RoleClass($role_name);
+    self::$_role[self::$_count] = $role_name;
     self::$_count++;
   }
  
@@ -185,28 +104,18 @@ class Role{
   }
 
   /*
-    check permission to verify if user can access controller
-  */
-  public static function check($controller, $method){
-    $user = self::User();
-    $current_role = self::find_role_obj('Visitor');
-    if($user){
-      $current_role = self::$_role[$user->role];
-    }
-    if(!$current_role->has_permission($controller, $method)){
-      die("Error: Permission denied.\n");
-    }
-  }
-
-  /*
     check if user's role is $role_name
   */
   public static function is_role($role_name){
+    return self::role_check($role_name, '=');
+  }
+
+  public static function role_check($role_name, $op='='){
     $user = self::User();
     $current_role = self::find_role_id('Visitor');  
     if($user){
       $current_role = $user->role;
     }
-    return ($current_role==self::find_role_id($role_name));
+    return dynamic_compare($current_role, $op, self::find_role_id($role_name));
   }
 }

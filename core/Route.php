@@ -137,21 +137,19 @@ class Route{
           }
         }
       }
-      //Role check 
-      Role::check($v['controller'],$v['method']);
       //preparing return object
       return new Router($v['controller'], $v['method'], $param);
     }
   }
   
   public static function Auth(){
-    self::get('/login', 'Auth#getLogin');
-    self::post('/login', 'Auth#postLogin');
-    self::get('/logout', 'Auth#getLogout');
-    self::get('/register', 'Auth#getRegister');
-    self::post('/register', 'Auth#postRegister');
-    self::get('/profile', 'Auth#getProfile');
-    self::put('/profile', 'Auth#putProfile');
+    self::get('/login', 'Login#get');
+    self::post('/login', 'Login#post');
+    self::get('/logout', 'Logout#get');
+    self::get('/register', 'Register#get');
+    self::post('/register', 'Register#post');
+    self::get('/profile', 'Profile#get');
+    self::put('/profile', 'Profile#put');
     self::get('/password_reset', 'PasswordReset#getPasswordReset');
     self::post('/password_reset', 'PasswordReset#postPasswordReset');
     self::get('/password_reset/:email/:token', 'PasswordReset#getPasswordResetActual');

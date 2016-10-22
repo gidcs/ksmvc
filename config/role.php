@@ -7,25 +7,3 @@ Role::add([
   'Admin',
 ]);
 
-$visitor_permissions = [
-  'Auth',
-  'PasswordReset',
-  'Home',
-];
-
-$user_permissions = array_merge($visitor_permissions,[
-]);
-
-$operator_permissions = array_merge($user_permissions, [  
-]);
-
-$admin_permissions = array_merge($operator_permissions, [
-  'Options',
-  'Users',
-]);
-
-Role::find('Visitor')->set_permissions($visitor_permissions);
-Role::find('User')->set_permissions($user_permissions);
-Role::find('Operator')->set_permissions($operator_permissions);
-Role::find('Admin')->set_permissions($admin_permissions); 
-

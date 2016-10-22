@@ -7,8 +7,19 @@
  * 
  */
 
+
 class OptionsController extends Controller
 {
+  
+  public $_middleware = [
+    [
+      'CheckRole', [
+        'role'=>'Admin',
+        'op' => '>='
+      ]
+    ]
+  ];
+  
   /**
    * Show the form for editing the specified resource.
    *
@@ -29,20 +40,20 @@ class OptionsController extends Controller
       'jwt' => $jwt,
       'smtp' => $smtp
     ];
-    $this->render('options/common', $data);
+    render('options/common', $data);
   }
   
   /**
    * Update the specified resource in storage.
    *
    * @param  array  $post_params = $_POST
-   * @param  int  $id
+   * @param  string  $name
    *
    */
   public function update($post_params, $name)
   {
     if(!is_string($name)){
-      $this->redirect('/');
+      redirect('/');
     }
     
     switch ($name) {
@@ -52,23 +63,23 @@ class OptionsController extends Controller
         foreach($post_params as $k=>$v){
           if($k=='_method') continue;
           if(strpos($k, $name)===false) 
-            $this->redirect('/');
+            redirect('/');
           $option = Option::where('name',$k)->first();
-          if(empty($option)) $this->redirect('/');
+          if(empty($option)) redirect('/');
           
           //value checking
           switch ($k){
             case "site_protocol" :
               if($v!="http" && $v!="https")
-                $this->redirect('/');
+                redirect('/');
               break; 
             case "smtp_auth":
               if($v!="0" && $v!="1")
-                $this->redirect('/');
+                redirect('/');
               break;
             case "smtp_secure":
               if($v!="tls" && $v!="ssl") 
-                $this->redirect('/');
+                redirect('/');
               break;
             case "smtp_password" : 
               if(empty($v)) continue 2;
@@ -87,13 +98,12 @@ class OptionsController extends Controller
           $option->save();
         }
         if($name=="jwt")
-          $this->redirect('/');
+          redirect('/');
         else
-          $this->redirect($_SERVER['HTTP_REFERER']);
+          redirect($_SERVER['HTTP_REFERER']);
         break;
       default:
-        $this->redirect('/');
+        redirect('/');
     }
-  }
-  
+  } 
 }
