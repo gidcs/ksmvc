@@ -45,10 +45,10 @@ class Route{
     }
     else{
       $controller_bak = $controller;
-      $controller = ucfirst($controller);
       if(!isset(self::$_uri[$controller])){
         self::$_uri[$controller] = $uri;
       }
+      $controller = ucfirst($controller);
       if(strpos($controller,'#')){
         $controller = explode('#',$controller);
       }
@@ -93,15 +93,14 @@ class Route{
   }
 
   public static function exists($controller, $method){
-    $method='';
     if(empty($controller)){
       die("Error: controller in exists cannot be blank!");
     }
     foreach(self::$_route as $v){
       if(!is_callable($v['controller'])){
         if(strcmp($v['controller'],$controller)==0){
-          if(empty($method)) return 1;
-          else if(strcmp($v['method'],$method)==0) return 1;
+          if(strcmp($method, 'any')==0) return 1;
+          else if(strcmp($v['method'], $method)==0) return 1;
         }
       }
     }
@@ -146,17 +145,17 @@ class Route{
   }
   
   public static function Auth(){
-    self::get('/login', 'AuthController#getLogin');
-    self::post('/login', 'AuthController#postLogin');
-    self::get('/logout', 'AuthController#getLogout');
-    self::get('/register', 'AuthController#getRegister');
-    self::post('/register', 'AuthController#postRegister');
-    self::get('/profile', 'AuthController#getProfile');
-    self::put('/profile', 'AuthController#putProfile');
-    self::get('/password_reset', 'PasswordResetController#getPasswordReset');
-    self::post('/password_reset', 'PasswordResetController#postPasswordReset');
-    self::get('/password_reset/:email/:token', 'PasswordResetController#getPasswordResetActual');
-    self::post('/password_reset/:email/:token', 'PasswordResetController#postPasswordResetActual');
+    self::get('/login', 'Auth#getLogin');
+    self::post('/login', 'Auth#postLogin');
+    self::get('/logout', 'Auth#getLogout');
+    self::get('/register', 'Auth#getRegister');
+    self::post('/register', 'Auth#postRegister');
+    self::get('/profile', 'Auth#getProfile');
+    self::put('/profile', 'Auth#putProfile');
+    self::get('/password_reset', 'PasswordReset#getPasswordReset');
+    self::post('/password_reset', 'PasswordReset#postPasswordReset');
+    self::get('/password_reset/:email/:token', 'PasswordReset#getPasswordResetActual');
+    self::post('/password_reset/:email/:token', 'PasswordReset#postPasswordResetActual');
   }
   
   private static function index($uri, $name){

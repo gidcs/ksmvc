@@ -1,11 +1,11 @@
 <?php
 
-Route::get('/', 'HomeController#index');
+Route::get('/', 'Home#index');
 Route::Auth();
-Route::all('/manage/users', 'UsersController', [
+Route::all('/manage/users', 'Users', [
   'except' => ['show']
 ]);
-Route::get('/manage/settings','OptionsController#edit');
-Route::put('/manage/settings/:name','OptionsController#update');
+Route::get('/manage/settings','Options#edit');
+Route::put('/manage/settings/:name','Options#update');
 
 //Route::print_route();

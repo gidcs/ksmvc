@@ -13,7 +13,7 @@ class Router{
       $this->_parameter = $param;
     }
     else{
-      $this->_controller = $controller;
+      $this->_controller = $controller.'Controller';
       $this->_method = $method;
       $this->_parameter = $param;
     }

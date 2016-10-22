@@ -9,7 +9,8 @@ Role::add([
 
 $visitor_permissions = [
   'Auth',
-  'HomeController',
+  'PasswordReset',
+  'Home',
 ];
 
 $user_permissions = array_merge($visitor_permissions,[
@@ -19,8 +20,8 @@ $operator_permissions = array_merge($user_permissions, [
 ]);
 
 $admin_permissions = array_merge($operator_permissions, [
-  'OptionsController',
-  'UsersController',
+  'Options',
+  'Users',
 ]);
 
 Role::find('Visitor')->set_permissions($visitor_permissions);

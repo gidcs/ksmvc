@@ -17,13 +17,7 @@ class RoleClass {
       die("Error: method in RoleClass cannot be empty!");
     }
     foreach($method as $m){
-      if(strcmp('Auth', $m)==0){
-        $this->add('AuthController');
-        $this->add('PasswordResetController');
-      }
-      else{
-        $this->add($m);
-      }
+      $this->add($m);
     }  
   }
 
@@ -39,7 +33,7 @@ class RoleClass {
     if(strpos($method,'#')){
       $method = explode('#',$method);
     }
-    else{
+    else if(strpos($method,'@')){
       $method = explode('@',$method);
     }
     if(count($method)==2){
@@ -47,7 +41,7 @@ class RoleClass {
       $method=$method[1];
     }
     else{
-      $controller=$method[0];
+      $controller=$method;
       $method="any";
     }
     if(Route::exists($controller,$method)){ //check if method exists

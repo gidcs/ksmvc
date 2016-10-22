@@ -64,7 +64,7 @@ body#app-layout
                   li
                     a(href='/manage/settings') Settings
                   li
-                    :php $header_users_url = Route::URI('UsersController#index');
+                    :php $header_users_url = Route::URI('Users#index');
                     a(href='#{header_users_url}') Users 
         
         // Right Side Of Navbar
@@ -78,15 +78,15 @@ body#app-layout
               
               ul.dropdown-menu(role='menu')
                 li
-                  :php $header_profile_url = Route::URI('AuthController@getProfile')
+                  :php $header_profile_url = Route::URI('Auth#getProfile')
                   a(href='#{header_profile_url}') Profile
                 li
-                  :php $header_logout_url = Route::URI('AuthController@getLogout')
+                  :php $header_logout_url = Route::URI('Auth#getLogout')
                   a(href='#{header_logout_url}') Logout 
           else
             li
-              :php $header_login_url = Route::URI('AuthController@getLogin')
+              :php $header_login_url = Route::URI('Auth#getLogin')
               a(href='#{header_login_url}') Login
             li
-              :php $header_register_url = Route::URI('AuthController@getRegister')
+              :php $header_register_url = Route::URI('Auth#getRegister')
               a(href='#{header_register_url}') Register
