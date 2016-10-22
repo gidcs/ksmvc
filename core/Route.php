@@ -41,12 +41,10 @@ class Route{
         'request_method' => $request_method,
         'controller' => $controller,
         'method' => '',
-        'is_middleware' => ''
       ];
     }
     else{
       $controller_bak = $controller;
-      $is_middleware = 0;
       $controller = ucfirst($controller);
       if(!isset(self::$_uri[$controller])){
         self::$_uri[$controller] = $uri;
@@ -56,7 +54,6 @@ class Route{
       }
       else{
         $controller = explode('@',$controller);
-        $is_middleware = 1;
       }
       if(count($controller)!=2){
         die("Error: Controller ($controller_bak) is invalid!");
@@ -66,7 +63,6 @@ class Route{
         'request_method' => $request_method,
         'controller' => $controller[0],
         'method' => $controller[1],
-        'is_middleware' => $is_middleware
       ];
     }
   }
@@ -145,22 +141,22 @@ class Route{
       //Role check 
       Role::check($v['controller'],$v['method']);
       //preparing return object
-      return new Router($v['controller'],$v['method'],$v['is_middleware'],$param);
+      return new Router($v['controller'], $v['method'], $param);
     }
   }
   
   public static function Auth(){
-    self::get('/login', 'AuthController@getLogin');
-    self::post('/login', 'AuthController@postLogin');
-    self::get('/logout', 'AuthController@getLogout');
-    self::get('/register', 'AuthController@getRegister');
-    self::post('/register', 'AuthController@postRegister');
-    self::get('/profile', 'AuthController@getProfile');
-    self::put('/profile', 'AuthController@putProfile');
-    self::get('/password_reset', 'PasswordResetController@getPasswordReset');
-    self::post('/password_reset', 'PasswordResetController@postPasswordReset');
-    self::get('/password_reset/:email/:token', 'PasswordResetController@getPasswordResetActual');
-    self::post('/password_reset/:email/:token', 'PasswordResetController@postPasswordResetActual');
+    self::get('/login', 'AuthController#getLogin');
+    self::post('/login', 'AuthController#postLogin');
+    self::get('/logout', 'AuthController#getLogout');
+    self::get('/register', 'AuthController#getRegister');
+    self::post('/register', 'AuthController#postRegister');
+    self::get('/profile', 'AuthController#getProfile');
+    self::put('/profile', 'AuthController#putProfile');
+    self::get('/password_reset', 'PasswordResetController#getPasswordReset');
+    self::post('/password_reset', 'PasswordResetController#postPasswordReset');
+    self::get('/password_reset/:email/:token', 'PasswordResetController#getPasswordResetActual');
+    self::post('/password_reset/:email/:token', 'PasswordResetController#postPasswordResetActual');
   }
   
   private static function index($uri, $name){

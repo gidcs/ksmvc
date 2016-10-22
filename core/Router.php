@@ -6,30 +6,23 @@ class Router{
   private $_parameter;
   private $_is_middleware;
   
-  public function __construct($controller = 'home',$method = 'index', $is_middleware=0, $param=[]){
+  public function __construct($controller = 'home',$method = 'index', $param=[]){
     if(is_callable($controller)){
       $this->_controller = $controller;
       $this->_method = '';
       $this->_parameter = $param;
-      $this->_is_middleware = $is_middleware;
     }
     else{
       $this->_controller = $controller;
       $this->_method = $method;
       $this->_parameter = $param;
-      $this->_is_middleware = $is_middleware;
     }
   }
   public function run(){
     if(!is_callable($this->_controller)){
       {
         //controller/middleware setup
-        if($this->_is_middleware){
-          $controller_file = '../app/middleware/'.$this->_controller.'.php';
-        }
-        else{
-          $controller_file = '../app/controllers/'.$this->_controller.'.php';
-        }
+        $controller_file = '../app/controllers/'.$this->_controller.'.php';
         //check if controller/middleware exists
         file_checks($controller_file);
         //include controller and create a controller object
