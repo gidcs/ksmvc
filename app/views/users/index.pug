@@ -5,7 +5,7 @@ block panel-title
   
 block panel-title-right
   :php
-    $create_user_url = Route::URI('UsersController#create');
+    $create_user_url = Route::URI('Users#create');
   a.btn.btn-default(href='#{create_user_url}', data-toggle="tooltip", title="Add")
     span.glyphicon.glyphicon-plus(aria-hidden='true')
   
@@ -26,8 +26,8 @@ block panel-body
           td.col-xs-3.col-sm-3= role_name
           td.col-xs-6.col-sm-3
             :php
-              $destroy_url = Route::URI('UsersController#destroy');
-              $edit_url = Route::URI('UsersController#edit');
+              $destroy_url = Route::URI('Users#destroy');
+              $edit_url = Route::URI('Users#edit');
             
             form(role='form', method='POST', action='#{destroy_url}#{u.id}')
               +input_method('DELETE')
@@ -41,7 +41,7 @@ block panel-footer
     .text-center
       .btn-group
         :php
-          $index_url = Route::URI('UsersController#index');
+          $index_url = Route::URI('Users#index');
         if page_id == 1
           - prev_href = ''
           - prev_disabled = 'disabled'

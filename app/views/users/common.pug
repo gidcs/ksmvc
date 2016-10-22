@@ -9,9 +9,9 @@ block panel-title-right
 block panel-body
   :php
     if(strcmp($_func,'Create')==0)
-      $post_url = Route::URI('UsersController#store');
+      $post_url = Route::URI('Users#store');
     else
-      $post_url = Route::URI('UsersController#update').$uid.'/edit';
+      $post_url = Route::URI('Users#update').$uid.'/edit';
   
   form.form-horizontal(role='form', method='POST', action='#{post_url}')
     

@@ -125,7 +125,7 @@ class UsersController extends Controller
         $post_params
       );
     }
-    $this->redirect(Route::URI('UsersController#index'));
+    $this->redirect(Route::URI('Users#index'));
   }
   
   /**

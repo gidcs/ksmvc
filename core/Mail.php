@@ -1,9 +1,9 @@
 <?php
 
 class Mail{
-  static private $_smtp;
+  private static $_smtp;
   
-  static public function boot(){
+  public static function boot(){
     $smtp_array = [];
     $smtp = Option::where('name','LIKE','smtp_%')->get();
     if(empty($smtp)||count($smtp)!=7){
@@ -14,7 +14,7 @@ class Mail{
     }
   }
   
-  static public function send($receiver='', $subject='', $body=''){
+  public static function send($receiver='', $subject='', $body=''){
     $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->Host = self::$_smtp['smtp_host'];
