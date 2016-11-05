@@ -12,3 +12,6 @@ composer.lock
 
 # configuration file
 /config/config.php
+
+# pug cache
+/app/cache

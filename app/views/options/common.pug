@@ -1,87 +1,104 @@
 extends ../layouts/base
 
-block panel-title
-  | Settings
-
-block panel-body
+block content
   :php
     $post_url = Route::URI('Options#update'); 
   
-  ul.nav.nav-tabs
-    li.active
-      a(data-toggle="tab", href='#site') Site
-    li
-      a(data-toggle="tab", href='#jwt') JWT
-    li
-      a(data-toggle="tab", href='#smtp') SMTP
-  
-  p
+  main
+    .container
+      .section.scrollspy
+        .row
+          h3.header.center-align.teal-text Settings
+        .row
+          .col.s12.m8.offset-m2.l8.offset-l2
+            .row
+              .col.s12
+                ul.tabs
+                  li.tab.col.s4
+                    a(href='#site').teal-text Site
+                  li.tab.col.s4
+                    a(href='#jwt').teal-text JWT
+                  li.tab.col.s4
+                    a(href='#smtp').teal-text SMTP
+                  .indicator.teal
+         
+            .col.s12#site
+              form(method='POST', action='#{post_url}')
+                +input_method('PUT')
+                +input_hidden('_switch', 'site')
+                for v in site
+                  .row
+                    .input-field.col.s12
+                      :php
+                        $name = str_replace('_', ' ', $v->name);
+                      if v.name == "site_protocol"
+                        :php
+                          $options = [
+                            'http' => 'http', 
+                            'https' => 'https'
+                          ];
+                        +select(options, v.name, v.value)
+                      else
+                        +input(v.name, v.value).validate(type='text') 
+                      label(for='#{v.name}') #{name}
 
-  .tab-content.clearfix
-    .tab-pane.fade.in.active#site
-      form.form-horizontal(role='form', method='POST', action='#{post_url}site')
-        +input_method('PUT')
-        for v in site
-          :php
-            $name = str_replace('_', ' ', $v->name);
-          .form-group
-            label.col-md-4.control-label(for='#{v.name}') #{name}
-            .col-md-6
-              if v.name == "site_protocol"
-                :php
-                  $options = [
-                    'http' => 'http', 
-                    'https' => 'https'
-                  ];
-                +select(options, v.name, v.value).form-control.selectpicker
-              else
-                +input(v.name, v.value).form-control(type='text')
-        .form-group
-          .col-md-6.col-md-offset-4
-            +form_submit('Update')
+                .row
+                .input-field.col.s12
+                  .center-align
+                    button.btn.waves-effect.waves-light(type='submit')
+                      | Update
 
-    .tab-pane.fade#jwt
-      form.form-horizontal(role='form', method='POST', action='#{post_url}jwt')
-        +input_method('PUT')
-        for v in jwt
-          :php
-            $name = str_replace('_', ' ', $v->name);
-          .form-group
-            label.col-md-4.control-label(for='#{v.name}') #{name}
-            .col-md-6
-              +input(v.name, v.value).form-control(type='text')
-        .form-group
-          .col-md-6.col-md-offset-4
-            +form_submit('Update')
+            .col.s12#jwt
+              form(method='POST', action='#{post_url}')
+                +input_method('PUT')
+                +input_hidden('_switch', 'jwt')
+                for v in jwt
+                  .row
+                    .input-field.col.s12
+                      :php
+                        $name = str_replace('_', ' ', $v->name);
+                      +input(v.name, v.value).validate(type='text')
+                      label(for='#{v.name}') #{name}
+                .row
+                  .input-field.col.s12
+                    .center-align
+                      button.btn.waves-effect.waves-light(type='submit')
+                        | Update
 
-    .tab-pane.fade#smtp
-      form.form-horizontal(role='form', method='POST', action='#{post_url}smtp')
-        +input_method('PUT')
-        for v in smtp
-          :php
-            $name = str_replace('_', ' ', $v->name);
-            $type = 'text';
-            if(strcmp($v->name,'smtp_password')==0) $type = 'password';
-          .form-group
-            label.col-md-4.control-label(for='#{v.name}') #{name}
-            .col-md-6
-              if v.name == "smtp_auth"
-                :php
-                  $options = [
-                    0 => 'disable', 
-                    1 => 'enable'
-                  ];
-                +select(options, v.name, v.value).form-control.selectpicker
-              else if v.name == "smtp_secure"
-                :php
-                  $options = [
-                    'tls' => 'tls',
-                    'ssl' => 'ssl'
-                  ];
-                +select(options, v.name, v.value).form-control.selectpicker
-              else
-                +input(v.name, v.value).form-control(type='text')
-        .form-group
-          .col-md-6.col-md-offset-4
-            +form_submit('Update')
+            .col.s12#smtp
+              form(method='POST', action='#{post_url}')
+                +input_method('PUT')
+                +input_hidden('_switch', 'smtp')
+                for v in smtp
+                  .row
+                    .input-field.col.s12
+                      :php
+                        $name = str_replace('_', ' ', $v->name);
+                        $input_type = 'text';
+                        if(strcmp($v->name,'smtp_password')==0) $input_type = 'password';
+                      if v.name == "smtp_auth"
+                        :php
+                          $options = [
+                            0 => 'disable', 
+                            1 => 'enable'
+                          ];
+                        +select(options, v.name, v.value)
+                      else if v.name == "smtp_secure"
+                        :php
+                          $options = [
+                            'tls' => 'tls',
+                            'ssl' => 'ssl'
+                          ];
+                        +select(options, v.name, v.value)
+                      else
+                        if input_type == 'text'
+                          +input(v.name, v.value).validate(type='text')
+                        else
+                          +input(v.name, '').validate(type='password')
+                      label(for='#{v.name}') #{name}
+                .row
+                  .input-field.col.s12
+                    .center-align
+                      button.btn.waves-effect.waves-light(type='submit')
+                        | Update
 

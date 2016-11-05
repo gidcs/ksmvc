@@ -1,23 +1,39 @@
 :php
-  $header_login_user = Role::User();
-  $header_admin = 0;
-  if($header_login_user)
-    $header_admin = Role::is_role('Admin');
+  $nav_login_user = Role::User();
+  $nav_admin = 0;
+  if($nav_login_user)
+    $nav_admin = Role::is_role('Admin');
+  // links
+  $nav_login_url = Route::URI('Login#get');
+  $nav_register_url = Route::URI('Register#get');
+  $nav_dashboard_url = '#';
+  $nav_profile_url = Route::URI('Profile#get');
+  $nav_logout_url = Route::URI('Logout#get');
+  $nav_users_url = Route::URI('Users#index');
+  $nav_settings_url = Route::URI('Options#edit');
 
 mixin li(name, url)
   li
     a(href='#{url}')= name
 
-mixin manage_links()
-  if header_admin
-    +li('Dashboard', '#')
-  +li('Profile', '#')
-  +li('Logout', '#')
+mixin admin_links()
+  +li('Users', nav_users_url)
+  +li('Settings', nav_settings_url)
+mixin account_links()
+  +li('Profile', nav_profile_url)
+  +li('Logout', nav_logout_url)
+mixin nologin_links()
+  +li('Login', nav_login_url)
+  +li('Register', nav_register_url)
 
-if header_login_user 
-  // Management Links
-  ul#dropdown1.dropdown-content
-    +manage_links
+if nav_admin
+  ul#admin_dropdown.dropdown-content
+    +admin_links
+ul#account_dropdown.dropdown-content
+  if nav_login_user 
+    +account_links
+  else
+    +nologin_links
 
 // navbar
 .navbar-fixed
@@ -26,26 +42,30 @@ if header_login_user
       a.brand-logo#logo-container(href='/')= header_title
       
       ul.right.hide-on-med-and-down
-        if header_login_user
+        if nav_admin
           li
-            a.dropdown-button(data-beloworigin='true', data-activates='dropdown1')
-              | Manage
-              i.material-icons.right arrow_drop_down
-        else
-          +li('Login','#')
-          +li('Register', '#')
+            a.dropdown-button.tooltipped(data-beloworigin='true', data-hover='true', data-activates='admin_dropdown', data-tooltip="Manage", data-position="left")
+              i.material-icons settings
+        li
+          a.dropdown-button.tooltipped(data-beloworigin='true', data-hover='true', data-activates='account_dropdown', data-tooltip="Account", data-position="left")
+            i.material-icons account_circle
 
       ul.side-nav#nav-mobile
         ul.collapsible.collapsible-accordion
-          if header_login_user
+          li.bold
+            a.collapsible-header.waves-effect.waves-teal Account
+            .collapsible-body
+              ul
+                if nav_login_user
+                  +account_links
+                else
+                  +nologin_links
+          if nav_admin
             li.bold
               a.collapsible-header.waves-effect.waves-teal Manage
               .collapsible-body
                 ul
-                  +manage_links
-          else
-            +li('Login','#')
-            +li('Register', '#')
+                  +admin_links
 
       a.button-collapse(data-activates='nav-mobile', href='#')
         i.material-icons menu

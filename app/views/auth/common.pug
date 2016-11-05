@@ -1,63 +1,69 @@
 extends ../layouts/base
 
-block panel-title 
-  | #{_func}
-
-block panel-body
+block content
   :php
     if(strcmp($_func,'Profile')==0)
       $post_url = Route::URI($_func.'#put');
     else
       $post_url = Route::URI($_func.'#post');
-  form.form-horizontal(role='form', method='POST', action='#{post_url}')
-    if _func == 'Profile'
-      +input_method('PUT')
+  main 
+    .container
+      .section.scrollspy
+        .row
+          h3.header.center-align.teal-text= $_func
+        .row
+          .col.s12.m8.offset-m2.l8.offset-l2
+            form(method='POST', action='#{post_url}')
+              if _func == 'Profile'
+                +input_method('PUT')
 
-    if _func != 'Profile'
-      .form-group
-        label.col-md-4.control-label(for='username') Username
-        .col-md-6
-          :php
-            if(!isset($username)) $username=''
-          +input('username', username).form-control(type='text')
-   
-    if _func != 'Login'
-      .form-group
-        label.col-md-4.control-label(for='email') Email
-        .col-md-6
-          :php
-            if(!isset($email)) $email=''
-          +input('email', email).form-control(type='email')
-    
-    .form-group
-      label.col-md-4.control-label(for='password') Password
-      .col-md-6
-        +input('password', '').form-control(type='password')
-    
-    if _func != 'Login'
-      .form-group
-        label.col-md-4.control-label(for='password_confirm') Confirm Password
-        .col-md-6
-          +input('password_confirm', '').form-control(type='password')
-    
-    if _func == 'Login'
-      .form-group
-        .col-md-6.col-md-offset-4
-          .checkbox
-            label
-              +input('remember', 'remember')(type='checkbox') 
-              | Remember Me
-    
-    .form-group
-      .col-md-6.col-md-offset-4
-        button.btn.btn-primary(type='submit')
-          if _func != 'Profile'
-            | #{_func}
-          else
-            | Update
+              if _func != 'Profile'
+                .row
+                  .input-field.col.s12
+                    :php
+                      if(!isset($username)) $username=''
+                    +input('username', username).validate(type='text')
+                    label(for='username') Username
+             
+              if _func != 'Login'
+                .row
+                  .input-field.col.s12
+                    :php
+                      if(!isset($email)) $email=''
+                    +input('email', email).validate(type='email')
+                    label(for='email', data-error='Invalid Email Address') Email
+              
+              .row
+                .input-field.col.s12
+                  +input('password', '').validate(type='password')
+                  label(for='password') Password
+              
+              if _func != 'Login'
+                .row
+                  .input-field.col.s12
+                    +input('password_confirm', '').validate(type='password')
+                    label(for='password_confirm') Confirm Password
+              
+              if _func == 'Login'
+                .row
+                  .input-field.col.s12
+                    +input('remember', 'remember')(type='checkbox') 
+                    label(for='remember') Remember Me
+             
+              .row
+                .input-field.col.s12
+                  .center-align
+                    button.btn.waves-effect.waves-light(type='submit')
+                      if _func != 'Profile'
+                        | #{_func}
+                      else
+                        | Update
 
-        if _func == 'Login'
-          :php
-            $password_reset_url = Route::URI('PasswordReset#getPasswordReset');
-          a.btn.btn-link(href='#{password_reset_url}') Forgot Your Password?
+              .row
+                .input-field.col.s12.center-align
+                  .center-align
+                    if _func == 'Login'
+                      :php
+                        $password_reset_url = Route::URI('PasswordReset#getPasswordReset');
+                      a.btn.waves-effect.waves-light(href='#{password_reset_url}') Forgot Your Password?
 

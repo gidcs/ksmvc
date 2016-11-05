@@ -57,10 +57,20 @@ function view($view, $data=[]){
 }
 
 function render($view, $data=[]){
-  $pug = new Pug([
-    'prettyprint' => true,
-    'extension' => '.pug'
-  ]);
+  global $env;
+  if($env=='development'){
+    $pug =  new Pug([
+      'prettyprint' => true,
+      'extension' => '.pug',
+    ]);
+  }
+  else {
+    $pug = new Pug([
+      'prettyprint' => true,
+      'extension' => '.pug',
+      'cache' => '../app/cache/'
+    ]);
+  }
   $view_file='../app/views/'.$view.'.pug';
   if(!isset($data['alert_success'])) 
     $data['alert_success']='';

@@ -24,6 +24,10 @@ class App{
     }
   }
 
+  public function reboot(){
+    self::boot();
+  }
+
   public function run(){
     self::match_uri();
     self::$_router->run();

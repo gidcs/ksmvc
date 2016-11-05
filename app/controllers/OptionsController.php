@@ -20,6 +20,23 @@ class OptionsController extends Controller
     ]
   ];
   
+  /*
+   *
+   * Get options from database
+   *
+   */
+  private function get_options(){
+    $site = Option::where('name','LIKE','site_%')->get();
+    $jwt = Option::where('name','LIKE','jwt_%')->get();
+    $smtp = Option::where('name','LIKE','smtp_%')->get();
+    $data = [
+      'site' => $site,
+      'jwt' => $jwt,
+      'smtp' => $smtp
+    ];
+    return $data;
+  }
+
   /**
    * Show the form for editing the specified resource.
    *
@@ -28,18 +45,7 @@ class OptionsController extends Controller
    */
   public function edit()
   {
-    $site = Option::where('name','LIKE','site_%')->get();
-    $jwt = Option::where('name','LIKE','jwt_%')->get();
-    $smtp = Option::where('name','LIKE','smtp_%')->get();
-    foreach($smtp as $o){
-      if($o->name=='smtp_password')
-        $o->value = ''; 
-    }
-    $data = [
-      'site' => $site,
-      'jwt' => $jwt,
-      'smtp' => $smtp
-    ];
+    $data = $this->get_options();
     render('options/common', $data);
   }
   
@@ -50,18 +56,25 @@ class OptionsController extends Controller
    * @param  string  $name
    *
    */
-  public function update($post_params, $name)
+  public function update($post_params)
   {
-    if(!is_string($name)){
+    if(empty($post_params)){
       redirect('/');
     }
-    
+    if(empty($post_params['_switch'])){
+      redirect('/');
+    }
+    if(!is_string($post_params['_switch'])){
+      redirect('/');
+    }
+    $name = $post_params['_switch'];
+    $text = '';
     switch ($name) {
       case "site" :
       case "jwt" :
       case "smtp" :
         foreach($post_params as $k=>$v){
-          if($k=='_method') continue;
+          if($k=='_method' || $k=='_switch') continue;
           if(strpos($k, $name)===false) 
             redirect('/');
           $option = Option::where('name',$k)->first();
@@ -85,9 +98,7 @@ class OptionsController extends Controller
               if(empty($v)) continue 2;
               break;
             default:
-
           }
-
           //store value
           if($k=='smtp_password'){
             $option->value = base64_encode($v);
@@ -96,11 +107,16 @@ class OptionsController extends Controller
             $option->value = $v;
           }
           $option->save();
+          $text .= "$k: $v\n";
         }
         if($name=="jwt")
           redirect('/');
-        else
-          redirect($_SERVER['HTTP_REFERER']);
+        else{
+          App::reboot();
+          $data = $this->get_options();
+          $data['alert_success'] = 'Your website information is updated.';
+          render('options/common', $data);
+        }
         break;
       default:
         redirect('/');

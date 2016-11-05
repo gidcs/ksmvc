@@ -9,7 +9,7 @@
 
 class UsersController extends Controller
 {
-  private $page_limit = 6;
+  private $page_limit = 10;
 
 
   public $_middleware = [

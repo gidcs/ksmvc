@@ -70,14 +70,14 @@ class Controller{
       if(preg_match('#\bmax:(\d+)\b#i', $v, $matches)){
         if(isset($post_params[$k])){
           if(strlen($post_params[$k])>$matches[1]){
-            return new ErrorMessage(1, "The $k field must be less than $matches[1] characters.");
+            return new ErrorMessage(1, "The $k field must be contain less than $matches[1] characters.");
           }
         }
       }
       if(preg_match('#\bmin:(\d+)\b#i', $v, $matches)){
         if(isset($post_params[$k])){
           if(strlen($post_params[$k])<$matches[1]){
-            return new ErrorMessage(1, "The $k field must be at least $matches[1] characters.");
+            return new ErrorMessage(1, "The $k field must be contain at least $matches[1] characters.");
           }
         }
       }
@@ -105,10 +105,10 @@ class Controller{
       redirect('/');
     } 
     else if($page_id<1){
-      redirect(Route::URI(get_class($this).'#index')."");
+      redirect('/');
     }
     else if($page_id>$max_page_size && $max_page_size!=0){
-      redirect(Route::URI(get_class($this).'#index')."/page/".$max_page_size);
+      redirect('/');
     }
     return [ $max_page_size, $obj->take($limit)->offset(($page_id-1)*($limit))->get() ];
   }

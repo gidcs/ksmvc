@@ -1,61 +1,66 @@
 extends ../layouts/base
 
-block panel-title    
-  | #{_func} User
-
-block panel-title-right
-  a.btn.btn-default(href='#{referer}') &nbsp;Back&nbsp;
-
-block panel-body
+block content
   :php
+    $back_url = Route::URI('Users#index');
     if(strcmp($_func,'Create')==0)
       $post_url = Route::URI('Users#store');
     else
       $post_url = Route::URI('Users#update').$uid.'/edit';
-  
-  form.form-horizontal(role='form', method='POST', action='#{post_url}')
-    
-    unless _func == 'Create'
-      +input_method('PUT')
-      +input_hidden('uid', uid)
-      +input_hidden('referer', referer)
 
-    .form-group
-      label.col-md-4.control-label(for='username') Username
-      .col-md-6
-        :php
-          if(!isset($username)) $username='';
-        +input('username', username).form-control(type='text')
-    
-    .form-group
-      label.col-md-4.control-label(for='email') Email
-      .col-md-6
-        :php
-          if(!isset($email)) $email='';
-        +input('email', email).form-control(type='email')
+  main 
+    .container
+      .section.scrollspy
+        .row
+          h3.header.center-align.teal-text 
+            | #{_func} User
+        .row
+          .col.s12.m8.offset-m2.l8.offset-l2
+            form(method='POST', action='#{post_url}')
+              unless _func == 'Create'
+                +input_method('PUT')
+                +input_hidden('uid', uid)
+              .row
+                .input-field.col.s12
+                  :php
+                    if(!isset($username)) $username='';
+                  +input('username', username).validate(type='text')
+                  label(for='username') Username
+              
+              .row
+                .input-field.col.s12
+                  :php
+                    if(!isset($email)) $email='';
+                  +input('email', email).validate(type='email')
+                  label(for='email', data-error='Invalid Email Address') Email
 
-    .form-group
-      label.col-md-4.control-label(for='role') Role
-      .col-md-6
-        :php
-          $role_all = Role::All();
-          if(!isset($role)) $role='';
-        +select(role_all, 'role', role).form-control.selectpicker
+              .row
+                .input-field.col.s12
+                  :php
+                    $role_all = Role::All();
+                    if(!isset($role)) $role='';
+                  +select(role_all, 'role', role).form-control.selectpicker
+                  label(for='role') Role
 
-    .form-group
-      label.col-md-4.control-label(for='password') Password
-      .col-md-6
-        +input('password','').form-control(type='password')
-    
-    .form-group
-      label.col-md-4.control-label(for='password_confirm') Confirm Password
-      .col-md-6
-        +input('password_confirm','').form-control(type='password')
-  
-    .form-group
-      .col-md-6.col-md-offset-4
-        if _func == 'Create'
-          +form_submit(_func)
-        else
-          +form_submit('Update')
+              .row
+                .input-field.col.s12
+                  +input('password','').validate(type='password')
+                  label(for='password') Password
+              
+              .row
+                .input-field.col.s12
+                  +input('password_confirm','').validate(type='password')
+                  label(for='password_confirm') Confirm Password
+            
+              .row
+                .input-field.col.s12.center-align
+                  button.btn.waves-effect.waves-light(type='submit')
+                    if _func == 'Create'
+                      | #{_func}
+                    else
+                      | Update
+
+    .fixed-action-btn.horizontal(style='top: 84px; right: 24px;')
+      a.btn-floating.btn-large.waves-effect.waves-light.teal(href='#{back_url}')
+          i.large.material-icons clear
 

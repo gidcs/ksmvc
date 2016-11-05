@@ -1,9 +1,12 @@
+include ../include/lib
+
 doctype html
 html
   head
     block header
       include ../layouts/header
   body
+    include ../layouts/alerts
     block nav
       include ../layouts/nav
     block content
