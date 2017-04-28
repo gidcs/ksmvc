@@ -27,6 +27,7 @@ class Mail{
     $mail->addAddress($receiver);
     $mail->Subject = $subject;
     $mail->isHTML(true);
+    $mail->CharSet = 'UTF-8';
     $mail->Body = str_replace('YOUR_NAME_FOR_MAIL', self::$_smtp['smtp_name'], $body);
     
     if (!$mail->send()) {
